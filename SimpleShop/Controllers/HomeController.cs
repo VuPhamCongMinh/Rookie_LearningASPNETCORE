@@ -1,33 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using SimpleShop.Models;
-using System.Diagnostics;
+﻿using Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SimpleShop.Controllers
 {
     public class HomeController : Controller
     {
-        //private ProductDAL _productServices;
+        private ProductServices _productServices;
 
-        public HomeController()
+        public HomeController (ProductServices productServices)
         {
-            //_productServices = productServices;
+            _productServices = productServices;
         }
 
-        public IActionResult Index()
+        public IActionResult Index ()
         {
-            return View();
+            var products = _productServices.GetProducts();
+            return View(products);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
