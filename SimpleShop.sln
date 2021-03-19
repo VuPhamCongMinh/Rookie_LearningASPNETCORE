@@ -15,6 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{58
 		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Variation.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Variation.cs
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6F706CF7-547C-4058-94A8-2FA0A13C53B1}"
+	ProjectSection(SolutionItems) = preProject
+		ProductsService.cs = ProductsService.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +36,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5801DBD6-B045-4D47-A209-C4C89F41FC2E} = {3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}
+		{6F706CF7-547C-4058-94A8-2FA0A13C53B1} = {3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C23FC3A1-20DC-4F90-8AD0-D0C0E6BC41F3}
