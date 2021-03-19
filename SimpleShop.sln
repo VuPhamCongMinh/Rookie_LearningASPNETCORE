@@ -5,6 +5,16 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleShop", "SimpleShop\SimpleShop.csproj", "{4C69BFD0-B8E3-45C8-972C-160F641911C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationCore", "ApplicationCore", "{3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{5801DBD6-B045-4D47-A209-C4C89F41FC2E}"
+	ProjectSection(SolutionItems) = preProject
+		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Category.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Category.cs
+		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Product.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Product.cs
+		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Storage.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Storage.cs
+		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Variation.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Variation.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +28,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5801DBD6-B045-4D47-A209-C4C89F41FC2E} = {3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C23FC3A1-20DC-4F90-8AD0-D0C0E6BC41F3}
