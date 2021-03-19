@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Application.Entities;
+using System;
+using System.Collections.Generic;
 
-public class ProductsService
+namespace Application.Services
 {
     public class ProductServices
     {
         public IEnumerable<Product> GetProducts()
         {
-            return new List<Category> {
+            return new List<Product> {
                 new Product( int.Parse(Guid.NewGuid().ToString()),"Product 1",9500,"Product 1 description"),
                 new Product( int.Parse(Guid.NewGuid().ToString()),"Product 2",5900,"Product 2 description"),
                 new Product( int.Parse(Guid.NewGuid().ToString()),"Product 3",5400,"Product 3 description"),
@@ -15,4 +17,5 @@ public class ProductsService
             };
         }
     }
+
 }

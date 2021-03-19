@@ -5,20 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleShop", "SimpleShop\SimpleShop.csproj", "{4C69BFD0-B8E3-45C8-972C-160F641911C9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationCore", "ApplicationCore", "{3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{5801DBD6-B045-4D47-A209-C4C89F41FC2E}"
-	ProjectSection(SolutionItems) = preProject
-		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Category.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Category.cs
-		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Product.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Product.cs
-		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Storage.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Storage.cs
-		D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Variation.cs = D:\Stuff downloaded from internet\Rookie_LearningASPNETCORE-main\Rookie_LearningASPNETCORE-main\SimpleShop.DAL\Models\Variation.cs
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6F706CF7-547C-4058-94A8-2FA0A13C53B1}"
-	ProjectSection(SolutionItems) = preProject
-		ProductsService.cs = ProductsService.cs
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{81B9F266-B47D-48BF-AF82-F74F468AEFF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,13 +17,13 @@ Global
 		{4C69BFD0-B8E3-45C8-972C-160F641911C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C69BFD0-B8E3-45C8-972C-160F641911C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C69BFD0-B8E3-45C8-972C-160F641911C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81B9F266-B47D-48BF-AF82-F74F468AEFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81B9F266-B47D-48BF-AF82-F74F468AEFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81B9F266-B47D-48BF-AF82-F74F468AEFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81B9F266-B47D-48BF-AF82-F74F468AEFF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5801DBD6-B045-4D47-A209-C4C89F41FC2E} = {3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}
-		{6F706CF7-547C-4058-94A8-2FA0A13C53B1} = {3C6CFE4F-C4CA-42DC-8C99-9291FE413FCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C23FC3A1-20DC-4F90-8AD0-D0C0E6BC41F3}
