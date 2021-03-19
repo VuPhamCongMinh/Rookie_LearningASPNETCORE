@@ -4,14 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.Entities
+namespace Domain.Entities
 {
-    public class Storage
+    public class Variation
     {
         [Key]
-        public int storageId { get; set; }
-        public int productId { get; set; }
         public int variationId { get; set; }
-        public int quantity { get; set; }
+        public int productId { get; set; }
+        public string variationName { get; set; }
     }
 }
