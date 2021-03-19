@@ -1,5 +1,7 @@
-﻿using Application.Services;
+﻿using Application.DTO;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace SimpleShop.Controllers
 {
@@ -14,7 +16,7 @@ namespace SimpleShop.Controllers
 
         public IActionResult Index ()
         {
-            var products = _productServices.GetProducts();
+            IEnumerable<ProductDTO> products = _productServices.GetProducts();
             return View(products);
         }
 

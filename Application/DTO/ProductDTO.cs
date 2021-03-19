@@ -4,7 +4,7 @@ namespace Application.DTO
 {
     public class ProductDTO
     {
-        public ProductDTO (int productId, string productName, float productPrice, string productDescription)
+        public ProductDTO (string productId, string productName, float productPrice, string productDescription)
         {
             this.productId = productId;
             this.productName = productName;
@@ -12,7 +12,7 @@ namespace Application.DTO
             this.productDescription = productDescription;
         }
 
-        public int productId { get; set; }
+        public string productId { get; set; }
 
         public string productName { get; set; }
         public float productPrice { get; set; }

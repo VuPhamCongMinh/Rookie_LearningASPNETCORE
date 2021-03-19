@@ -1,8 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Application.DTO.ProductDTO>
+
+@{
+    ViewData["Title"] = "List of Products";
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+@foreach (var prod in Model)
+{
+    <h1>@prod.productName</h1>
+    <h1>@prod.productDescription</h1>
+    <h1>@prod.productPrice</h1>
+}

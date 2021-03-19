@@ -10,13 +10,20 @@ namespace Application.Services
         public IEnumerable<ProductDTO> GetProducts ()
         {
             Product[] products = new[] {
-                new Product( int.Parse(Guid.NewGuid().ToString()),"Product 1",9500,"Product 1 description"),
-                new Product( int.Parse(Guid.NewGuid().ToString()),"Product 2",5900,"Product 2 description"),
-                new Product( int.Parse(Guid.NewGuid().ToString()),"Product 3",5400,"Product 3 description"),
-                new Product( int.Parse(Guid.NewGuid().ToString()),"Product 4",6500,"Product 4 description"),
-                new Product( int.Parse(Guid.NewGuid().ToString()),"Product 5",1500,"Product 5 description"),
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 1",productPrice = 9700,productDescription ="Product 1 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 2",productPrice = 4300,productDescription ="Product 2 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 3",productPrice = 5200,productDescription ="Product 3 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 4",productPrice = 9500,productDescription ="Product 4 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 5",productPrice = 4700,productDescription ="Product 5 description" },
+              
             };
 
+            return mapProductDTO(products);
+        }
+
+
+        static IEnumerable<ProductDTO> mapProductDTO (Product[] products)
+        {
             List<ProductDTO> productsDTO = new List<ProductDTO>();
             foreach (var prod in products)
             {
