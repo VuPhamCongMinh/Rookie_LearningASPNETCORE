@@ -5,10 +5,14 @@
 
 }
 
+<div class="row">
 
-@foreach (var prod in Model)
-{
-    <h1>@prod.productName</h1>
-    <h1>@prod.productDescription</h1>
-    <h1>@prod.productPrice</h1>
-}
+    <div class="col-md-2"></div>
+
+    <div class="col-md-10">
+        <div id="product_section">
+            <partial name="_ProductPartial" />
+        </div>
+    </div>
+
+</div>
