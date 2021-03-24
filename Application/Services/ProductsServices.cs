@@ -11,15 +11,12 @@ namespace Application.Services
         {
             Product[] products = new[] {
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 1",productPrice = 9700,productDescription ="Product 1 description" },
-                new Product{productId = Guid.NewGuid().ToString(),productName="Product 2",productPrice = 4600,productDescription ="Product 2 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 2",productPrice = 4300,productDescription ="Product 2 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 3",productPrice = 5200,productDescription ="Product 3 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 4",productPrice = 9500,productDescription ="Product 4 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 5",productPrice = 4700,productDescription ="Product 5 description" },
-                new Product{productId = Guid.NewGuid().ToString(),productName="Product 6",productPrice = 1700,productDescription ="Product 6 description" },
-                new Product{productId = Guid.NewGuid().ToString(),productName="Product 7",productPrice = 6400,productDescription ="Product 7 description" },
-                new Product{productId = Guid.NewGuid().ToString(),productName="Product 8",productPrice = 2700,productDescription ="Product 8 description" },
-                new Product{productId = Guid.NewGuid().ToString(),productName="Product 9",productPrice = 4300,productDescription ="Product 9 description" },
-                          };
+              
+            };
 
             return mapProductDTO(products);
         }
