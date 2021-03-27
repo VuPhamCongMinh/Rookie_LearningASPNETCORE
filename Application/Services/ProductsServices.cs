@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Application.DTO;
 using Domain.Entities;
 
@@ -7,9 +8,9 @@ namespace Application.Services
 {
     public class ProductServices
     {
-        public IEnumerable<ProductDTO> GetProducts ()
-        {
-            Product[] products = new[] {
+
+        #region Dummy data initialize
+        private Product[] products = new[] {
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 1",productPrice = 9700,productDescription ="Product 1 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 2",productPrice = 4600,productDescription ="Product 2 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 3",productPrice = 5200,productDescription ="Product 3 description" },
@@ -20,22 +21,21 @@ namespace Application.Services
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 8",productPrice = 2700,productDescription ="Product 8 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 9",productPrice = 4300,productDescription ="Product 9 description" },
                           };
+        #endregion
 
-            return mapProductDTO(products);
+
+        public IEnumerable<ProductDTO> GetProducts ()
+        {
+            var products = this.products.Select(x => MapProductDTO(x));
+
+            return products;
         }
 
-
-        static IEnumerable<ProductDTO> mapProductDTO (Product[] products)
+        static ProductDTO MapProductDTO (Product prod)
         {
-            List<ProductDTO> productsDTO = new List<ProductDTO>();
-            foreach (var prod in products)
-            {
-                //map product to productDTO in order to add to productsDTO List
-                ProductDTO productDTO = new ProductDTO(prod.productId, prod.productName, prod.productPrice, prod.productDescription);
-
-                productsDTO.Add(productDTO);
-            }
-            return productsDTO;
+            //map product to productDTO in order to add to productsDTO List
+            ProductDTO productDTO = new ProductDTO(prod.productId, prod.productName, prod.productPrice, prod.productDescription);
+            return productDTO;
         }
     }
 

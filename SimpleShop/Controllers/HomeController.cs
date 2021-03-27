@@ -7,18 +7,21 @@ namespace SimpleShop.Controllers
 {
     public class HomeController : Controller
     {
-        private ProductServices _productServices;
-
+        private readonly ProductServices _productServices;
         public HomeController (ProductServices productServices)
         {
             _productServices = productServices;
         }
 
-        public IActionResult Index ()
+        public IActionResult Index (string sortorder, int min_price_input, int max_price_input)
         {
-            IEnumerable<ProductDTO> products = _productServices.GetProducts();
+            var products = _productServices.GetProducts();
             return View(products);
         }
 
+        public IActionResult FilterProduct ()
+        {
+            return ViewComponent("Product");
+        }
     }
 }

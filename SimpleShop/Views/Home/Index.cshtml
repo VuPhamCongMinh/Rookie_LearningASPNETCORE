@@ -2,47 +2,49 @@
 
 @{
     ViewData["Title"] = "List of Products";
-
 }
 
 <div class="row">
     @* Product filter section *@
     <div class="col-md-2">
         <div class="d-flex flex-column">
-            <form id="filter-price-form">
-                <div class="form-group">
-                    <input type="number"
-                           class="form-control"
-                           id="min-price-input"
-                           placeholder="FROM" />
-                </div>
-                <div class="form-group">
-                    <input type="number"
-                           class="form-control"
-                           id="max-price-input"
-                           placeholder="TO" />
-                </div>
-            </form>
+            <div class="form-group">
+                <input type="number"
+                       class="form-control"
+                       min-price-input
+                       min="0"
+                       placeholder="FROM" />
+            </div>
+            <div class="form-group">
+                <input type="number"
+                       class="form-control"
+                       max-price-input
+                       min="0"
+                       placeholder="TO" />
+            </div>
+            <button type="submit" filter-btn class="btn btn-secondary w-100">Filter</button>
 
-            <div class="d-flex flex-column">
-                <button type="button" class="btn btn-secondary mt-2">Name ASC</button>
-                <button type="button" class="btn btn-secondary mt-2">
-                    Name DESC
-                </button>
-                <button type="button" class="btn btn-secondary mt-2">
+            <div class="d-flex flex-column filters">
+                <a class="btn btn-secondary mt-2" data-filter="asc">
                     Price ASC
-                </button>
-                <button type="button" class="btn btn-secondary mt-2">
+                </a>
+                <a class="btn btn-secondary mt-2" data-filter="desc">
                     Price DESC
-                </button>
+                </a>
             </div>
         </div>
     </div>
     @* Product display section *@
     <div class="col-md-10">
         <div id="product_section">
-            <partial name="_ProductPartial" />
+            @*<partial name="_ProductPartial" />*@
+            @await Component.InvokeAsync("Product", new { products = Model })
         </div>
     </div>
 
 </div>
+
+
+@section Scripts {
+    <script src="~/js/product/script.js"></script>
+}

@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Application.DTO;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SimpleShop.ViewModels.ViewComponents
 {
-    public class ProductViewComponent
+    public class ProductViewComponent : ViewComponent
     {
+
+        public IViewComponentResult Invoke (IEnumerable<ProductDTO> products)
+        {
+            return View(products);
+        }
     }
 }
