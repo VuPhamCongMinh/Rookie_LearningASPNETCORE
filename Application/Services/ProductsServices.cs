@@ -24,11 +24,28 @@ namespace Application.Services
         #endregion
 
 
-        public IEnumerable<ProductDTO> GetProducts ()
+        public IEnumerable<ProductDTO> GetProducts (string sortorder, double? min, double? max)
         {
-            var products = this.products.Select(x => MapProductDTO(x));
-
-            return products;
+            var allProducts = this.products;
+            IEnumerable<Product> products = allProducts;
+            //this.products.Select(x => MapProductDTO(x));
+            if (sortorder == "asc")
+            {
+                products = products.OrderBy(p => p.productPrice);
+            }
+            else if (sortorder == "desc")
+            {
+                products = products.OrderByDescending(p => p.productPrice);
+            }
+            if (min > 0)
+            {
+                products = products.Where(p => p.productPrice > min);
+            }
+            if (max > 0)
+            {
+                products = products.Where(p => p.productPrice < max);
+            }
+            return products.Select(x => MapProductDTO(x));
         }
 
         static ProductDTO MapProductDTO (Product prod)

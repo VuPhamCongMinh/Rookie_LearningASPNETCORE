@@ -6,6 +6,7 @@
 
     filtersBtns.on('click', function (e) {
         let $this = $(this).attr("data-filter");
+        //let transformedUrl = new URL(window.location);
         let transformedUrl = new URL(window.location);
         if ($this == 'asc') {
             if (transformedUrl.searchParams.has('sortOrder')) {
@@ -39,16 +40,30 @@
                 transformedUrl.searchParams.append('minPrice', mininPut.val());
             }
         }
+        else {
+            if (transformedUrl.searchParams.has('minPrice')) {
+                transformedUrl.searchParams.delete('minPrice');
+            }
+        }
         if (maxinPut.val().length != 0) {
             if (transformedUrl.searchParams.has('maxPrice')) {
-                transformedUrl.searchParams.set('maxPrice', mininPut.val());
+                transformedUrl.searchParams.set('maxPrice', maxinPut.val());
             }
             else {
                 transformedUrl.searchParams.append('maxPrice', maxinPut.val());
             }
         }
+        else {
+            if (transformedUrl.searchParams.has('maxPrice')) {
+                transformedUrl.searchParams.delete('maxPrice');
+            }
+        }
         if (window.location.href != transformedUrl.href) {
             window.location = transformedUrl;
+            //$.get(transformedUrl, function (data) {
+            //    console.log(transformedUrl);
+            //    $('#product_section').html(data);
+            //});
         }
     })
 
