@@ -20,6 +20,12 @@ namespace Application.Services
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 7",productPrice = 6400,productDescription ="Product 7 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 8",productPrice = 2700,productDescription ="Product 8 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 9",productPrice = 4300,productDescription ="Product 9 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 10",productPrice = 8700,productDescription ="Product 10 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 11",productPrice = 5300,productDescription ="Product 11 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 12",productPrice = 6700,productDescription ="Product 12 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 13",productPrice = 7300,productDescription ="Product 13 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 14",productPrice = 5100,productDescription ="Product 14 description" },
+                new Product{productId = Guid.NewGuid().ToString(),productName="Product 15",productPrice = 3400,productDescription ="Product 15 description" },
                           };
         #endregion
 
