@@ -4,6 +4,22 @@
     ViewData["Title"] = "List of Products";
 }
 
+<div class="row pb-3">
+    <div class="offset-md-2 col">
+        <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   search-input
+                   value="@ViewBag.SearchString"
+                   placeholder="Search products name" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" search-btn type="button">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     @* Product filter section *@
     <div class="col-md-2">
@@ -24,7 +40,7 @@
                        value="@ViewBag.MaxPrice"
                        placeholder="TO" />
             </div>
-            <button type="submit" filter-btn class="btn btn-secondary w-100">Filter</button>
+            <button type="button" filter-btn class="btn btn-secondary w-100">Filter</button>
 
             <div class="d-flex flex-column filters">
                 <a class="btn btn-secondary mt-2" data-filter="asc">
@@ -42,7 +58,6 @@
             @await Component.InvokeAsync("Product", new { products = Model })
         </div>
     </div>
-
 </div>
 
 

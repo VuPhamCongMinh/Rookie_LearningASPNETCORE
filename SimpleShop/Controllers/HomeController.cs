@@ -13,20 +13,21 @@ namespace SimpleShop.Controllers
             _productServices = productServices;
         }
 
-        public IActionResult Index (string sortorder = "asc", double? minprice = 0, double? maxprice = 0)
+        public IActionResult Index (int pageIndex = 1, int pageSize = 8, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0)
         {
-            ViewBag.MinPrice = minprice != 0 ? minprice : null;
-            ViewBag.MaxPrice = maxprice != 0 ? maxprice : null;
-            var products = _productServices.GetProducts(sortorder, minprice, maxprice);
+            ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
+            ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
+            ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
+            var products = _productServices.GetProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice);
             return View(products);
         }
 
-        [HttpGet]
-        public IActionResult FilterProduct (string sortorder = "asc", double? minprice = 0, double? maxprice = 0)
-        {
-            var products = _productServices.GetProducts(sortorder, minprice, maxprice);
+        //[HttpGet]
+        //public IActionResult FilterProduct (string sortorder = "asc", double? minprice = 0, double? maxprice = 0)
+        //{
+        //    var products = _productServices.GetProducts(sortorder, minprice, maxprice);
 
-            return ViewComponent("Product",new { products = products });
-        }
+        //    return ViewComponent("Product", new { products = products });
+        //}
     }
 }

@@ -30,11 +30,14 @@ namespace Application.Services
         #endregion
 
 
-        public IEnumerable<ProductDTO> GetProducts (string sortorder, double? min, double? max)
+        public IEnumerable<ProductDTO> GetProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max)
         {
             var allProducts = this.products;
-            IEnumerable<Product> products = allProducts;
-            //this.products.Select(x => MapProductDTO(x));
+            IEnumerable<Product> products = allProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
+            if (searchstring != null)
+            {
+                products = allProducts.Where(p => p.productName.Contains(searchstring));
+            }
             if (sortorder == "asc")
             {
                 products = products.OrderBy(p => p.productPrice);
