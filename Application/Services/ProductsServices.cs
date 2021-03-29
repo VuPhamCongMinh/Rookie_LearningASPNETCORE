@@ -27,6 +27,7 @@ namespace Application.Services
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 14",productPrice = 5100,productDescription ="Product 14 description" },
                 new Product{productId = Guid.NewGuid().ToString(),productName="Product 15",productPrice = 3400,productDescription ="Product 15 description" },
                           };
+        private int productLength { get; set; }
         #endregion
 
 
@@ -34,9 +35,15 @@ namespace Application.Services
         {
             var allProducts = this.products;
             IEnumerable<Product> products = allProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
+            //đếm số lượng sp để phân trang
+            //mặc định ban đầu sẽ đếm hết
+            productLength = allProducts.Count();
+
             if (searchstring != null)
             {
                 products = allProducts.Where(p => p.productName.Contains(searchstring));
+                //nếu user có search thì đếm những kết quả trả về hoy
+                productLength = products.Count();
             }
             if (sortorder == "asc")
             {
@@ -56,6 +63,8 @@ namespace Application.Services
             }
             return products.Select(x => MapProductDTO(x));
         }
+
+        public int GetProductCount () => productLength;
         static ProductDTO MapProductDTO (Product prod)
         {
             //map product to productDTO in order to add to productsDTO List

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Application.DTO.ProductDTO>
+
+@{
+    ViewData["Title"] = "List of Products";
+}
+
+<div class="row pb-3">
+    @* Product search section *@
+    <div class="offset-md-2 col">
+        <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   search-input
+                   value="@ViewBag.SearchString"
+                   placeholder="Search products name" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" search-btn type="button">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    @* Product filter section *@
+    <div class="col-md-2">
+        <div class="d-flex flex-column">
+            <div class="form-group">
+                <input type="number"
+                       class="form-control"
+                       min-price-input
+                       min="1"
+                       value="@ViewBag.MinPrice"
+                       placeholder="FROM" />
+            </div>
+            <div class="form-group">
+                <input type="number"
+                       class="form-control"
+                       max-price-input
+                       min="1"
+                       value="@ViewBag.MaxPrice"
+                       placeholder="TO" />
+            </div>
+            <button type="button" filter-btn class="btn btn-secondary w-100">Filter</button>
+
+            <div class="d-flex flex-column filters">
+                <a class="btn btn-secondary mt-2" data-filter="asc">
+                    Price ASC
+                </a>
+                <a class="btn btn-secondary mt-2" data-filter="desc">
+                    Price DESC
+                </a>
+            </div>
+        </div>
+    </div>
+    @* Product display section *@
+    <div class="col-md-10">
+        <div id="product_section">
+            @await Component.InvokeAsync("Product", new { products = Model })
+        </div>
+    </div>
+</div>
+
+
+<div class="row pt-4">
+    <div class="offset-md-2 col">
+        <div class="btn-group data-paging w-100">
+            @for (int i = 1; i <= ViewBag.PageSize; i++)
+            {
+                <button type="button" paging-btn="@i" class="btn btn-secondary">@i</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/product/script.js"></script>
+}
