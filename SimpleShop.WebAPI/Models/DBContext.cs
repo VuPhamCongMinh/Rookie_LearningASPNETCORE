@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SimpleShop.WebAPI.Models
 {
-    public class MyDBContext : DbContext
+    public class DBContext 
     {
-        public MyDBContext(DbContextOptions options) : base(options: options)
-        {
+        //public DBContext(DbContextOptions options) : base(options: options)
+        //{
 
-        }
+        //}
 
 
     }
