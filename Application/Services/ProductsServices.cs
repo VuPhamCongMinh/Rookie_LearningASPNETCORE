@@ -56,7 +56,6 @@ namespace Application.Services
             }
             return products.Select(x => MapProductDTO(x));
         }
-
         static ProductDTO MapProductDTO (Product prod)
         {
             //map product to productDTO in order to add to productsDTO List

@@ -5,6 +5,7 @@
 }
 
 <div class="row pb-3">
+    @* Product search section *@
     <div class="offset-md-2 col">
         <div class="input-group">
             <input type="text"
@@ -56,6 +57,19 @@
     <div class="col-md-10">
         <div id="product_section">
             @await Component.InvokeAsync("Product", new { products = Model })
+        </div>
+    </div>
+</div>
+
+
+<div class="row pt-4">
+    <h2>@ViewBag.PageSize</h2>
+    <div class="offset-md-2 col">
+        <div class="btn-group data-paging w-100">
+            @for (int i = 1; i <= ViewBag.PageSize; i++)
+            {
+                <button type="button" paging-btn="@i" class="btn btn-secondary">@i</button>
+            }
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 ﻿$(function () {
     let sortFilterBtn = $('.filters [data-filter]');
+    let pagingBtn = $('.data-paging [paging-btn]');
     let priceFilterBtn = $('button[filter-btn]');
     let searchBtn = $('button[search-btn]');
     let searchInput = $('input[search-input]');
@@ -84,25 +85,43 @@
                 transformedUrl.searchParams.delete('searchString');
             }
         }
-        if (maxInput.val().length != 0) {
-            if (transformedUrl.searchParams.has('maxPrice')) {
-                transformedUrl.searchParams.set('maxPrice', maxInput.val());
+        //if (maxInput.val().length != 0) {
+        //    if (transformedUrl.searchParams.has('maxPrice')) {
+        //        transformedUrl.searchParams.set('maxPrice', maxInput.val());
+        //    }
+        //    else {
+        //        transformedUrl.searchParams.append('maxPrice', maxInput.val());
+        //    }
+        //}
+        //else {
+        //    if (transformedUrl.searchParams.has('maxPrice')) {
+        //        transformedUrl.searchParams.delete('maxPrice');
+        //    }
+        //}
+        if (window.location.href != transformedUrl.href) {
+            window.location = transformedUrl;
+        }
+    })
+
+    pagingBtn.on('click', function (e) {
+        let $this = $(this).attr("paging-btn");
+
+        console.log($this);
+
+        let transformedUrl = new URL(window.location);
+        if ($.isNumeric($this)) {
+            if (transformedUrl.searchParams.has('pageIndex')) {
+                transformedUrl.searchParams.set('pageIndex', $this);
             }
             else {
-                transformedUrl.searchParams.append('maxPrice', maxInput.val());
-            }
-        }
-        else {
-            if (transformedUrl.searchParams.has('maxPrice')) {
-                transformedUrl.searchParams.delete('maxPrice');
+                transformedUrl.searchParams.append('pageIndex', $this);
             }
         }
         if (window.location.href != transformedUrl.href) {
             window.location = transformedUrl;
-
         }
-    })
 
+    })
 
 
 
