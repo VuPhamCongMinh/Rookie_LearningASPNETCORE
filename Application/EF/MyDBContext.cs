@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Application.EF
 {
-    public class MyDBContext : DbContext
+    public class MyDBContext : IdentityDbContext
     {
         public MyDBContext (DbContextOptions<MyDBContext> options) : base(options)
         {
