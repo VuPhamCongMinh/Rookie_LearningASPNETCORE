@@ -63,7 +63,10 @@ namespace Application.Services
             }
             return products.Select(x => MapProductDTO(x));
         }
+        //public IEnumerable<Product> GetProducts ()
+        //{
 
+        //}
         public int GetProductCount () => productLength;
         static ProductDTO MapProductDTO (Product prod)
         {

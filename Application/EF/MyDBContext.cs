@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Application.EF
 {
-    public class MyDBContext : IdentityDbContext
+    public class MyDBContext : DbContext
     {
-        public MyDBContext (DbContextOptions<MyDBContext> options) : base(options: options)
+        public MyDBContext (DbContextOptions<MyDBContext> options) : base(options)
         {
 
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ImageStorage> ImageStorage { get; set; }
 
     }
 }
