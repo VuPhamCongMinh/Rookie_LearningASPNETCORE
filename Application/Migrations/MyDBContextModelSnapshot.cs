@@ -44,8 +44,8 @@ namespace Application.Migrations
                     b.Property<string>("imageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
 
                     b.HasKey("imageId");
 
@@ -56,17 +56,21 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("productId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("categoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("productDescription")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("VARCHAR(250)");
 
                     b.Property<string>("productName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("VARCHAR(100)");
 
@@ -285,16 +289,22 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
                 {
-                    b.HasOne("Domain.Entities.Product", null)
+                    b.HasOne("Domain.Entities.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("productId");
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.HasOne("Domain.Entities.Category", null)
-                        .WithMany("Products")
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("categoryId");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -346,11 +356,6 @@ namespace Application.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>

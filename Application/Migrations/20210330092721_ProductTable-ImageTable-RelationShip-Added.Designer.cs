@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20210330035226_ProductTable-ImagesProperty-Added")]
-    partial class ProductTableImagesPropertyAdded
+    [Migration("20210330092721_ProductTable-ImageTable-RelationShip-Added")]
+    partial class ProductTableImageTableRelationShipAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace Application.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("categoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("categoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("categoryId");
+
+                    b.ToTable("Categories");
+                });
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
                 {
@@ -31,8 +46,8 @@ namespace Application.Migrations
                     b.Property<string>("imageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
 
                     b.HasKey("imageId");
 
@@ -43,14 +58,21 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("productId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("categoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("productDescription")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("VARCHAR(250)");
 
                     b.Property<string>("productName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("VARCHAR(100)");
 
@@ -61,6 +83,8 @@ namespace Application.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("productId");
+
+                    b.HasIndex("categoryId");
 
                     b.ToTable("Products");
                 });
@@ -267,9 +291,22 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
                 {
-                    b.HasOne("Domain.Entities.Product", null)
+                    b.HasOne("Domain.Entities.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("productId");
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("categoryId");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

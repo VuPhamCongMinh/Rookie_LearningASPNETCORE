@@ -10,27 +10,70 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20210329125233_Init")]
-    partial class Init
+    [Migration("20210330081717_ImageTable-Added")]
+    partial class ImageTableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4");
+                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("categoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("categoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("categoryId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Image", b =>
+                {
+                    b.Property<int>("imageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("imageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("productId")
+                        .HasColumnType("int");
+
+                    b.HasKey("imageId");
+
+                    b.ToTable("Images");
+                });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("productId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("categoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("imageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("productDescription")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("VARCHAR(250)");
 
                     b.Property<string>("productName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("VARCHAR(100)");
 
@@ -41,6 +84,10 @@ namespace Application.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("productId");
+
+                    b.HasIndex("categoryId");
+
+                    b.HasIndex("imageId");
 
                     b.ToTable("Products");
                 });
@@ -77,7 +124,7 @@ namespace Application.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -166,7 +213,7 @@ namespace Application.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -245,6 +292,19 @@ namespace Application.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("categoryId");
+
+                    b.HasOne("Domain.Entities.Image", null)
+                        .WithMany("Products")
+                        .HasForeignKey("imageId");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -294,6 +354,11 @@ namespace Application.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Image", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

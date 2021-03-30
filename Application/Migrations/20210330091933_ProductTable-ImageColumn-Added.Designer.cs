@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20210330040704_CategoriesTable-Added")]
-    partial class CategoriesTableAdded
+    [Migration("20210330091933_ProductTable-ImageColumn-Added")]
+    partial class ProductTableImageColumnAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,29 +46,31 @@ namespace Application.Migrations
                     b.Property<string>("imageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("imageId");
-
-                    b.HasIndex("productId");
 
                     b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Property<string>("productId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("productId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("categoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("imageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("productDescription")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("VARCHAR(250)");
 
                     b.Property<string>("productName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("VARCHAR(100)");
 
@@ -81,6 +83,8 @@ namespace Application.Migrations
                     b.HasKey("productId");
 
                     b.HasIndex("categoryId");
+
+                    b.HasIndex("imageId");
 
                     b.ToTable("Products");
                 });
@@ -285,18 +289,19 @@ namespace Application.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Image", b =>
-                {
-                    b.HasOne("Domain.Entities.Product", null)
-                        .WithMany("Images")
-                        .HasForeignKey("productId");
-                });
-
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.HasOne("Domain.Entities.Category", null)
-                        .WithMany("Products")
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("categoryId");
+
+                    b.HasOne("Domain.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("imageId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -348,16 +353,6 @@ namespace Application.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.Category", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Product", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

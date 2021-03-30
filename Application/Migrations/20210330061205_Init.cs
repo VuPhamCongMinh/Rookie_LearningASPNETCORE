@@ -47,18 +47,16 @@ namespace Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Categories",
                 columns: table => new
                 {
-                    productId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    productName = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: true),
-                    productPrice = table.Column<float>(type: "real", nullable: false),
-                    productDescription = table.Column<string>(type: "VARCHAR(250)", maxLength: 250, nullable: true),
-                    uploadDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    categoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    categoryName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.productId);
+                    table.PrimaryKey("PK_Categories", x => x.categoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,6 +165,49 @@ namespace Application.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    productId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    productName = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: true),
+                    productPrice = table.Column<float>(type: "real", nullable: false),
+                    productDescription = table.Column<string>(type: "VARCHAR(250)", maxLength: 250, nullable: true),
+                    uploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    categoryId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.productId);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_categoryId",
+                        column: x => x.categoryId,
+                        principalTable: "Categories",
+                        principalColumn: "categoryId",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    imageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    productId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.imageId);
+                    table.ForeignKey(
+                        name: "FK_Images_Products_productId",
+                        column: x => x.productId,
+                        principalTable: "Products",
+                        principalColumn: "productId",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -205,6 +246,16 @@ namespace Application.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_productId",
+                table: "Images",
+                column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_categoryId",
+                table: "Products",
+                column: "categoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -225,13 +276,19 @@ namespace Application.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }
