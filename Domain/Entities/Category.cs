@@ -9,5 +9,6 @@ namespace Domain.Entities
     {
         public int categoryId { get; set; }
         public string categoryName { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
