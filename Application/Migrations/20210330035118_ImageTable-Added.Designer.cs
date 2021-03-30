@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20210329141133_derived_identitydbcontext")]
-    partial class derived_identitydbcontext
+    [Migration("20210330035118_ImageTable-Added")]
+    partial class ImageTableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,20 +21,19 @@ namespace Application.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Domain.Entities.ImageStorage", b =>
+            modelBuilder.Entity("Domain.Entities.Image", b =>
                 {
-                    b.Property<int>("imageStorageId")
+                    b.Property<int>("imageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("imageUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("imageStorageId");
+                    b.HasKey("imageId");
 
-                    b.ToTable("ImageStorage");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>

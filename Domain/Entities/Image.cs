@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Domain.Entities
 {
-    public class ImageStorage
+    public class Image
     {
         [Key]
-        public int imageStorageId { get; set; }
-        [MaxLength(255)]
+        public int imageId { get; set; }
+
         public string imageUrl { get; set; }
     }
 }
