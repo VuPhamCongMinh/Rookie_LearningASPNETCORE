@@ -30,7 +30,7 @@ namespace SimpleShop.UI
                 .AddEntityFrameworkStores<Application.EF.MyDBContext>();
             services.AddControllersWithViews();
 
-            services.AddSingleton<ProductServices>();
+            services.AddScoped<ProductServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

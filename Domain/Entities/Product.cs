@@ -23,9 +23,8 @@ namespace Domain.Entities
 
 
         public int? categoryId { get; set; }
-        public Category Category { get; set; }
-
-        public ICollection<Image> Images { get; set; }
+        public Category Category { get; set; }  
+        public List<Image> Images { get; set; }
 
     }
 }

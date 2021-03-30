@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Application.DTO;
+using Application.EF;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
     public class ProductServices
     {
-        private static Random rnd = new Random();
         #region Dummy data initialize
+        private static Random rnd = new Random();
         private Product[] products = new[] {
                 new Product{productId = rnd.Next(1,99),productName="Product 1",productPrice = 9700,productDescription ="Product 1 description" },
                 new Product{productId = rnd.Next(1,99),productName="Product 2",productPrice = 4600,productDescription ="Product 2 description" },
@@ -27,51 +29,86 @@ namespace Application.Services
                 new Product{productId = rnd.Next(1,99),productName="Product 14",productPrice = 5100,productDescription ="Product 14 description" },
                 new Product{productId = rnd.Next(1,99),productName="Product 15",productPrice = 3400,productDescription ="Product 15 description" },
                           };
+
         private int productLength { get; set; }
         #endregion
 
+        private readonly MyDBContext _context;
+
+        public ProductServices (MyDBContext context)
+        {
+            _context = context;
+        }
 
         public IEnumerable<ProductDTO> GetProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max)
         {
-            var allProducts = this.products;
-            IEnumerable<Product> products = allProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
+            var allProducts = GetProduct();
+
+            SearchProducts(ref allProducts, searchstring);
+            PagingProducts(ref allProducts, pageindex, pagesize);
+            SortProducts(ref allProducts, sortorder);
+            FilterProducts(ref allProducts, min, max);
+
+            return allProducts.Select(x => MapProductDTO(x)).ToList();
+        }
+
+        public IEnumerable<Product> GetProduct ()
+        {
+            return _context.Products.Include(p=>p.Category);
+        }
+
+        public IEnumerable<ProductDTO> GetProductDTO ()
+        {
+            return _context.Products.Include(p => p.Category).Select(x=>MapProductDTO(x));
+        }
+
+         void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
+        {
+            sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
             //đếm số lượng sp để phân trang
             //mặc định ban đầu sẽ đếm hết
-            productLength = allProducts.Count();
+            productLength = sourceProducts.Count();
+        }
 
-            if (searchstring != null)
-            {
-                products = allProducts.Where(p => p.productName.Contains(searchstring));
-                //nếu user có search thì đếm những kết quả trả về hoy
-                productLength = products.Count();
-            }
-            if (sortorder == "asc")
-            {
-                products = products.OrderBy(p => p.productPrice);
-            }
-            else if (sortorder == "desc")
-            {
-                products = products.OrderByDescending(p => p.productPrice);
-            }
+         void FilterProducts (ref IEnumerable<Product> sourceProducts, double? min, double? max)
+        {
             if (min > 0)
             {
-                products = products.Where(p => p.productPrice > min);
+                sourceProducts = sourceProducts.Where(p => p.productPrice > min);
             }
             if (max > 0)
             {
-                products = products.Where(p => p.productPrice < max);
+                sourceProducts = sourceProducts.Where(p => p.productPrice < max);
             }
-            return products.Select(x => MapProductDTO(x));
         }
-        //public IEnumerable<Product> GetProducts ()
-        //{
 
-        //}
+         void SortProducts (ref IEnumerable<Product> sourceProducts, string sortorder)
+        {
+            if (sortorder == "asc")
+            {
+                sourceProducts = sourceProducts.OrderBy(p => p.productPrice);
+            }
+            else if (sortorder == "desc")
+            {
+                sourceProducts = sourceProducts.OrderByDescending(p => p.productPrice);
+            }
+        }
+
+        public void SearchProducts (ref IEnumerable<Product> sourceProducts, string searchstring)
+        {
+            if (searchstring != null)
+            {
+                sourceProducts = sourceProducts.Where(p => p.productName.Contains(searchstring));
+                //nếu user có search thì đếm những kết quả trả về hoy
+                productLength = sourceProducts.Count();
+            }
+        }
+
         public int GetProductCount () => productLength;
-        static ProductDTO MapProductDTO (Product prod)
+        private static ProductDTO MapProductDTO (Product prod)
         {
             //map product to productDTO in order to add to productsDTO List
-            ProductDTO productDTO = new ProductDTO(prod.productId, prod.productName, prod.productPrice, prod.productDescription);
+            ProductDTO productDTO = new ProductDTO(prod.productId, prod.productName, prod.productPrice, prod.productDescription, prod.Category.categoryName);
             return productDTO;
         }
     }
