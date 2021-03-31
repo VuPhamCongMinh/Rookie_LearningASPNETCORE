@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\SimpleShop.WebAPI\SimpleShop.WebAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

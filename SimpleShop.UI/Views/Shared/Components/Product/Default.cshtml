@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Application.DTO.ProductDTO>
+﻿@model IEnumerable<Product>
 @{
     int counter = 0;
     int itemsLength = Model.Count();
@@ -14,14 +14,18 @@
         }
         <div class="col-md-3">
             <div class="d-flex flex-column bg-light">
-                <img src="https://via.placeholder.com/300" class="img-fluid" />
+                <img src="@product.Images[0].imageUrl" class="img-fluid" />
                 <div class="d-flex flex-column pt-3">
                     <div class="d-flex flex-row justify-content-around">
                         <h5>@product.productName</h5>
-                        <h6 class="text-success">@product.productPrice$</h6>
+                        <h6 class="text-success">
+                            @product.productPrice$
+                        </h6>
                     </div>
                     <div class="text-center">
-                        <p class="font-weight-light">@product.productDescription</p>
+                        <p class="font-weight-light">
+                            @product.productDescription
+                        </p>
                     </div>
                 </div>
             </div>

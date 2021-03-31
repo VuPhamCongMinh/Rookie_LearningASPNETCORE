@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SimpleShop.WebAPI.EF;
 
 namespace SimpleShop.UI
 {
@@ -21,14 +22,16 @@ namespace SimpleShop.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            services.AddDbContextPool<Application.EF.MyDBContext>(options =>
+            services.AddDbContextPool<MyDBContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("RookieConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<Application.EF.MyDBContext>();
+                .AddEntityFrameworkStores<MyDBContext>();
             services.AddControllersWithViews();
+
+            services.AddHttpClient();
 
             services.AddScoped<ProductServices>();
         }

@@ -1,7 +1,8 @@
-﻿using Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-namespace Application.EF
+using SimpleShop.WebAPI.Entities;
+
+namespace SimpleShop.WebAPI.EF
 {
     public class MyDBContext : IdentityDbContext
     {
