@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Application.Migrations
+namespace SimpleShop.WebAPI.Migrations
 {
     public partial class ImageTableAdded : Migration
     {
