@@ -6,7 +6,7 @@
 *.min.css
 *.min.js
 *.map
-
+ 
 _build/
 _site/
 Properties/
