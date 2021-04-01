@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimpleShop.WebAPI.Entities;
+using SimpleShop.Shared.Models;
 using System.Collections.Generic;
 
 namespace SimpleShop.ViewModels.ViewComponents

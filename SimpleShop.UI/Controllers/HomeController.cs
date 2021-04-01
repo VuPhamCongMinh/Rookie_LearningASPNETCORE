@@ -1,8 +1,8 @@
-﻿using Application.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using SimpleShop.WebAPI.Entities;
+using SimpleShop.Shared.Services;
+using SimpleShop.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +14,12 @@ namespace SimpleShop.UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ProductServices _productServices;
+        private readonly ProductService _productServices;
         private readonly IHttpClientFactory _httpClientFactory;
-        private const string product_api = "https://localhost:44396/api/products";
+        private const string product_api = "https://localhost:44348/api/products";
 
         public HomeController (ILogger<HomeController> logger,
-            ProductServices productServices,
+            ProductService productServices,
             IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
