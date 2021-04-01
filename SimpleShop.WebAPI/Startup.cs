@@ -1,4 +1,5 @@
 using Application.Services;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SimpleShop.WebAPI.Configuration;
 using SimpleShop.WebAPI.EF;
+using System.Collections.Generic;
 
 namespace SimpleShop.WebAPI
 {
@@ -25,6 +28,13 @@ namespace SimpleShop.WebAPI
             services.AddDbContextPool<MyDBContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("RookieConnection")));
+
+
+            services.AddIdentityServer().AddDeveloperSigningCredential()
+                .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+                .AddInMemoryClients(IdentityServerConfig.Clients);
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,6 +57,8 @@ namespace SimpleShop.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseIdentityServer();
 
             app.UseAuthorization();
 

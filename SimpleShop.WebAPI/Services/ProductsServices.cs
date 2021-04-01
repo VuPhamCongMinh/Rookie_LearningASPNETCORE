@@ -21,10 +21,10 @@ namespace Application.Services
         {
             var allProducts = await GetProduct();
 
-            SearchProducts(ref allProducts, searchstring);
-            PagingProducts(ref allProducts, pageindex, pagesize);
-            SortProducts(ref allProducts, sortorder);
-            FilterProducts(ref allProducts, min, max);
+            SearchProducts( allProducts, searchstring);
+            PagingProducts( allProducts, pageindex, pagesize);
+            SortProducts( allProducts, sortorder);
+            FilterProducts( allProducts, min, max);
 
             return allProducts.ToList();
         }
@@ -39,7 +39,7 @@ namespace Application.Services
             return _context.Products.Include(p => p.Category);
         }
 
-        void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
+        void PagingProducts (IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
         {
             sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
             //đếm số lượng sp để phân trang
@@ -47,7 +47,7 @@ namespace Application.Services
             productLength = sourceProducts.Count();
         }
 
-        void FilterProducts (ref IEnumerable<Product> sourceProducts, double? min, double? max)
+        void FilterProducts (IEnumerable<Product> sourceProducts, double? min, double? max)
         {
             if (min > 0)
             {
@@ -59,7 +59,7 @@ namespace Application.Services
             }
         }
 
-        void SortProducts (ref IEnumerable<Product> sourceProducts, string sortorder)
+        void SortProducts (IEnumerable<Product> sourceProducts, string sortorder)
         {
             if (sortorder == "asc")
             {
@@ -71,7 +71,7 @@ namespace Application.Services
             }
         }
 
-        public void SearchProducts (ref IEnumerable<Product> sourceProducts, string searchstring)
+        public void SearchProducts (IEnumerable<Product> sourceProducts, string searchstring)
         {
             if (searchstring != null)
             {
