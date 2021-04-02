@@ -65,7 +65,7 @@
 <div class="row pt-4">
     <div class="offset-md-2 col">
         <div class="btn-group data-paging w-100">
-            @for (int i = 1; i <= ViewBag.PageSize; i++)
+            @for (int i = 1; i <= Model.Count() % 8 ; i++)
             {
                 <button type="button" paging-btn="@i" class="btn btn-secondary">@i</button>
             }

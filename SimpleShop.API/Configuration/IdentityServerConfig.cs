@@ -16,7 +16,7 @@ namespace SimpleShop.API.Configuration
         public static IEnumerable<ApiScope> ApiScopes =>
              new ApiScope[]
              {
-                  new ApiScope("product.api", "Product API")
+                  new ApiScope("product.api", "Product Shop API")
              };
         public static IEnumerable<Client> Clients =>
             new List<Client>
@@ -49,8 +49,32 @@ namespace SimpleShop.API.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "product.api"
+                    },
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AlwaysSendClientClaims = true,
+                },
+
+                //swagger
+                new Client
+                {
+                    ClientId = "swagger",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RequireConsent = false,
+                    RequirePkce = true,
+
+                    RedirectUris =           { $"https://localhost:44348/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"https://localhost:44348/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { $"https://localhost:44348" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "product.api"
                     }
-                }
+                },
             };
     }
 }

@@ -19,7 +19,7 @@ namespace SimpleShop.API.Controllers
         }
 
         // GET: api/Products
-        [Authorize]
+        [Authorize("Bearer")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts (
             [FromQuery] int pageIndex = 1, int pageSize = 8, string searchString = null,

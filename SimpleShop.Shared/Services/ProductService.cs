@@ -34,11 +34,6 @@ namespace SimpleShop.Shared.Services
             return await _context.Products.Include(p => p.Category).Include(p => p.Images).ToListAsync();
         }
 
-        public IEnumerable<Product> GetProductDTO ()
-        {
-            return _context.Products.Include(p => p.Category);
-        }
-
         void PagingProducts (IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
         {
             sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);

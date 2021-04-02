@@ -1,20 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SimpleShop.API.Configuration;
-using SimpleShop.API.Data;
 using SimpleShop.Shared.EF;
+using SimpleShop.Shared.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SimpleShop.API
 {
@@ -36,9 +32,8 @@ namespace SimpleShop.API
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MyDBContext>();
-
-            services.AddControllersWithViews();
 
             services.AddIdentityServer(options =>
             {
@@ -70,6 +65,8 @@ namespace SimpleShop.API
                 });
             });
 
+            services.AddTransient<ProductService>();
+
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(c =>
@@ -95,7 +92,7 @@ namespace SimpleShop.API
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
-                        new List<string>{ "rookieshop.api" }
+                        new List<string>{ "product.api" }
                     }
                 });
             });
