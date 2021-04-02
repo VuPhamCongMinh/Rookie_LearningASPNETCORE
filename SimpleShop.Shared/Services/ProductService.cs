@@ -11,20 +11,23 @@ namespace SimpleShop.Shared.Services
     {
         private int productLength { get; set; }
         private readonly MyDBContext _context;
+        private IEnumerable<Product> allProduct { get; set; }
 
         public ProductService (MyDBContext context)
         {
             _context = context;
+            allProduct = _context.Products.Include(p => p.Category).Include(p => p.Images).ToList();
         }
 
-        public async Task<IEnumerable<Product>> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max)
+        public IEnumerable<Product> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max)
         {
-            var allProducts = await GetProduct();
+            var allProducts = allProduct;
+            productLength = allProducts.Count();
 
-            SearchProducts(allProducts, searchstring);
-            PagingProducts(allProducts, pageindex, pagesize);
-            SortProducts(allProducts, sortorder);
-            FilterProducts(allProducts, min, max);
+            SearchProducts(ref allProducts, searchstring);
+            SortProducts(ref allProducts, sortorder);
+            FilterProducts(ref allProducts, min, max);
+            PagingProducts(ref allProducts, pageindex, pagesize, searchstring);
 
             return allProducts.ToList();
         }
@@ -34,27 +37,26 @@ namespace SimpleShop.Shared.Services
             return await _context.Products.Include(p => p.Category).Include(p => p.Images).ToListAsync();
         }
 
-        void PagingProducts (IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
+        void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize, string searchstring)
         {
             sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
-            //đếm số lượng sp để phân trang
-            //mặc định ban đầu sẽ đếm hết
-            productLength = sourceProducts.Count();
         }
 
-        void FilterProducts (IEnumerable<Product> sourceProducts, double? min, double? max)
+        void FilterProducts (ref IEnumerable<Product> sourceProducts, double? min, double? max)
         {
+
             if (min > 0)
             {
-                sourceProducts = sourceProducts.Where(p => p.productPrice > min);
+                sourceProducts = sourceProducts.Where(p => p.productPrice >= min);
             }
             if (max > 0)
             {
-                sourceProducts = sourceProducts.Where(p => p.productPrice < max);
+                sourceProducts = sourceProducts.Where(p => p.productPrice <= max);
             }
+            productLength = sourceProducts.Count();
         }
 
-        void SortProducts (IEnumerable<Product> sourceProducts, string sortorder)
+        void SortProducts (ref IEnumerable<Product> sourceProducts, string sortorder)
         {
             if (sortorder == "asc")
             {
@@ -66,15 +68,17 @@ namespace SimpleShop.Shared.Services
             }
         }
 
-        public void SearchProducts (IEnumerable<Product> sourceProducts, string searchstring)
+        public void SearchProducts (ref IEnumerable<Product> sourceProducts, string searchstring)
         {
             if (searchstring != null)
             {
-                sourceProducts = sourceProducts.Where(p => p.productName.Contains(searchstring));
+                sourceProducts = sourceProducts.Where(p => p.productName.ToLower().Contains(searchstring.ToLower()));
                 //nếu user có search thì đếm những kết quả trả về hoy
                 productLength = sourceProducts.Count();
             }
         }
+
+
 
         public int GetProductCount () => productLength;
     }

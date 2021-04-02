@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
+using SimpleShop.Shared.ViewModels;
 
 namespace SimpleShop.UI.Controllers
 {
@@ -25,7 +26,7 @@ namespace SimpleShop.UI.Controllers
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 8, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0)
+        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 3, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0)
         {
             #region Define HttpClient & HttpRequest
             var client = _httpClientFactory.CreateClient();
@@ -33,35 +34,37 @@ namespace SimpleShop.UI.Controllers
             {
                 Query = $"pageindex={pageIndex}&pagesize={pageSize}&searchstring={searchString}&sortorder={sortOrder}&minprice={minPrice}&maxprice={maxPrice}"
             };
+
+            var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
+            var access = await HttpContext.GetTokenAsync("access_token");
+            get_product_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
             #endregion
 
-            var request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
+            var get_product_response = await client.SendAsync(get_product_request);
 
-            var access = await HttpContext.GetTokenAsync("access_token");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
+            ProductResponse productsRespone; int totalPage; // null at first 
 
-            var response = await client.SendAsync(request);
-
-            IEnumerable<Product> products; // null at first
-
-            if (response.IsSuccessStatusCode)
+            if (get_product_response.IsSuccessStatusCode)
             {
-                var responseData = await response.Content.ReadAsStringAsync();
-                products = JsonConvert.DeserializeObject<IEnumerable<Product>>(responseData);
+                var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
+                productsRespone = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
+                totalPage = productsRespone.Count;
             }
             else
             {
-                products = Enumerable.Empty<Product>();
-                _logger.LogInformation(await response.Content.ReadAsStringAsync());
+                productsRespone = null;
+                totalPage = 0;
+                _logger.LogInformation(await get_product_request.Content.ReadAsStringAsync());
             }
 
             #region Define ViewBag 
             ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
             ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
             ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
+            ViewBag.TotalProduct = (int)Math.Ceiling((totalPage / (float)pageSize));
             #endregion
 
-            return View(products);
+            return View(productsRespone.Products);
         }
     }
 }

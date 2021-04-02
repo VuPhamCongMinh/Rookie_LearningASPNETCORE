@@ -35,6 +35,11 @@
 
     priceFilterBtn.on('click', () => {
         let transformedUrl = new URL(window.location);
+
+        if (transformedUrl.searchParams.has('pageIndex')) {
+            transformedUrl.searchParams.set('pageIndex', 0);
+        }
+
         if (minInput.val().length != 0) {
             if (transformedUrl.searchParams.has('minPrice')) {
                 transformedUrl.searchParams.set('minPrice', minInput.val());
@@ -72,6 +77,11 @@
 
     searchBtn.on('click', () => {
         let transformedUrl = new URL(window.location);
+
+        if (transformedUrl.searchParams.has('pageIndex')) {
+            transformedUrl.searchParams.set('pageIndex', 0);
+        }
+
         if (searchInput.val() != ' ') {
             if (transformedUrl.searchParams.has('searchString')) {
                 transformedUrl.searchParams.set('searchString', searchInput.val());
