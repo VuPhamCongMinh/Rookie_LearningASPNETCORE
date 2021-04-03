@@ -52,6 +52,10 @@
                 </a>
             </div>
         </div>
+        @* Categories section *@
+        <div class="pt-2">
+            @await Component.InvokeAsync("Category")
+        </div>
     </div>
     @* Product display section *@
     <div class="col-md-10">
@@ -64,7 +68,7 @@
 <div class="row pt-4">
     <div class="offset-md-2 col">
         <div class="btn-group data-paging w-100">
-            @for (int i = 1; i <= ViewBag.TotalProduct ; i++)
+            @for (int i = 1; i <= ViewBag.TotalProduct; i++)
             {
                 <button type="button" paging-btn="@i" class="btn btn-secondary">@i</button>
             }

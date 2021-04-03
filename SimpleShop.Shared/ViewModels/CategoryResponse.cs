@@ -5,9 +5,8 @@ using System.Text;
 
 namespace SimpleShop.Shared.ViewModels
 {
-    public class ProductResponse
+    public class CategoryResponse
     {
-        public IEnumerable<Product> Products { get; set; }
-        public int Count { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
     }
 }

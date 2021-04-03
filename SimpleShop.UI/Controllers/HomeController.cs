@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using SimpleShop.Shared.Services;
-using SimpleShop.Shared.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using System.Net.Http.Headers;
+using SimpleShop.Shared.Constant;
 using SimpleShop.Shared.ViewModels;
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace SimpleShop.UI.Controllers
 {
@@ -18,7 +15,6 @@ namespace SimpleShop.UI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-        private const string product_api = "https://localhost:44348/api/products";
 
         public HomeController (ILogger<HomeController> logger,
             IHttpClientFactory httpClientFactory)
@@ -30,19 +26,20 @@ namespace SimpleShop.UI.Controllers
         {
             #region Define HttpClient & HttpRequest
             var client = _httpClientFactory.CreateClient();
-            var url = new UriBuilder(product_api)
+            var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL)
             {
                 Query = $"pageindex={pageIndex}&pagesize={pageSize}&searchstring={searchString}&sortorder={sortOrder}&minprice={minPrice}&maxprice={maxPrice}"
             };
-
             var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
+            // 2 dòng dưới dùng khi muốn chèn access token vào httpclient đề lấy api đã dc bảo mật
             var access = await HttpContext.GetTokenAsync("access_token");
             get_product_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
             #endregion
 
             var get_product_response = await client.SendAsync(get_product_request);
 
-            ProductResponse productsRespone; int totalPage; // null at first 
+            ProductResponse productsRespone;
+            int totalPage; // null at first 
 
             if (get_product_response.IsSuccessStatusCode)
             {

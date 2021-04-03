@@ -9,8 +9,13 @@
 
     sortFilterBtn.on('click', function (e) {
         let $this = $(this).attr("data-filter");
-        //let transformedUrl = new URL(window.location);
         let transformedUrl = new URL(window.location);
+
+
+        if (transformedUrl.searchParams.has('pageIndex')) {
+            transformedUrl.searchParams.set('pageIndex', 0);
+        }
+
         if ($this == 'asc') {
             if (transformedUrl.searchParams.has('sortOrder')) {
                 transformedUrl.searchParams.set('sortOrder', 'asc');
@@ -95,19 +100,7 @@
                 transformedUrl.searchParams.delete('searchString');
             }
         }
-        //if (maxInput.val().length != 0) {
-        //    if (transformedUrl.searchParams.has('maxPrice')) {
-        //        transformedUrl.searchParams.set('maxPrice', maxInput.val());
-        //    }
-        //    else {
-        //        transformedUrl.searchParams.append('maxPrice', maxInput.val());
-        //    }
-        //}
-        //else {
-        //    if (transformedUrl.searchParams.has('maxPrice')) {
-        //        transformedUrl.searchParams.delete('maxPrice');
-        //    }
-        //}
+
         if (window.location.href != transformedUrl.href) {
             window.location = transformedUrl;
         }

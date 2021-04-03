@@ -66,6 +66,7 @@ namespace SimpleShop.API
             });
 
             services.AddTransient<ProductService>();
+            services.AddTransient<CategoryService>();
 
             services.AddControllersWithViews();
 

@@ -1,0 +1,18 @@
+﻿@model CategoryResponse
+@{
+    int i = 0;
+}
+
+@if (Model != null)
+{
+    <div class="jumbotron d-flex flex-column">
+        @foreach (var category in Model.Categories)
+        {
+            <div class="custom-control custom-radio">
+                <input type="radio" id=@($"custom-radio-{i+1}") class="custom-control-input">
+                <label class="custom-control-label" for=@($"custom-radio-{i+1}")>@category.categoryName</label>
+            </div>
+            i++;
+        }
+    </div>
+}
