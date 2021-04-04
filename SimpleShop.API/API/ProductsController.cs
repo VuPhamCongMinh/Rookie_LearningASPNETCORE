@@ -24,9 +24,9 @@ namespace SimpleShop.API.Controllers
         [HttpGet]
         public ActionResult<ProductResponse> GetProducts (
             [FromQuery] int pageIndex = 1, int pageSize = 8, string searchString = null,
-            string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0)
+            string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
-            var products =  _services.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice);
+            var products = _services.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
             return Ok(new ProductResponse
             {
                 Products = products,

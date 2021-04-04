@@ -19,15 +19,16 @@ namespace SimpleShop.Shared.Services
             allProduct = _context.Products.Include(p => p.Category).Include(p => p.Images).ToList();
         }
 
-        public IEnumerable<Product> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max)
+        public IEnumerable<Product> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max, int cate)
         {
             var allProducts = allProduct;
             productLength = allProducts.Count();
 
+            CategorizeProducts(ref allProducts, cate);
             SearchProducts(ref allProducts, searchstring);
             SortProducts(ref allProducts, sortorder);
             FilterProducts(ref allProducts, min, max);
-            PagingProducts(ref allProducts, pageindex, pagesize, searchstring);
+            PagingProducts(ref allProducts, pageindex, pagesize);
 
             return allProducts.ToList();
         }
@@ -37,9 +38,18 @@ namespace SimpleShop.Shared.Services
             return await _context.Products.Include(p => p.Category).Include(p => p.Images).ToListAsync();
         }
 
-        void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize, string searchstring)
+        void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
         {
             sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
+        }
+
+        void CategorizeProducts (ref IEnumerable<Product> sourceProducts, int cateId)
+        {
+            if (cateId != -1)
+            {
+                sourceProducts = allProduct.Where(x => x.categoryId == cateId);
+                productLength = sourceProducts.Count();     
+            }
         }
 
         void FilterProducts (ref IEnumerable<Product> sourceProducts, double? min, double? max)

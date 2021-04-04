@@ -22,13 +22,13 @@ namespace SimpleShop.UI.Controllers
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 3, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0)
+        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 3, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             #region Define HttpClient & HttpRequest
             var client = _httpClientFactory.CreateClient();
             var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL)
             {
-                Query = $"pageindex={pageIndex}&pagesize={pageSize}&searchstring={searchString}&sortorder={sortOrder}&minprice={minPrice}&maxprice={maxPrice}"
+                Query = $"pageindex={pageIndex}&pagesize={pageSize}&searchstring={searchString}&sortorder={sortOrder}&minprice={minPrice}&maxprice={maxPrice}&cate={cate}"
             };
             var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
             // 2 dòng dưới dùng khi muốn chèn access token vào httpclient đề lấy api đã dc bảo mật
@@ -59,6 +59,7 @@ namespace SimpleShop.UI.Controllers
             ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
             ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
             ViewBag.TotalProduct = (int)Math.Ceiling((totalPage / (float)pageSize));
+            ViewBag.CurrentCategory = cate;
             #endregion
 
             return View(productsRespone.Products);

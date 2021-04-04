@@ -6,11 +6,16 @@
 @if (Model != null)
 {
     <div class="jumbotron d-flex flex-column">
+        <div class="form-check">
+            <input type="radio" id="custom-radio-all" name="category-radio" value="-1" class="form-check-input" checked="@((int)ViewBag.CurrentCategory == -1)">
+            <label class="form-check-label" for="custom-radio-all">All</label>
+        </div>
+
         @foreach (var category in Model.Categories)
         {
-            <div class="custom-control custom-radio">
-                <input type="radio" id=@($"custom-radio-{i+1}") class="custom-control-input">
-                <label class="custom-control-label" for=@($"custom-radio-{i+1}")>@category.categoryName</label>
+            <div class="form-check">
+                <input type="radio" id=@($"custom-radio-{i+1}") name="category-radio" value="@category.categoryId" class="form-check-input" checked="@((int)ViewBag.CurrentCategory == category.categoryId)">
+                <label class="form-check-label" for=@($"custom-radio-{i+1}")>@category.categoryName</label>
             </div>
             i++;
         }
