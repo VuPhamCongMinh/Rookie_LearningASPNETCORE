@@ -25,6 +25,8 @@ namespace SimpleShop.Shared.Models
         public int? categoryId { get; set; }
         public Category Category { get; set; }  
         public List<Image> Images { get; set; }
+        public int? ratingId { get; set; }
+        public List<Rating> Ratings { get; set; }
 
     }
 }

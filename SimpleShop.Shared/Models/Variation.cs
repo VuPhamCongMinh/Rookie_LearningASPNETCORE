@@ -12,5 +12,8 @@ namespace SimpleShop.Shared.Models
         public int variationId { get; set; }
         public int productId { get; set; }
         public string variationName { get; set; }
+
+        public int imageId { get; set; }
+        public Image Image { get; set; }
     }
 }

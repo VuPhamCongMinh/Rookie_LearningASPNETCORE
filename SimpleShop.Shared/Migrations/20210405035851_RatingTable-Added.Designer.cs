@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleShop.Shared.EF;
 
 namespace SimpleShop.Shared.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210405035851_RatingTable-Added")]
+    partial class RatingTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,9 +279,6 @@ namespace SimpleShop.Shared.Migrations
                     b.Property<float>("productPrice")
                         .HasColumnType("real");
 
-                    b.Property<int?>("ratingId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("uploadDate")
                         .HasColumnType("datetime2");
 
@@ -410,7 +409,7 @@ namespace SimpleShop.Shared.Migrations
             modelBuilder.Entity("SimpleShop.Shared.Models.Rating", b =>
                 {
                     b.HasOne("SimpleShop.Shared.Models.Product", "Product")
-                        .WithMany("Ratings")
+                        .WithMany()
                         .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -438,8 +437,6 @@ namespace SimpleShop.Shared.Migrations
             modelBuilder.Entity("SimpleShop.Shared.Models.Product", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

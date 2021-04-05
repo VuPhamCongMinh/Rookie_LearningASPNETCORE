@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleShop.Shared.EF;
 
 namespace SimpleShop.Shared.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210405034457_VariationsTable-Added")]
+    partial class VariationsTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,9 +279,6 @@ namespace SimpleShop.Shared.Migrations
                     b.Property<float>("productPrice")
                         .HasColumnType("real");
 
-                    b.Property<int?>("ratingId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("uploadDate")
                         .HasColumnType("datetime2");
 
@@ -288,31 +287,6 @@ namespace SimpleShop.Shared.Migrations
                     b.HasIndex("categoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("SimpleShop.Shared.Models.Rating", b =>
-                {
-                    b.Property<int>("ratingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("rateValue")
-                        .HasColumnType("TINYINT");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ratingId");
-
-                    b.HasIndex("productId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("SimpleShop.Shared.Models.Variation", b =>
@@ -407,23 +381,6 @@ namespace SimpleShop.Shared.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("SimpleShop.Shared.Models.Rating", b =>
-                {
-                    b.HasOne("SimpleShop.Shared.Models.Product", "Product")
-                        .WithMany("Ratings")
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("userId");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SimpleShop.Shared.Models.Variation", b =>
                 {
                     b.HasOne("SimpleShop.Shared.Models.Image", "Image")
@@ -438,8 +395,6 @@ namespace SimpleShop.Shared.Migrations
             modelBuilder.Entity("SimpleShop.Shared.Models.Product", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }
