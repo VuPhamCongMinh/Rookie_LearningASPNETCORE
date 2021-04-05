@@ -4,20 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleShop.Shared.Models
 {
-    public class Product
+    public class ProductCopy
     {
-        [Key]
         public int productId { get; set; }
-
-        [Required]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(100)]
         public string productName { get; set; }
         public float productPrice { get; set; }
-
-        [Required]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(250)]
         public string productDescription { get; set; }
         public System.DateTime uploadDate { get; set; }
 

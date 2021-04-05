@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimpleShop.Shared.Services;
+using SimpleShop.API.Services;
+using SimpleShop.Shared.Interfaces;
+using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace SimpleShop.API.API
 {
@@ -10,24 +12,24 @@ namespace SimpleShop.API.API
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategorySevice _categoryService;
 
-        public CategoriesController (CategoryService categoryService)
+        public CategoriesController (ICategorySevice categoryService)
         {
             _categoryService = categoryService;
         }
         // GET: api/<CategoriesController>
         [HttpGet]
-        public ActionResult<IEnumerable<CategoryResponse>> GetCategories ()
+        public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategories ()
         {
-            return Ok(new CategoryResponse { Categories = _categoryService.GetCategories() });
+            return Ok(new CategoryResponse { Categories = await _categoryService.GetCategories() });
         }
 
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
-        public string Get (int id)
+        public async Task<ActionResult<Category>> GetCategory (int id)
         {
-            return "value";
+            return Ok(await _categoryService.GetCategoryById(id));
         }
 
         // POST api/<CategoriesController>

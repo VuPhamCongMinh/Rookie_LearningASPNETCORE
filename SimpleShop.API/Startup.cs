@@ -8,9 +8,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SimpleShop.API.Configuration;
 using SimpleShop.Shared.EF;
-using SimpleShop.Shared.Services;
+using SimpleShop.Shared.Interfaces;
+using SimpleShop.API.Services;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace SimpleShop.API
 {
@@ -65,10 +67,14 @@ namespace SimpleShop.API
                 });
             });
 
-            services.AddTransient<ProductService>();
-            services.AddTransient<CategoryService>();
+
+            services.AddScoped<ICategorySevice, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IFilesService, FilesService>();
 
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>
             {

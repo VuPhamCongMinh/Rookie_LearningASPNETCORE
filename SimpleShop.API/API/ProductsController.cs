@@ -2,9 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using SimpleShop.Shared.Services;
+using SimpleShop.API.Services;
 using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
+using SimpleShop.Shared.Interfaces;
 
 namespace SimpleShop.API.Controllers
 {
@@ -12,11 +13,11 @@ namespace SimpleShop.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductService _services;
+        private readonly IProductService _productService;
 
-        public ProductsController (ProductService services)
+        public ProductsController (IProductService services)
         {
-            _services = services;
+            _productService = services;
         }
 
         // GET: api/Products
@@ -25,11 +26,11 @@ namespace SimpleShop.API.Controllers
         public ActionResult<ProductResponse> GetProducts (int pageIndex, int pageSize, string searchString,
             string sortOrder, double? minPrice, double? maxPrice, int cate)
         {
-            var products = _services.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
+            var products = _productService.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
             return Ok(new ProductResponse
             {
                 Products = products,
-                Count = _services.GetProductCount()
+                Count = _productService.GetProductCount()
             });
         }
 
@@ -37,7 +38,7 @@ namespace SimpleShop.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct (int id)
         {
-            var product = await _services.GetProductByID(id);
+            var product = await _productService.GetProductByID(id);
 
             if (product == null)
             {
@@ -48,26 +49,34 @@ namespace SimpleShop.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<IEnumerable<ProductCreateRequest>>> PostProduct ([FromForm] ProductCreateRequest request)
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<ProductPostRequest>>> PostProduct ([FromForm] ProductPostRequest request)
         {
             var product = await _productService.PostProduct(request);
-            return Ok(product);
+            if (product != null)
+            {
+                return CreatedAtAction(nameof(GetProduct), new { id = product.productId }, product);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
-        [HttpPut("ProductId")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<IEnumerable<ProductUpdateRequest>>> PutProduct (int ProductId, [FromForm] ProductUpdateRequest request)
-        {
-            var product = await _productService.PutProduct(ProductId, request);
-            return Ok(product);
-        }
-        [HttpDelete("ProductId")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<IEnumerable<ProductUpdateRequest>>> DeleteProduct (int ProductId)
-        {
-            var product = await _productService.DeleteProduct(ProductId);
-            return Ok(product);
-        }
+        //[HttpPut("{id}")]
+        //[Authorize("Bearer")]
+        //public async Task<ActionResult<IEnumerable<ProductPostRequest>>> PutProduct (int id, [FromForm] ProductPostRequest request)
+        //{
+        //    var product = await _productService.PutProduct(id, request);
+        //    return Ok(product);
+        //}
+        //[HttpDelete("{id}")]
+        //[Authorize("Bearer")]
+        //public async Task<ActionResult<IEnumerable<ProductPostRequest>>> DeleteProduct (int id)
+        //{
+        //    var product = await _productService.DeleteProduct(id);
+        //    return Ok(product);
+        //}
     }
 }
 

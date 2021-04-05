@@ -1,46 +1,61 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.EF;
 using SimpleShop.Shared.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SimpleShop.Shared.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System;
+using AutoMapper;
 
-namespace SimpleShop.Shared.Services
+namespace SimpleShop.API.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private int productLength { get; set; }
         private readonly MyDBContext _context;
+        private readonly IFilesService _filesService;
+        private readonly IMapper _mapper;
+
         private IEnumerable<Product> allProduct { get; set; }
 
-        public ProductService (MyDBContext context)
+        public ProductService (MyDBContext context, IFilesService filesService, IMapper mapper)
         {
             _context = context;
+            _filesService = filesService;
+            _mapper = mapper;
             allProduct = _context.Products.Include(p => p.Category).Include(p => p.Images).ToList();
         }
 
-        public IEnumerable<Product> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max, int cate)
+        public IEnumerable<Product> GetFilteredProducts (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var allProducts = allProduct;
             productLength = allProducts.Count();
 
             CategorizeProducts(ref allProducts, cate);
-            SearchProducts(ref allProducts, searchstring);
-            SortProducts(ref allProducts, sortorder);
-            FilterProducts(ref allProducts, min, max);
-            PagingProducts(ref allProducts, pageindex, pagesize);
+            SearchProducts(ref allProducts, searchString);
+            SortProducts(ref allProducts, sortOrder);
+            FilterProducts(ref allProducts, minPrice, maxPrice);
+            PagingProducts(ref allProducts, pageIndex, pageSize);
 
             return allProducts.ToList();
         }
 
         public async Task<IEnumerable<Product>> GetProduct ()
         {
-            return await _context.Products.Include(p => p.Category).Include(p => p.Images).ToListAsync();
+            return await _context.Products.Include(p => p.Category).Include(p => p.Images).AsNoTracking().ToListAsync();
         }
 
         public async Task<Product> GetProductByID (int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products.Include(p => p.Category)
+                .Include(p => p.Images)
+                .Where(p => p.productId.Equals(id))
+                .AsNoTracking()
+                .SingleAsync();
+
         }
 
 
@@ -54,7 +69,7 @@ namespace SimpleShop.Shared.Services
             if (cateId != -1)
             {
                 sourceProducts = allProduct.Where(x => x.categoryId == cateId);
-                productLength = sourceProducts.Count();     
+                productLength = sourceProducts.Count();
             }
         }
 
@@ -97,5 +112,42 @@ namespace SimpleShop.Shared.Services
 
 
         public int GetProductCount () => productLength;
+
+        public async Task<Product> PostProduct (ProductPostRequest product)
+        {
+            var productAdded = _mapper.Map<Product>(product);
+
+            if (product.ImageFiles.Any())
+            {
+                foreach (IFormFile file in product.ImageFiles)
+                {
+                    productAdded.Images.Add(new Image { productId = productAdded.productId, imageUrl = await _filesService.SaveFilePath(file) });
+                }
+
+                try
+                {
+                    _context.Add(productAdded);
+                    return productAdded;
+                }
+                catch (System.Exception)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Product> PutProduct (int id, ProductPostRequest product)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<int> DeleteProduct (int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
