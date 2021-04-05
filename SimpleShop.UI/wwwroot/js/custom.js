@@ -330,7 +330,7 @@ inputNumber($('.input-number'));
     item:1,
     vertical:true,
     verticalHeight:450,
-    thumbItem:3,
+    thumbItem:4,
     slideMargin:0,
     speed:600,
     autoplay: true,

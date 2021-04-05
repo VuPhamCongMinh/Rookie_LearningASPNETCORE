@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SimpleShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="~/img/favicon.png">
+    <title>Araznoz - Guns for Kids</title>
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- animate CSS -->
     <link rel="stylesheet" href="~/css/animate.css">
     <!-- owl carousel CSS -->
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/lightslider.min.css">
     <!-- nice select CSS -->
     <link rel="stylesheet" href="~/css/nice-select.css">
     <!-- font awesome CSS -->
@@ -72,21 +74,24 @@
                 </div>
             </div>
         </div>
-        <div class="search_input" id="search_input_box">
-            <div class="container">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text"
-                           class="form-control"
-                           id="search_input"
-                           placeholder="Search Here" />
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close"
-                          id="close_search"
-                          title="Close Search"></span>
-                </form>
+    </header>
+    <!--================Home Banner Area =================-->
+    <!-- breadcrumb start-->
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item">
+                            <h2>@ViewData["Title"]</h2>
+                            <p>Home <span>/</span> @ViewData["Title"]</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
+    <!-- breadcrumb start-->
     @RenderBody()
     <!-- subscribe_area part start-->
     <section class="subscribe_area section_padding">
@@ -118,34 +123,34 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_1.png" alt="">
+                        <img src="~/img/client_logo/client_logo_1.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_2.png" alt="">
+                        <img src="~/img/client_logo/client_logo_2.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_3.png" alt="">
+                        <img src="~/img/client_logo/client_logo_3.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_4.png" alt="">
+                        <img src="~/img/client_logo/client_logo_4.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_5.png" alt="">
+                        <img src="~/img/client_logo/client_logo_5.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_3.png" alt="">
+                        <img src="~/img/client_logo/client_logo_3.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_1.png" alt="">
+                        <img src="~/img/client_logo/client_logo_1.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_2.png" alt="">
+                        <img src="~/img/client_logo/client_logo_2.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_3.png" alt="">
+                        <img src="~/img/client_logo/client_logo_3.png" alt="">
                     </div>
                     <div class="single_client_logo">
-                        <img src="img/client_logo/client_logo_4.png" alt="">
+                        <img src="~/img/client_logo/client_logo_4.png" alt="">
                     </div>
                 </div>
             </div>
@@ -260,6 +265,7 @@
     <script src="~/js/jquery.magnific-popup.js"></script>
     @*swiper js*@
     <script src="~/js/swiper.min.js"></script>
+    <script src="~/js/lightslider.min.js"></script>
     @*swiper js*@
     <script src="~/js/masonry.pkgd.js"></script>
     @*particles js*@
@@ -277,6 +283,9 @@
     <script src="~/js/stellar.js"></script>
     <script src="~/js/price_rangs.js"></script>
     @*custom js*@
+
+    <script src="~/js/contact.js"></script>
+    <script src="~/js/theme.js"></script>
     <script src="~/js/custom.js"></script>
 
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
