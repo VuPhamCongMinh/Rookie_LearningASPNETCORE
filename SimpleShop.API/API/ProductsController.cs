@@ -22,9 +22,8 @@ namespace SimpleShop.API.Controllers
         // GET: api/Products
         //[Authorize("Bearer")] 
         [HttpGet]
-        public ActionResult<ProductResponse> GetProducts (
-            [FromQuery] int pageIndex = 1, int pageSize = 8, string searchString = null,
-            string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
+        public ActionResult<ProductResponse> GetProducts (int pageIndex, int pageSize, string searchString,
+            string sortOrder, double? minPrice, double? maxPrice, int cate)
         {
             var products = _services.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
             return Ok(new ProductResponse
@@ -48,68 +47,27 @@ namespace SimpleShop.API.Controllers
             return product;
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutProduct(int id, Product product)
-        //{
-        //    if (id != product.productId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(product).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Product>> PostProduct(Product product)
-        //{
-        //    _context.Products.Add(product);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetProduct", new { id = product.productId }, product);
-        //}
-
-        // DELETE: api/Products/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteProduct(int id)
-        //{
-        //    var product = await _context.Products.FindAsync(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Products.Remove(product);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool ProductExists(int id)
-        //{
-        //    return _context.Products.Any(e => e.productId == id);
-        //}
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<IEnumerable<ProductCreateRequest>>> PostProduct ([FromForm] ProductCreateRequest request)
+        {
+            var product = await _productService.PostProduct(request);
+            return Ok(product);
+        }
+        [HttpPut("ProductId")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<IEnumerable<ProductUpdateRequest>>> PutProduct (int ProductId, [FromForm] ProductUpdateRequest request)
+        {
+            var product = await _productService.PutProduct(ProductId, request);
+            return Ok(product);
+        }
+        [HttpDelete("ProductId")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<IEnumerable<ProductUpdateRequest>>> DeleteProduct (int ProductId)
+        {
+            var product = await _productService.DeleteProduct(ProductId);
+            return Ok(product);
+        }
     }
 }
 

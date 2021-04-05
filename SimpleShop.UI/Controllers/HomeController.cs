@@ -23,7 +23,7 @@ namespace SimpleShop.UI.Controllers
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 3, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
+        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             #region Define HttpClient & HttpRequest
             var client = _httpClientFactory.CreateClient();
@@ -59,7 +59,8 @@ namespace SimpleShop.UI.Controllers
             ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
             ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
             ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
-            ViewBag.TotalProduct = (int)Math.Ceiling((totalPage / (float)pageSize));
+            ViewBag.TotalProduct = totalPage;
+            ViewBag.Pages = (int)Math.Ceiling((totalPage / (float)pageSize));
             ViewBag.CurrentCategory = cate;
             #endregion
 

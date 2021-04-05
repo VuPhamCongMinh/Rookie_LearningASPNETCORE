@@ -5,19 +5,20 @@
 
 @if (Model != null)
 {
-    <div class="jumbotron d-flex flex-column">
-        <div class="form-check">
+    <ul class="list">
+
+        <li>
             <input type="radio" id="custom-radio-all" name="category-radio" value="-1" class="form-check-input" checked="@((int)ViewBag.CurrentCategory == -1)">
             <label class="form-check-label" for="custom-radio-all">All</label>
-        </div>
+        </li>
 
         @foreach (var category in Model.Categories)
         {
-            <div class="form-check">
+            <li>
                 <input type="radio" id=@($"custom-radio-{i+1}") name="category-radio" value="@category.categoryId" class="form-check-input" checked="@((int)ViewBag.CurrentCategory == category.categoryId)">
-                <label class="form-check-label" for=@($"custom-radio-{i+1}")>@category.categoryName</label>
-            </div>
+                <label class="form-check-label" for="@($"custom-radio-{i+1}")">@category.categoryName</label>
+            </li>
             i++;
         }
-    </div>
+    </ul>
 }

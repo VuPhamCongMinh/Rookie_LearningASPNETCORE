@@ -7,27 +7,18 @@
 
     @foreach (var product in Model)
     {
-        if (counter != 0 && counter % 4 == 0)
-        {
-        @:</div>
-        @:<div class="row mt-3">
-        }
-        <div class="col-md-3">
-            <div class="d-flex flex-column bg-light">
+        <div class="col-lg-4 col-sm-6">
+            <div class="single_product_item">
                 <img src="@product.Images[0].imageUrl" class="img-fluid" />
-                <div class="d-flex flex-column pt-3">
-                    <div class="d-flex flex-row justify-content-around">
-                        <h5>@product.productName</h5>
-                        <h6 class="text-success">
-                            @product.productPrice$
-                        </h6>
-                    </div>
+                <div class="single_product_text">
+                    <h4>@product.productName</h4>
+                    <h3>    @product.productPrice$</h3>
+                    <a class="add_cart" asp-controller="Home" asp-action="Product" asp-route-id="@product.productId">
+                        + add to cart
+                    </a>
                 </div>
             </div>
-            <a type="button" class="btn btn-dark mt-3 w-100" asp-controller="Home" asp-action="Product" asp-route-id="@product.productId">View Details</a>
         </div>
-
-        counter++;
     }
 
 </div>

@@ -1,13 +1,13 @@
 ﻿$(function () {
-    let sortFilterBtn = $('.filters [data-filter]');
+    let sortFilterBtn = $('select.filters');
     let pagingBtn = $('.data-paging [paging-btn]');
     let priceFilterBtn = $('button[filter-btn]');
-    let searchBtn = $('button[search-btn]');
+    let searchBtn = $('i[search-btn]');
     let searchInput = $('input[search-input]');
     let minInput = $('input[min-price-input]');
     let maxInput = $('input[max-price-input]');
 
-    sortFilterBtn.on('click', function (e) {
+    sortFilterBtn.on('change', function (e) {
         let $this = $(this).attr("data-filter");
         let transformedUrl = new URL(window.location);
 
