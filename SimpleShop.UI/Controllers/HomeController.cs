@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SimpleShop.Shared.Constant;
+using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
 using System;
 using System.Net.Http;
@@ -64,5 +65,32 @@ namespace SimpleShop.UI.Controllers
 
             return View(productsRespone.Products);
         }
+        public async Task<IActionResult> Product (int? id)
+        {
+            #region Define HttpClient & HttpRequest
+            var client = _httpClientFactory.CreateClient();
+            var url = new UriBuilder(ApiUrl.PRODUCTBYID_API_URL);
+            var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + id);
+            #endregion
+
+            var get_product_response = await client.SendAsync(get_product_request);
+
+            Product products;
+
+            if ((int)get_product_response.StatusCode == 200)
+            {
+                var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
+                products = JsonConvert.DeserializeObject<Product>(get_product_responseData);
+                return View(products);
+            }
+            else
+            {
+                _logger.LogInformation("Product Not Found");
+                return View("Error");
+            }
+
+        }
+
+
     }
 }

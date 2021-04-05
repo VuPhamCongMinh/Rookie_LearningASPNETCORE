@@ -38,6 +38,12 @@ namespace SimpleShop.Shared.Services
             return await _context.Products.Include(p => p.Category).Include(p => p.Images).ToListAsync();
         }
 
+        public async Task<Product> GetProductByID (int id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
+
+
         void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
         {
             sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
