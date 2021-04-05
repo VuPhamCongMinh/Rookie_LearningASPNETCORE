@@ -23,8 +23,7 @@ namespace SimpleShop.API.Controllers
         // GET: api/Products
         //[Authorize("Bearer")] 
         [HttpGet]
-        public ActionResult<ProductResponse> GetProducts (int pageIndex, int pageSize, string searchString,
-            string sortOrder, double? minPrice, double? maxPrice, int cate)
+        public ActionResult<ProductResponse> GetProducts (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var products = _productService.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
             return Ok(new ProductResponse

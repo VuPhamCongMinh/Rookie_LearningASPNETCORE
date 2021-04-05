@@ -29,7 +29,7 @@ namespace SimpleShop.API.Services
             allProduct = _context.Products.Include(p => p.Category).Include(p => p.Images).ToList();
         }
 
-        public IEnumerable<Product> GetFilteredProducts (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
+        public IEnumerable<Product> GetFilteredProducts (int pageIndex, int pageSize, string searchString, string sortOrder, double? minPrice, double? maxPrice, int cate)
         {
             var allProducts = allProduct;
             productLength = allProducts.Count();
@@ -127,6 +127,7 @@ namespace SimpleShop.API.Services
                 try
                 {
                     _context.Add(productAdded);
+                    await _context.SaveChangesAsync();
                     return productAdded;
                 }
                 catch (System.Exception)

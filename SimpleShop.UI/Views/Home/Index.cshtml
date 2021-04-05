@@ -73,8 +73,8 @@
                             <div class="single_product_menu d-flex">
                                 <h5>Sort By : </h5>
                                 <select class="filters">
-                                    <option value="asc">Price ASC</option>
-                                    <option value="desc">Price DESC</option>
+                                    <option value="asc" selected="@((int)ViewBag.SortOrder == 0 ? "selected" : null)">Price ASC</option>
+                                    <option value="desc" selected="@((int)ViewBag.SortOrder == 1 ? "selected" : null)">Price DESC</option>
                                 </select>
                             </div>
                             <div class="single_product_menu d-flex">

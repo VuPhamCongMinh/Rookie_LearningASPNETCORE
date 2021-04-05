@@ -7,8 +7,9 @@
     let minInput = $('input[min-price-input]');
     let maxInput = $('input[max-price-input]');
 
+
     sortFilterBtn.on('change', function (e) {
-        let $this = $(this).attr("data-filter");
+        let $this = $(this).val();
         let transformedUrl = new URL(window.location);
 
 
@@ -16,20 +17,12 @@
             transformedUrl.searchParams.set('pageIndex', 0);
         }
 
-        if ($this == 'asc') {
+        if ($this.length != 0) {
             if (transformedUrl.searchParams.has('sortOrder')) {
-                transformedUrl.searchParams.set('sortOrder', 'asc');
+                transformedUrl.searchParams.set('sortOrder', $this);
             }
             else {
-                transformedUrl.searchParams.append('sortOrder', 'asc');
-            }
-        }
-        else {
-            if (transformedUrl.searchParams.has('sortOrder')) {
-                transformedUrl.searchParams.set('sortOrder', 'desc');
-            }
-            else {
-                transformedUrl.searchParams.append('sortOrder', 'desc');
+                transformedUrl.searchParams.append('sortOrder', $this);
             }
         }
         if (window.location.href != transformedUrl.href) {

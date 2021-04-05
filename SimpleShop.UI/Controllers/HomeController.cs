@@ -52,12 +52,13 @@ namespace SimpleShop.UI.Controllers
             {
                 productsRespone = null;
                 totalPage = 0;
-                _logger.LogInformation(await get_product_request.Content.ReadAsStringAsync());
+                _logger.LogInformation(get_product_response.StatusCode.ToString());
             }
 
             #region Define ViewBag 
             ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
             ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
+            ViewBag.SortOrder = sortOrder == "asc" ? 0 : 1;
             ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
             ViewBag.TotalProduct = totalPage;
             ViewBag.Pages = (int)Math.Ceiling((totalPage / (float)pageSize));
