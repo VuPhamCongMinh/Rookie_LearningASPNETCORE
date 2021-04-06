@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section css {
+    <link rel="stylesheet" href="~/css/jquery.rating.css" rel="stylesheet" />
+}
 
 <!--================Single Product Area =================-->
 <div class="product_image_area section_padding">
@@ -191,7 +194,7 @@
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2017 at 05:56 pm</h5>
+                                        <h5>12th Feb, 27 at 05:56 pm</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
@@ -209,7 +212,7 @@
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2017 at 05:56 pm</h5>
+                                        <h5>12th Feb, 27 at 05:56 pm</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
@@ -227,7 +230,7 @@
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2017 at 05:56 pm</h5>
+                                        <h5>12th Feb, 27 at 05:56 pm</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
@@ -298,7 +301,7 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> 01
+                                                <i class="fa fa-star"></i> 
                                             </a>
                                         </li>
                                         <li>
@@ -308,7 +311,7 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> 01
+                                                <i class="fa fa-star-o"></i> 
                                             </a>
                                         </li>
                                         <li>
@@ -317,8 +320,8 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> 01
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i> 
                                             </a>
                                         </li>
                                         <li>
@@ -326,19 +329,19 @@
                                                 2 Star
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> 01
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i> 
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#">
                                                 1 Star
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> 01
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i> 
                                             </a>
                                         </li>
                                     </ul>
@@ -415,34 +418,13 @@
                         <div class="review_box">
                             <h4>Add a Review</h4>
                             <p>Your Rating:</p>
-                            <ul class="list">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-star"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-star"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-star"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-star"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-star"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <p>Outstanding</p>
+                            <div class="list">
+                                <input name="star-demo" type="radio" class="star" />
+                                <input name="star-demo" type="radio" class="star" />
+                                <input name="star-demo" type="radio" class="star" />
+                                <input name="star-demo" type="radio" class="star" />
+                                <input name="star-demo" type="radio" class="star" />
+                            </div>
                             <form class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -478,3 +460,8 @@
     </div>
 </section>
 <!--================End Product Description Area =================-->
+
+@section Scripts {
+    <script src="~/js/jquery.rating.js"></script>
+    <script src="~/js/rating/script.js"></script>
+} 

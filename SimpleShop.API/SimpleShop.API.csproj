@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />

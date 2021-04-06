@@ -18,9 +18,10 @@ namespace SimpleShop.API.Services
             _userContentFolder = Path.Combine(webHostEnvironment.WebRootPath, FilePath.USER_IMAGES_PATH);
         }
 
+        //Mốt lấy từ UI thì dùng hàm này 
         public string GetFileUrl (string fileName)
         {
-            return $"/{FilePath.USER_IMAGES_PATH}/{fileName}";
+            return $"{Url.API_URL}/{FilePath.USER_IMAGES_PATH}/{fileName}";
         }
 
         public async Task SaveFileAsync (Stream mediaBinaryStream, string fileName)

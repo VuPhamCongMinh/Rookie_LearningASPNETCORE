@@ -3500,6 +3500,9 @@ readers do not read off random characters that represent icons */
 .fa-star-half-alt:before {
   content: "\f5c0"; }
 
+.fa-star-o:before {
+    content: "\f006";
+}
 .fa-star-of-david:before {
   content: "\f69a"; }
 

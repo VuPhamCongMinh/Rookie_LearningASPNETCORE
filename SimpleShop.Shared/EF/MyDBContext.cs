@@ -14,7 +14,9 @@ namespace SimpleShop.Shared.EF
         public DbSet<Image> Images { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Variation> Variations { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Rating> Ratings { get; set; }   
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
     }
 }

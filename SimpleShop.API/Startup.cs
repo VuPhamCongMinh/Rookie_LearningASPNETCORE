@@ -71,6 +71,7 @@ namespace SimpleShop.API
             services.AddScoped<ICategorySevice, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IFilesService, FilesService>();
+            services.AddScoped<IRatingService, RatingService>();
 
             services.AddControllersWithViews();
 
