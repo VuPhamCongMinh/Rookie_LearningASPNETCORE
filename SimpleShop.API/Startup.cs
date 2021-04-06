@@ -70,10 +70,14 @@ namespace SimpleShop.API
 
             services.AddScoped<ICategorySevice, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IFilesService, FilesService>();
             services.AddScoped<IRatingService, RatingService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IFilesService, FilesService>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+            ;
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

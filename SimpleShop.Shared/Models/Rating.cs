@@ -21,7 +21,5 @@ namespace SimpleShop.Shared.Models
 
         public string userId { get; set; }
         public virtual IdentityUser User { get; set; }
-        public DateTime createdDate { get; set; }
-        public DateTime updatedDate { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimpleShop.Shared.Interfaces
 {
-    public interface Auditable
+    public abstract class Auditable
     {
         public DateTime createdDate { get; set; }
         public DateTime updatedDate { get; set; }
