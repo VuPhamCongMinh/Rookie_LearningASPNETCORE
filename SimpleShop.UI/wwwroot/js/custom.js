@@ -237,6 +237,7 @@
         const input = $(e.target).closest('.product_count').find('input');
         console.log(input);
         if (input.is('input')) {
+            console.log("Product ID ", input.attr('product-id'), "Order ID ", input.attr('order-id'), "Quantity ", input.val());
             input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     })
