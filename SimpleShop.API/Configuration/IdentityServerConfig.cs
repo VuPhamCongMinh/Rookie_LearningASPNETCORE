@@ -50,6 +50,7 @@ namespace SimpleShop.API.Configuration
                         IdentityServerConstants.StandardScopes.Profile,
                         "product.api"
                     },
+
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
                 },

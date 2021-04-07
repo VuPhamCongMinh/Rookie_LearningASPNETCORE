@@ -58,11 +58,13 @@ namespace SimpleShop.API.Services
             }
         }
 
-        public async Task<Order> GetUserOrderAsync (string userId)
+        public async Task<IEnumerable<OrderDetail>> GetUserOrderDetailAsync (string userId)
         {
             if (context.Orders.Any(o => o.userId == userId))
             {
-                return await context.Orders.Where(o => o.userId == userId).Include(o => o.orderDetails).ThenInclude(od => od.Product).FirstOrDefaultAsync();
+                var userOrder = context.Orders.First(o => o.userId == userId);
+
+                return await context.OrderDetails.Where(od => od.orderId == userOrder.orderId).Include(od => od.Product).ThenInclude(p => p.Images).ToListAsync();
             }
 
             else
@@ -72,7 +74,7 @@ namespace SimpleShop.API.Services
         }
         public int CountUserOrderAsync (string userId)
         {
-            var userOrder = context.Orders.Where(o => o.userId == userId).Include(o =>o.orderDetails).FirstOrDefault().orderDetails.Count();
+            var userOrder = context.Orders.Where(o => o.userId == userId).Include(o => o.orderDetails).ThenInclude(od => od.Product).FirstOrDefault().orderDetails.Count();
             return userOrder;
         }
 

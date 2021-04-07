@@ -12,7 +12,7 @@ using SimpleShop.Shared.Interfaces;
 using SimpleShop.API.Services;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using SimpleShop.API.Models;
 
 namespace SimpleShop.API
 {
@@ -131,6 +131,7 @@ namespace SimpleShop.API
 
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseMinhMiddleware();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

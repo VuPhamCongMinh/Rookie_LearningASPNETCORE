@@ -18,7 +18,7 @@ namespace SimpleShop.UI.ViewModels.ViewComponents
             int orderNum = 0;
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                orderNum = await httpClientService.CountUserOrderAsync(await HttpContext.GetTokenAsync("access_token"), UserClaimsPrincipal.FindFirst(ClaimTypes.NameIdentifier).Value);
+                orderNum = await httpClientService.CountUserOrderDetailAsync(await HttpContext.GetTokenAsync("access_token"), UserClaimsPrincipal.FindFirst(ClaimTypes.NameIdentifier).Value);
             }
             return View(orderNum);
         }

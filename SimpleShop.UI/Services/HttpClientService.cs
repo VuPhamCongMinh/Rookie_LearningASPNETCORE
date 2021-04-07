@@ -5,6 +5,7 @@ using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace SimpleShop.UI.Services
         {
             this.client = httpClient.CreateClient();
         }
-        public async Task<int> CountUserOrderAsync (string userToken, string userId)
+        public async Task<int> CountUserOrderDetailAsync (string userToken, string userId)
         {
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.COUNT_ORDER_API_URL)
@@ -82,24 +83,38 @@ namespace SimpleShop.UI.Services
 
             var get_product_response = await client.SendAsync(get_product_request);
 
-            ProductResponse productsRespone;
-
             if (get_product_response.IsSuccessStatusCode)
             {
                 var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
-                productsRespone = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
+                return JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
             }
             else
             {
-                productsRespone = null;
+                return null;
             }
-
-            return productsRespone;
         }
 
-        public Task<OrderResponse> GetUserOrderAsync (string userToken, string userId)
+        public async Task<IEnumerable<OrderDetail>> GetUserOrderDetailAsync (string userToken, string userId)
         {
-            throw new NotImplementedException();
+            #region Define HttpClient & HttpRequest
+            var url = new UriBuilder(ApiUrl.GET_ORDER_API_URL)
+            {
+                Query = $"userid={userId}"
+            };
+            var userOrder_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
+            userOrder_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+            #endregion
+            var get_userOrder_response = await client.SendAsync(userOrder_request);
+
+            if (get_userOrder_response.IsSuccessStatusCode)
+            {
+                var get_cartNumber_responseData = await get_userOrder_response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<OrderDetail>>(get_cartNumber_responseData);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

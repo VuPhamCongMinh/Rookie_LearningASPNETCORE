@@ -124,12 +124,12 @@ namespace SimpleShop.API.API
 
         [Authorize("Bearer")]
         [HttpGet("/api/GetUserOrder")]
-        public async Task<ActionResult<OrderResponse>> GetUserOrder (string userId)
+        public async Task<ActionResult<IEnumerable<OrderDetail>>> GetUserOrder (string userId)
         {
-            var userOrder = await service.GetUserOrderAsync(userId);
+            var userOrder = await service.GetUserOrderDetailAsync(userId);
             if (userOrder != null)
             {
-                return Ok(mapper.Map<OrderResponse>(userOrder));
+                return Ok(userOrder);
             }
             return NotFound();
         }

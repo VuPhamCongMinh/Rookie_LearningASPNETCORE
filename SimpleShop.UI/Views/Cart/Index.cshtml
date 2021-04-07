@@ -1,83 +1,92 @@
-﻿@model OrderResponse
+﻿@model IEnumerable<OrderDetail>
 
 @{
     ViewData["Title"] = "Cart";
 }
 
-<!--================Cart Area =================-->
-<section class="cart_area padding_top pb-5">
-    <div class="container pb-5">
-        <div class="cart_inner">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.orderDetails)
-                        {
+@if (Model != null)
+{
+    <!--================Cart Area =================-->
+    <section class="cart_area padding_top pb-5">
+        <div class="container pb-5">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/single-product/cart-1.jpg" alt="" />
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="@item.Product.Images[0].imageUrl" class="w-50" />
+                                            </div>
+                                            <div class="media-body">
+                                                <p>@item.Product.productName</p>
+                                            </div>
                                         </div>
-                                        <div class="media-body">
-                                            <p>@item.Product.productName</p>
+                                    </td>
+                                    <td>
+                                        <h5>$@item.Product.productPrice</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
+                                            <input class="input-number" type="text" value="1" min="0" max="10">
+                                            <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <h5>$@(item.Product.productPrice*item.quantity)</h5>
+                                    </td>
+                                </tr>
+                            }
+
+                            <tr class="bottom_button">
+                                <td>
+                                    <a class="btn_1" href="#">Update Cart</a>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="cupon_text float-right">
+                                        <a class="btn_1" href="#">Close Coupon</a>
                                     </div>
-                                </td>
-                                <td>
-                                    <h5>$@item.Product.productPrice</h5>
-                                </td>
-                                <td>
-                                    <div class="product_count">
-                                        <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                                        <input class="input-number" type="text" value="1" min="0" max="10">
-                                        <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$@(item.Product.productPrice*item.quantity)</h5>
                                 </td>
                             </tr>
-                        }
-
-                        <tr class="bottom_button">
-                            <td>
-                                <a class="btn_1" href="#">Update Cart</a>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="cupon_text float-right">
-                                    <a class="btn_1" href="#">Close Coupon</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <h5>Subtotal</h5>
-                            </td>
-                            <td>
-                                <h5>$2160.00</h5>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="checkout_btn_inner float-right">
-                    <a class="btn_1" href="#">Continue Shopping</a>
-                    <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td>
+                                    <h5>$2160.00</h5>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="checkout_btn_inner float-right">
+                        <a class="btn_1" href="#">Continue Shopping</a>
+                        <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
+    <!--================End Cart Area =================-->
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <img src="https://rtworkspace.com/wp-content/plugins/rtworkspace-ecommerce-wp-plugin/assets/img/empty-cart.png" />
     </div>
-</section>
-<!--================End Cart Area =================-->
+}

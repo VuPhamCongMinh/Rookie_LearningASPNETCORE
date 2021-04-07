@@ -17,7 +17,7 @@ namespace SimpleShop.Shared.Models
         [ForeignKey("Product")]
         public int productId { get; set; }
         //json ignore dùng khi ko muốn hiển thị navigation property trong đoạn json trả về
-        [JsonIgnore]
+        //[JsonIgnore]
         public Product Product { get; set; }
         public string orderId { get; set; }
     }

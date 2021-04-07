@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SimpleShop.Shared.Interfaces;
+using SimpleShop.UI.Models;
 using SimpleShop.UI.Services;
 
 namespace SimpleShop.UI
@@ -80,7 +81,6 @@ namespace SimpleShop.UI
 
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
