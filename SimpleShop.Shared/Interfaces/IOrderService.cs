@@ -7,6 +7,7 @@ namespace SimpleShop.Shared.Interfaces
 {
     public interface IOrderService
     {
-        public Task<Order> PostOrder (OrderCreateRequest order, string userId);
+        public Task<Order> PostOrderAsync (OrderCreateRequest order, string userId);
+        public Task<Order> GetUserOrderAsync (string userId);
     }
 }

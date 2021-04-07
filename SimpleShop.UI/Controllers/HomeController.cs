@@ -71,7 +71,7 @@ namespace SimpleShop.UI.Controllers
         {
             #region Define HttpClient & HttpRequest
             var client = _httpClientFactory.CreateClient();
-            var url = new UriBuilder(ApiUrl.PRODUCTBYID_API_URL);
+            var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL);
             var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + id);
             #endregion
 

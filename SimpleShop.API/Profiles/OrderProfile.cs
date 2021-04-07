@@ -1,9 +1,5 @@
 ﻿using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SimpleShop.API.Profiles
 {
@@ -12,6 +8,7 @@ namespace SimpleShop.API.Profiles
         public OrderProfile ()
         {
             CreateMap<OrderCreateRequest, OrderDetail>().ReverseMap();
+            CreateMap<OrderResponse, Order>().ReverseMap();
         }
     }
 }

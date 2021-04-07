@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,11 +16,9 @@ namespace SimpleShop.Shared.Models
 
         [ForeignKey("Product")]
         public int productId { get; set; }
+        //json ignore dùng khi ko muốn hiển thị navigation property trong đoạn json trả về
+        [JsonIgnore]
         public Product Product { get; set; }
-
-
-        [ForeignKey("Order")]
         public string orderId { get; set; }
-        public Order Order { get; set; }
     }
 }

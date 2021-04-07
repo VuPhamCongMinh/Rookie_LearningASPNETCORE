@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleShop.Shared.EF;
@@ -32,9 +31,10 @@ namespace SimpleShop.API.API
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders ()
+        public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders ()
         {
-            return await _context.Orders.ToListAsync();
+            var orders = mapper.Map<IEnumerable<OrderResponse>>(await _context.Orders.Include(o => o.orderDetails).ToListAsync());
+            return Ok(orders);
         }
 
         // GET: api/Orders/5
@@ -91,7 +91,7 @@ namespace SimpleShop.API.API
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var orderToBeAdded = await service.PostOrder(order, userId);
+                var orderToBeAdded = await service.PostOrderAsync(order, userId);
                 return CreatedAtAction(nameof(GetOrder), new { id = orderToBeAdded.orderId }, orderToBeAdded);
             }
             catch (Exception)
@@ -99,24 +99,6 @@ namespace SimpleShop.API.API
 
                 throw;
             }
-            //_context.Orders.Add(order);
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    if (OrderExists(order.orderId))
-            //    {
-            //        return Conflict();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            //return CreatedAtAction("GetOrder", new { id = order.orderId }, order);
         }
 
         // DELETE: api/Orders/5
@@ -138,6 +120,18 @@ namespace SimpleShop.API.API
         private bool OrderExists (string id)
         {
             return _context.Orders.Any(e => e.orderId == id);
+        }
+
+        [Authorize("Bearer")]
+        [HttpGet("/api/GetUserOrder")]
+        public async Task<ActionResult<OrderResponse>> GetUserOrder (string userId)
+        {
+            var userOrder = await service.GetUserOrderAsync(userId);
+            if (userOrder != null)
+            {
+                return Ok(mapper.Map<OrderResponse>(userOrder));
+            }
+            return NotFound();
         }
     }
 }
