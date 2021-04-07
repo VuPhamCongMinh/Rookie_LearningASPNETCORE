@@ -133,5 +133,13 @@ namespace SimpleShop.API.API
             }
             return NotFound();
         }
+
+        [Authorize("Bearer")]
+        [HttpGet("/api/CountUserOrder")]
+        public ActionResult<int> CountUserOrder (string userId)
+        {
+            var userOrder = service.CountUserOrderAsync(userId);
+            return Ok(userOrder);
+        }
     }
 }

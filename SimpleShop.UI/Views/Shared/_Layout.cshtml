@@ -57,12 +57,9 @@
                             </ul>
 
                         </div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div class="hearer_icon d-flex">
-                                @await Component.InvokeAsync("CartNumber")
-                            </div>
-                        }
+                        <div class="hearer_icon d-flex">
+                            @await Component.InvokeAsync("CartNumber")
+                        </div>
                     </nav>
                 </div>
             </div>

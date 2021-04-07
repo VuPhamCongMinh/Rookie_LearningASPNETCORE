@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using SimpleShop.Shared.Interfaces;
+using SimpleShop.UI.Services;
 
 namespace SimpleShop.UI
 {
@@ -50,6 +52,8 @@ namespace SimpleShop.UI
                 });
 
             services.AddHttpClient();
+
+            services.AddScoped<IHttpClientService, HttpClientService>();
 
             services.AddControllersWithViews();
 

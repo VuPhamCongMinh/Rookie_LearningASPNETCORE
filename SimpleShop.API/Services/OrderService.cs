@@ -62,13 +62,18 @@ namespace SimpleShop.API.Services
         {
             if (context.Orders.Any(o => o.userId == userId))
             {
-                return await context.Orders.Where(o => o.userId == userId).Include(o => o.orderDetails).FirstOrDefaultAsync();
+                return await context.Orders.Where(o => o.userId == userId).Include(o => o.orderDetails).ThenInclude(od => od.Product).FirstOrDefaultAsync();
             }
 
             else
             {
                 return null;
             }
+        }
+        public int CountUserOrderAsync (string userId)
+        {
+            var userOrder = context.Orders.Where(o => o.userId == userId).Include(o =>o.orderDetails).FirstOrDefault().orderDetails.Count();
+            return userOrder;
         }
 
     }

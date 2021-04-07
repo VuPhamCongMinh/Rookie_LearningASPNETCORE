@@ -1,56 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SimpleShop.Shared.Constant;
-using SimpleShop.Shared.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using SimpleShop.Shared.Interfaces;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace SimpleShop.UI.ViewModels.ViewComponents
 {
     public class CartNumberViewComponent : ViewComponent
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientService httpClientService;
 
-        public CartNumberViewComponent (IHttpClientFactory httpClientFactory)
+        public CartNumberViewComponent (IHttpClientService httpClientService)
         {
-            _httpClientFactory = httpClientFactory;
+            this.httpClientService = httpClientService;
         }
         public async System.Threading.Tasks.Task<IViewComponentResult> InvokeAsync ()
         {
-
-            #region Define HttpClient & HttpRequest
-            var client = _httpClientFactory.CreateClient();
-            var userId = UserClaimsPrincipal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var url = new UriBuilder(ApiUrl.USERORDER_API_URL)
+            int orderNum = 0;
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
-                Query = $"userid={userId}"
-            };
-            var cartNumber_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
-            // 2 dòng dưới dùng khi muốn chèn access token vào httpclient đề lấy api đã dc bảo mật
-            var access = await HttpContext.GetTokenAsync("access_token");
-            cartNumber_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
-            #endregion
-            var get_cartNumber_response = await client.SendAsync(cartNumber_request);
-
-            OrderResponse userOrder;
-
-            if (get_cartNumber_response.IsSuccessStatusCode)
-            {
-                var get_cartNumber_responseData = await get_cartNumber_response.Content.ReadAsStringAsync();
-                userOrder = JsonConvert.DeserializeObject<OrderResponse>(get_cartNumber_responseData);
+                orderNum = await httpClientService.CountUserOrderAsync(await HttpContext.GetTokenAsync("access_token"), UserClaimsPrincipal.FindFirst(ClaimTypes.NameIdentifier).Value);
             }
-            else
-            {
-                userOrder = null;
-            }
-
-            return View(userOrder);
+            return View(orderNum);
         }
 
     }

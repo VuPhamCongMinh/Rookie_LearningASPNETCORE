@@ -1,12 +1,7 @@
-﻿@model OrderResponse
+﻿@model int
 
-
-@if (User.Identity.IsAuthenticated)
-{
-    <div class="dropdown cart">
-        <button type="button" class="btn btn-dark">
-            Cart <span class="badge badge-light">@(Model.orderDetails != null ? Model.orderDetails.Count :  0 )</span>
-        </button>
-    </div>
-
-}
+<div class="dropdown cart">
+    <button type="button" class="btn btn-dark">
+        Cart <span class="badge badge-light">@Model</span>
+    </button>
+</div>

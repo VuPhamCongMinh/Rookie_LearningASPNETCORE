@@ -9,5 +9,7 @@ namespace SimpleShop.Shared.Interfaces
     {
         public Task<Order> PostOrderAsync (OrderCreateRequest order, string userId);
         public Task<Order> GetUserOrderAsync (string userId);
+
+        public int CountUserOrderAsync (string userId);
     }
 }

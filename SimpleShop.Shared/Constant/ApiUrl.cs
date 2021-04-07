@@ -9,6 +9,7 @@ namespace SimpleShop.Shared.Constant
         public const string PRODUCTS_API_URL = "https://localhost:44348/api/products";
         public const string CATEGORIES_API_URL = "https://localhost:44348/api/categories";
         public const string ORDERS_API_URL = "https://localhost:44348/api/orders";
-        public const string USERORDER_API_URL = "https://localhost:44348/api/getuserorder";
+        public const string GET_ORDER_API_URL = "https://localhost:44348/api/getuserorder";
+        public const string COUNT_ORDER_API_URL = "https://localhost:44348/api/countuserorder";
     }
 }

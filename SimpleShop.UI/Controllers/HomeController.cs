@@ -1,60 +1,22 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using SimpleShop.Shared.Constant;
-using SimpleShop.Shared.Models;
-using SimpleShop.Shared.ViewModels;
+﻿using Microsoft.AspNetCore.Mvc;
+using SimpleShop.Shared.Interfaces;
 using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SimpleShop.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientService httpClient;
 
-        public HomeController (ILogger<HomeController> logger,
-            IHttpClientFactory httpClientFactory)
+        public HomeController (IHttpClientService httpClient)
         {
-            _logger = logger;
-            _httpClientFactory = httpClientFactory;
+            this.httpClient = httpClient;
         }
         public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
-            #region Define HttpClient & HttpRequest
-            var client = _httpClientFactory.CreateClient();
-            var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL)
-            {
-                Query = $"pageindex={pageIndex}&pagesize={pageSize}&searchstring={searchString}&sortorder={sortOrder}&minprice={minPrice}&maxprice={maxPrice}&cate={cate}"
-            };
-            var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
-            // 2 dòng dưới dùng khi muốn chèn access token vào httpclient đề lấy api đã dc bảo mật
-            var access = await HttpContext.GetTokenAsync("access_token");
-            get_product_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
-            #endregion
-
-            var get_product_response = await client.SendAsync(get_product_request);
-
-            ProductResponse productsRespone;
-            int totalPage; // null at first 
-
-            if (get_product_response.IsSuccessStatusCode)
-            {
-                var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
-                productsRespone = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
-                totalPage = productsRespone.Count;
-            }
-            else
-            {
-                productsRespone = null;
-                totalPage = 0;
-                _logger.LogInformation(get_product_response.StatusCode.ToString());
-            }
-
+            var productsRespone = await httpClient.GetProductsAsync(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
+            int totalPage = productsRespone.Count;
             #region Define ViewBag 
             ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
             ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
@@ -67,27 +29,16 @@ namespace SimpleShop.UI.Controllers
 
             return View(productsRespone.Products);
         }
-        public async Task<IActionResult> Product (int? id)
+        public async Task<IActionResult> Product (int id)
         {
-            #region Define HttpClient & HttpRequest
-            var client = _httpClientFactory.CreateClient();
-            var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL);
-            var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + id);
-            #endregion
+            var product = await httpClient.GetProductByIdAsync(id);
 
-            var get_product_response = await client.SendAsync(get_product_request);
-
-            Product products;
-
-            if ((int)get_product_response.StatusCode == 200)
+            if (product != null)
             {
-                var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
-                products = JsonConvert.DeserializeObject<Product>(get_product_responseData);
-                return View(products);
+                return View(product);
             }
             else
             {
-                _logger.LogInformation("Product Not Found");
                 return View("Error");
             }
 
