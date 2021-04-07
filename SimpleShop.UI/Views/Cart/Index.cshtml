@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OrderDetail>
+﻿@model OrderDetailResponse
 
 @{
     ViewData["Title"] = "Cart";
@@ -21,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.orderDetails)
                             {
                                 <tr>
                                     <td>
@@ -40,12 +40,12 @@
                                     <td>
                                         <div class="product_count">
                                             <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                                            <input class="input-number" type="text" value="1" min="0" max="10">
-                                            <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+                                            <input class="input-number" type="number" quantity-input="" value="@item.quantity" min="0" max="10">
+                                            <span class="input-number-increment"> <i class="ti-angle-up" style="cursor:pointer"></i></span>
                                         </div>
                                     </td>
                                     <td>
-                                        <h5>$@(item.Product.productPrice*item.quantity)</h5>
+                                        <h5>$@(item.Product.productPrice * item.quantity)</h5>
                                     </td>
                                 </tr>
                             }
@@ -69,7 +69,7 @@
                                     <h5>Subtotal</h5>
                                 </td>
                                 <td>
-                                    <h5>$2160.00</h5>
+                                    <h5>$@Model.totalPrice</h5>
                                 </td>
                             </tr>
                         </tbody>

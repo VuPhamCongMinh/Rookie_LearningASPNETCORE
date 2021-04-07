@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using IdentityModel.Client;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SimpleShop.Shared.Constant;
 using SimpleShop.Shared.Interfaces;
@@ -94,7 +95,7 @@ namespace SimpleShop.UI.Services
             }
         }
 
-        public async Task<IEnumerable<OrderDetail>> GetUserOrderDetailAsync (string userToken, string userId)
+        public async Task<OrderDetailResponse> GetUserOrderDetailAsync (string userToken, string userId)
         {
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.GET_ORDER_API_URL)
@@ -109,7 +110,7 @@ namespace SimpleShop.UI.Services
             if (get_userOrder_response.IsSuccessStatusCode)
             {
                 var get_cartNumber_responseData = await get_userOrder_response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<OrderDetail>>(get_cartNumber_responseData);
+                return JsonConvert.DeserializeObject<OrderDetailResponse>(get_cartNumber_responseData);
             }
             else
             {

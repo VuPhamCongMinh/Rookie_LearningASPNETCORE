@@ -131,7 +131,6 @@ namespace SimpleShop.API
 
             app.UseIdentityServer();
             app.UseAuthorization();
-            app.UseMinhMiddleware();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

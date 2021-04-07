@@ -51,6 +51,7 @@ namespace SimpleShop.API.Configuration
                         "product.api"
                     },
 
+                    AllowOfflineAccess = true,
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
                 },

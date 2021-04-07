@@ -124,12 +124,13 @@ namespace SimpleShop.API.API
 
         [Authorize("Bearer")]
         [HttpGet("/api/GetUserOrder")]
-        public async Task<ActionResult<IEnumerable<OrderDetail>>> GetUserOrder (string userId)
+        public async Task<ActionResult<OrderDetailResponse>> GetUserOrder (string userId)
         {
             var userOrder = await service.GetUserOrderDetailAsync(userId);
             if (userOrder != null)
             {
-                return Ok(userOrder);
+                var od = new OrderDetailResponse { orderDetails = userOrder, totalPrice = userOrder.Sum(o => (o.Product.productPrice * o.quantity)) };
+                return Ok(od);
             }
             return NotFound();
         }

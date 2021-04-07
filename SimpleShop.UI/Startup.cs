@@ -27,12 +27,13 @@ namespace SimpleShop.UI
                 options.DefaultScheme = "Cookies";
                 options.DefaultChallengeScheme = "oidc";
             })
-                .AddCookie("Cookies")
+                .AddCookie("Cookies", option => { option.SlidingExpiration = false; })
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = "https://localhost:44348";
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SaveTokens = true;
 
                     options.ClientId = "mvc";
                     options.ClientSecret = "secret";
@@ -49,7 +50,7 @@ namespace SimpleShop.UI
                         NameClaimType = "name",
                         RoleClaimType = "role"
                     };
-                    
+
                 });
 
             services.AddHttpClient();
