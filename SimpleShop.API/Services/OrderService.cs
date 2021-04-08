@@ -29,21 +29,16 @@ namespace SimpleShop.API.Services
             if (!context.Orders.Any(o => o.user.Id == userId))
             {
                 var orderDetail = mapper.Map<OrderDetail>(order);
-                orderDetail.productId = order.productId;
-                orderToBeAdded = new Order { orderId = Guid.NewGuid().ToString(), userId = userId, createdDate = DateTime.Now };
+                orderToBeAdded = new Order { orderId = Guid.NewGuid().ToString(), userId = userId };
+                orderToBeAdded.updatedDate = orderToBeAdded.createdDate = DateTime.Now;
                 orderDetail.orderId = orderToBeAdded.orderId;
-                orderToBeAdded.updatedDate = orderToBeAdded.createdDate;
-                orderToBeAdded.orderDetails = new List<OrderDetail>();
-                orderToBeAdded.orderDetails.Add(orderDetail);
+                orderToBeAdded.orderDetails = new List<OrderDetail>() { orderDetail };
                 context.Orders.Add(orderToBeAdded);
             }
             else
             {
                 orderToBeAdded = await context.Orders.Where(o => o.user.Id == userId).Include(o => o.orderDetails).FirstOrDefaultAsync();
-                var orderDetail = mapper.Map<OrderDetail>(order);
-                orderDetail.productId = order.productId;
-                orderDetail.orderId = orderToBeAdded.orderId;
-                orderToBeAdded.orderDetails.Add(orderDetail);
+                AddToCart(ref orderToBeAdded, order);
             }
 
             try
@@ -55,6 +50,24 @@ namespace SimpleShop.API.Services
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        private void AddToCart (ref Order order, OrderCreateRequest orderCreateRequest)
+        {
+            var productExistOrder = order.orderDetails.Where(x => x.productId == orderCreateRequest.quantity).FirstOrDefault();
+            if (productExistOrder != null)
+            {
+                productExistOrder.quantity += orderCreateRequest.quantity;
+            }
+            else
+            {
+                productExistOrder.productId = orderCreateRequest.productId;
+                productExistOrder.quantity = orderCreateRequest.quantity;
+                productExistOrder.orderId = order.orderId;
+                order.updatedDate = order.createdDate = DateTime.Now;
+                order.orderDetails.Add(productExistOrder);
+                context.Orders.Add(order);
             }
         }
 

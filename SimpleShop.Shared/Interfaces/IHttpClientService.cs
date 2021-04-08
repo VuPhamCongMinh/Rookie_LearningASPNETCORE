@@ -15,5 +15,6 @@ namespace SimpleShop.Shared.Interfaces
         public Task<Product> GetProductByIdAsync (int id);
         public Task<Rating> PostRating (string userId, int productId, string comment, int rateValue);
         public Task<IEnumerable<RatingResponse>> GetRatingByProductId (int id);
+        public Task<Order> PostCart (string userToken, int productId, int quanity);
     }
 }

@@ -24,9 +24,14 @@ namespace SimpleShop.UI.Controllers
             }
             return View(null);
         }
-        public async Task<ActionResult> Quantity (string orderId,string productId,int quantity)
+        public async Task<ActionResult> AddCart (int productId, int quantity)
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var userOrder = await httpClientService.PostCart(await HttpContext.GetTokenAsync("access_token"), productId, quantity);
+                return View(userOrder);
+            }
+            return View(null);
         }
     }
 }

@@ -43,15 +43,19 @@
                     <p>
                         @Model.productDescription
                     </p>
-                    <div class="card_area d-flex justify-content-between align-items-center">
-                        <div class="product_count">
-                            <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                            <input class="input-number" type="text" value="1" min="0" max="10">
-                            <span class="number-increment"> <i class="ti-plus"></i></span>
+                    <form asp-action="addcart" asp-controller="cart" method="post" id="add_cart_form">
+
+                        <div class="card_area d-flex justify-content-between align-items-center">
+                            <div class="product_count">
+                                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                                <input class="input-number" name="quantity" type="number" value="1" min="0" max="10">
+                                <span class="number-increment"> <i class="ti-plus"></i></span>
+                            </div>
+                            <input type="hidden" name="productId" value="@Model.productId" />
+                            <button class="btn_3" type="submit">add to cart</button>
+                            <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
                         </div>
-                        <a href="#" class="btn_3">add to cart</a>
-                        <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -295,7 +299,7 @@
                                     <input name="star-demo" type="radio" class="star" value="4" />
                                     <input name="star-demo" type="radio" class="star" value="5" />
                                 </div>
-                                <form class="row contact_form"  asp-action="review" method="post" novalidate="novalidate" id="message_form">
+                                <form class="row contact_form" asp-action="review" method="post" novalidate="novalidate" id="message_form">
                                     <input type="hidden" name="rate" />
                                     <input type="hidden" name="product_id" value="@Model.productId" />
                                     <div class="col-md-12">
@@ -327,4 +331,5 @@
 @section Scripts {
     <script src="~/js/jquery.rating.js"></script>
     <script src="~/js/rating/script.js"></script>
+    <script src="~/js/order/script.js"></script>
 } 

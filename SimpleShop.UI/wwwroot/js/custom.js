@@ -233,6 +233,14 @@
     // click counter js
     (function () {
         let orders = [];
+        $('.inumber-decrement, .number-increment').on('click', function (e) {
+            const isNegative = $(e.target).closest('.inumber-decrement').is('.inumber-decrement');
+            const input = $(e.target).closest('.product_count').find('input');
+            if (input.is('input')) {
+                input[0][isNegative ? 'stepDown' : 'stepUp']();
+            }
+        })
+
 
         $('.ti-angle-down, .ti-angle-up').on('click', function (e) {
             const isNegative = $(e.target).closest('.ti-angle-down').is('.ti-angle-down');

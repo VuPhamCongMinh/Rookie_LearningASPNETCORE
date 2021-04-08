@@ -1,6 +1,4 @@
-﻿using IdentityModel.Client;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SimpleShop.Shared.Constant;
 using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.Models;
@@ -9,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleShop.UI.Services
@@ -155,6 +155,28 @@ namespace SimpleShop.UI.Services
             {
                 var get_userRating_responseData = await get_userRating_request.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Rating>(get_userRating_responseData);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Order> PostCart (string userToken, int productId, int quanity)
+        {
+            #region Define HttpClient & HttpRequest
+            var url = new UriBuilder(ApiUrl.ORDERS_API_URL);
+            var orderRequest = new OrderCreateRequest { productId = productId, quantity = quanity };
+            var content = JsonConvert.SerializeObject(orderRequest);
+            var stringContent = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+            #endregion
+
+            var get_cart_request = await client.PostAsync(url.ToString(), stringContent);
+            if (get_cart_request.IsSuccessStatusCode)
+            {
+                var get_userCart_responseData = await get_cart_request.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Order>(get_userCart_responseData);
             }
             else
             {
