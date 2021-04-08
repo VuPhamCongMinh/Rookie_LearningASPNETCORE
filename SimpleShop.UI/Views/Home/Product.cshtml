@@ -6,7 +6,7 @@
 }
 
 @section css {
-    <link rel="stylesheet" href="~/css/jquery.rating.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/jquery.rating.css" />
 }
 
 <!--================Single Product Area =================-->
@@ -265,7 +265,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="1"
+                                        <textarea class="form-control" name="comment" id="comment" rows="1"
                                                   placeholder="Message"></textarea>
                                     </div>
                                 </div>
@@ -281,179 +281,42 @@
             </div>
             <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="row total_rate">
-                            <div class="col-6">
-                                <div class="box_total">
-                                    <h5>Overall</h5>
-                                    <h4>@(Model.Ratings.Count > 0 ? Model.Ratings.Average(r => r.rateValue) : 0)</h4>
-                                    <h6>@Model.Ratings.Count Reviews</h6>
+                    @await Component.InvokeAsync("Comment", new { productId = Model.productId })
+                    @if (User.Identity.Name != null)
+                    {
+                        <div class="col-lg-6">
+                            <div class="review_box">
+                                <h4>Add a Review</h4>
+                                <p>Your Rating:</p>
+                                <div class="list">
+                                    <input name="star-demo" type="radio" class="star" value="1" />
+                                    <input name="star-demo" type="radio" class="star" value="2" />
+                                    <input name="star-demo" type="radio" class="star" value="3" />
+                                    <input name="star-demo" type="radio" class="star" value="4" />
+                                    <input name="star-demo" type="radio" class="star" value="5" />
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="rating_list">
-                                    <h3>Based on @Model.Ratings.Count Reviews</h3>
-                                    <ul class="list">
-                                        <li>
-                                            <a href="#">
-                                                5 Star
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> 
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                4 Star
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i> 
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                3 Star
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i> 
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                2 Star
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i> 
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                1 Star
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i> 
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <form class="row contact_form"  asp-action="review" method="post" novalidate="novalidate" id="message_form">
+                                    <input type="hidden" name="rate" />
+                                    <input type="hidden" name="product_id" value="@Model.productId" />
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="name" placeholder="@User.Identity.Name" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="message" rows="1" placeholder="Review"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" value="submit" class="btn_3" id="rating_submit_btn">
+                                            Submit Now
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div class="review_list">
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="~/img/product/single-product/review-1.png" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo
-                                </p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="~/img/product/single-product/review-2.png" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo
-                                </p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="~/img/product/single-product/review-3.png" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="review_box">
-                            <h4>Add a Review</h4>
-                            <p>Your Rating:</p>
-                            <div class="list">
-                                <input name="star-demo" type="radio" class="star" />
-                                <input name="star-demo" type="radio" class="star" />
-                                <input name="star-demo" type="radio" class="star" />
-                                <input name="star-demo" type="radio" class="star" />
-                                <input name="star-demo" type="radio" class="star" />
-                            </div>
-                            <form class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="name" placeholder="Your Full name" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="email" placeholder="Email Address" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="number" placeholder="Phone Number" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" rows="1" placeholder="Review"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="btn_3">
-                                        Submit Now
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

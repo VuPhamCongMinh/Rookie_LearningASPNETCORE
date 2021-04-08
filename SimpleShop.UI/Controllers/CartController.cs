@@ -24,5 +24,9 @@ namespace SimpleShop.UI.Controllers
             }
             return View(null);
         }
+        public async Task<ActionResult> Quantity (string orderId,string productId,int quantity)
+        {
+            return View();
+        }
     }
 }

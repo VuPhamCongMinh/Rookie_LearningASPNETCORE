@@ -53,7 +53,7 @@ namespace SimpleShop.UI.Services
         {
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL);
-            var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + id);
+            var get_product_request = new HttpRequestMessage(HttpMethod.Get, $"{url}/{id}");
             #endregion
 
             var get_product_response = await client.SendAsync(get_product_request);
@@ -111,6 +111,50 @@ namespace SimpleShop.UI.Services
             {
                 var get_cartNumber_responseData = await get_userOrder_response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<OrderDetailResponse>(get_cartNumber_responseData);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<RatingResponse>> GetRatingByProductId (int id)
+        {
+            #region Define HttpClient & HttpRequest
+            var url = new UriBuilder(ApiUrl.RATING_API_URL);
+            var productRating_request = new HttpRequestMessage(HttpMethod.Get, $"{url}/{id}");
+            #endregion
+            var get_productRating_response = await client.SendAsync(productRating_request);
+
+            if (get_productRating_response.IsSuccessStatusCode)
+            {
+                var get_productRating_responseData = await get_productRating_response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<RatingResponse>>(get_productRating_responseData);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Rating> PostRating (string userId, int productId, string comment, int rateValue)
+        {
+            #region Define HttpClient & HttpRequest
+            var url = new UriBuilder(ApiUrl.RATING_API_URL);
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("userId", userId),
+                new KeyValuePair<string, string>("productId", productId.ToString()),
+                new KeyValuePair<string, string>("rateValue", rateValue.ToString()),
+                new KeyValuePair<string, string>("comment", comment),
+            });
+            #endregion
+
+            var get_userRating_request = await client.PostAsync(url.ToString(), content);
+            if (get_userRating_request.IsSuccessStatusCode)
+            {
+                var get_userRating_responseData = await get_userRating_request.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Rating>(get_userRating_responseData);
             }
             else
             {

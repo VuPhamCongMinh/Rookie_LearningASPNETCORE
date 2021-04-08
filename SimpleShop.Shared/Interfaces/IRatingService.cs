@@ -9,5 +9,6 @@ namespace SimpleShop.Shared.Interfaces
     public interface IRatingService
     {
         public Task<IEnumerable<Rating>> GetRatingByProductId (int id);
+        public Task<Rating> PostRating (string userId,int productId, string comment,int rateValue);
     }
 }

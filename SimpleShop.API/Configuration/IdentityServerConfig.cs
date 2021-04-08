@@ -48,7 +48,8 @@ namespace SimpleShop.API.Configuration
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "product.api"
+                        "product.api",
+                        "offline_access",
                     },
 
                     AllowOfflineAccess = true,

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Shared.Interfaces;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SimpleShop.UI.Controllers
@@ -42,6 +45,38 @@ namespace SimpleShop.UI.Controllers
                 return View("Error");
             }
 
+        }
+
+        public async Task<IActionResult> Review (IFormCollection fc)
+        {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+
+                #region init param from formcollection
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string message = fc["message"];
+                string rate = fc["rate"];
+                int productId = int.Parse(fc["product_id"]);
+                #endregion
+                if (rate == null || message == null)
+                {
+                    return View("Error");
+                }
+                var rating = await httpClient.PostRating(userId, productId, message, int.Parse(rate));
+
+                if (rating != null)
+                {
+                    return RedirectToAction("Product", new { id = productId });
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            else
+            {
+                return RedirectToAction("SignIn", "Account");
+            }
         }
 
 

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<RatingResponse>
+@{
+    var totalRating = (Model.Count() > 0 ? Model.Average(r => r.rateValue) : 0);
+}
+
+<div class="col-lg-6">
+    <div class="row total_rate">
+        <div class="col-6">
+            <div class="box_total">
+                <h5>Overall</h5>
+                <h4>@(Math.Round(totalRating,1))</h4>
+                <h6>@Model.Count() Reviews</h6>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="rating_list">
+                <h3>Based on @Model.Count() Reviews</h3>
+                <ul class="list">
+                    <li class="d-flex align-items-center">
+                        <p style="width:1.5em">@Model.Count(x => x.rateValue == 5)</p>
+                        <a href="#">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <p style="width:1.5em">@Model.Count(x => x.rateValue == 4)</p>
+                        <a href="#">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <p style="width:1.5em">@Model.Count(x => x.rateValue == 3)</p>
+                        <a href="#">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <p style="width:1.5em">@Model.Count(x => x.rateValue == 2)</p>
+                        <a href="#">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <p style="width:1.5em">@Model.Count(x => x.rateValue == 1)</p>
+                        <a href="#">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="review_list">
+        @foreach (var userComment in Model)
+        {
+            <div class="review_item">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="~/img/product/single-product/review-2.png" alt="" />
+                    </div>
+                    <div class="media-body">
+                        <h4>@userComment.User.UserName</h4>
+                        <h5>@userComment.createdDate</h5>
+                        @for (int i = 0; i < (int)userComment.rateValue; i++)
+                        {
+                            <i class="fa fa-star"></i>
+                        }
+                    </div>
+                </div>
+                <p>
+                    @userComment.comment
+                </p>
+            </div>
+        }
+    </div>
+</div>

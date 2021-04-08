@@ -11,5 +11,6 @@ namespace SimpleShop.Shared.Constant
         public const string ORDERS_API_URL = "https://localhost:44348/api/orders";
         public const string GET_ORDER_API_URL = "https://localhost:44348/api/getuserorder";
         public const string COUNT_ORDER_API_URL = "https://localhost:44348/api/countuserorder";
+        public const string RATING_API_URL = "https://localhost:44348/api/ratings";
     }
 }

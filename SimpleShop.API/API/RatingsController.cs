@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Shared.Interfaces;
+using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
 
 namespace SimpleShop.API.API
@@ -29,7 +30,7 @@ namespace SimpleShop.API.API
 
         // GET: api/Ratings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<RatingResponse>>> GetRating (int id)
+        public async Task<ActionResult<IEnumerable<RatingResponse>>> GetRatingByProductId (int id)
         {
             var ratingsFromDB = await ratingService.GetRatingByProductId(id);
             var ratings = mapper.Map<IEnumerable<RatingResponse>>(ratingsFromDB);
@@ -70,14 +71,17 @@ namespace SimpleShop.API.API
 
         //// POST: api/Ratings
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Rating>> PostRating(Rating rating)
-        //{
-        //    _context.Ratings.Add(rating);
-        //    await _context.SaveChangesAsync();
+        [HttpPost]
+        public async Task<ActionResult<Rating>> PostRating ([FromForm] string userId, [FromForm] int productId, [FromForm] int rateValue, [FromForm] string comment)
+        {
+            var rating = await ratingService.PostRating(userId, productId, comment, rateValue);
+            if (rating != null)
+            {
+                return CreatedAtAction("GetRating", new { id = rating.ratingId }, rating);
+            }
+            return BadRequest();
 
-        //    return CreatedAtAction("GetRating", new { id = rating.ratingId }, rating);
-        //}
+        }
 
         //// DELETE: api/Ratings/5
         //[HttpDelete("{id}")]

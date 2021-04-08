@@ -44,6 +44,7 @@ namespace SimpleShop.UI
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("product.api");
+                    options.Scope.Add("offline_access");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
