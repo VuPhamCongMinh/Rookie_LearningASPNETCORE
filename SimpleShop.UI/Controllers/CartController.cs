@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.ViewModels;
@@ -19,19 +20,20 @@ namespace SimpleShop.UI.Controllers
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                var userOrder = await httpClientService.GetUserOrderDetailAsync(await HttpContext.GetTokenAsync("access_token"), User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var userOrder = await httpClientService.GetUserOrderDetailAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 return View(userOrder);
             }
             return View(null);
         }
-        public async Task<ActionResult> AddCart (int productId, int quantity)
+        [Authorize]
+        public async Task<ActionResult> AddCart (int productId, int quantity, bool isIncrement)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                var userOrder = await httpClientService.PostCart(await HttpContext.GetTokenAsync("access_token"), productId, quantity);
-                return View(userOrder);
+                await httpClientService.PostCart(productId, quantity,isIncrement);
+                return RedirectToAction("Product", "Home", new { id = productId });
             }
-            return View(null);
+            return View("Error");
         }
     }
 }

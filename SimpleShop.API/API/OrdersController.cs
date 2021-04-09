@@ -86,7 +86,7 @@ namespace SimpleShop.API.API
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize("Bearer")]
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder ([FromForm] OrderCreateRequest order)
+        public async Task<ActionResult<Order>> PostOrder ([FromBody] OrderCreateRequest order)
         {
             try
             {

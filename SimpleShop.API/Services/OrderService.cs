@@ -55,19 +55,16 @@ namespace SimpleShop.API.Services
 
         private void AddToCart (ref Order order, OrderCreateRequest orderCreateRequest)
         {
-            var productExistOrder = order.orderDetails.Where(x => x.productId == orderCreateRequest.quantity).FirstOrDefault();
+            var productExistOrder = order.orderDetails.Where(x => x.productId == orderCreateRequest.productId).FirstOrDefault();
             if (productExistOrder != null)
             {
                 productExistOrder.quantity += orderCreateRequest.quantity;
             }
             else
             {
-                productExistOrder.productId = orderCreateRequest.productId;
-                productExistOrder.quantity = orderCreateRequest.quantity;
-                productExistOrder.orderId = order.orderId;
+                productExistOrder = new OrderDetail { productId = orderCreateRequest.productId, quantity = orderCreateRequest.quantity, orderId = order.orderId };
                 order.updatedDate = order.createdDate = DateTime.Now;
                 order.orderDetails.Add(productExistOrder);
-                context.Orders.Add(order);
             }
         }
 

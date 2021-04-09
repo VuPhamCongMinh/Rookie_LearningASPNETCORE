@@ -18,20 +18,18 @@ namespace SimpleShop.UI.Services
     {
         private readonly HttpClient client;
 
-        public HttpClientService (IHttpClientFactory httpClient)
+        public HttpClientService (HttpClient httpClient)
         {
-            this.client = httpClient.CreateClient();
+            this.client = httpClient;
         }
-        public async Task<int> CountUserOrderDetailAsync (string userToken, string userId)
+        public async Task<int> CountUserOrderDetailAsync (string userId)
         {
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.COUNT_ORDER_API_URL)
             {
                 Query = $"userid={userId}"
             };
-            // 2 dòng dưới dùng khi muốn chèn access token vào httpclient đề lấy api đã dc bảo mật
             var cartNumber_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
-            cartNumber_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
             #endregion
             var get_cartNumber_response = await client.SendAsync(cartNumber_request);
 
@@ -96,7 +94,7 @@ namespace SimpleShop.UI.Services
             }
         }
 
-        public async Task<OrderDetailResponse> GetUserOrderDetailAsync (string userToken, string userId)
+        public async Task<OrderDetailResponse> GetUserOrderDetailAsync (string userId)
         {
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.GET_ORDER_API_URL)
@@ -104,7 +102,6 @@ namespace SimpleShop.UI.Services
                 Query = $"userid={userId}"
             };
             var userOrder_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
-            userOrder_request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
             #endregion
             var get_userOrder_response = await client.SendAsync(userOrder_request);
 
@@ -163,12 +160,12 @@ namespace SimpleShop.UI.Services
             }
         }
 
-        public async Task<Order> PostCart (string userToken, int productId, int quanity)
+        public async Task<Order> PostCart (int productId, int quanity, bool isIncrement)
         {
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.ORDERS_API_URL);
-            var orderRequest = new OrderCreateRequest { productId = productId, quantity = quanity };
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+            var orderRequest = new OrderCreateRequest { productId = productId };
+            orderRequest.quantity = isIncrement ? quanity : -quanity;
             #endregion
 
             var get_cart_request = await client.PostAsync(url.ToString(), JsonContent.Create(orderRequest));

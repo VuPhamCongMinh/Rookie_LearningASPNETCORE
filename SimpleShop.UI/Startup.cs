@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SimpleShop.Shared.Interfaces;
+using SimpleShop.UI.Extensions;
 using SimpleShop.UI.Models;
 using SimpleShop.UI.Services;
 using System;
@@ -29,6 +30,8 @@ namespace SimpleShop.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
+            services.AddRegisterHttpClient(Configuration);
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";
@@ -101,8 +104,6 @@ namespace SimpleShop.UI
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
 
-                    options.SaveTokens = true;
-
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("product.api");
@@ -116,6 +117,22 @@ namespace SimpleShop.UI
 
                     options.Events = new OpenIdConnectEvents
                     {
+                        OnAccessDenied = context =>
+                        {
+                            context.HttpContext.SignOutAsync("Cookies");
+                            context.Response.Redirect("/");
+                            context.HandleResponse();
+
+                            return Task.CompletedTask;
+                        },
+                        OnAuthenticationFailed = context =>
+                      {
+                          context.HttpContext.SignOutAsync("Cookies");
+                          context.Response.Redirect("/");
+                          context.HandleResponse();
+
+                          return Task.CompletedTask;
+                      },
                         OnRemoteFailure = context =>
                         {
                             context.HttpContext.SignOutAsync("Cookies");
@@ -128,9 +145,8 @@ namespace SimpleShop.UI
 
                 });
 
-            services.AddHttpClient();
 
-            services.AddScoped<IHttpClientService, HttpClientService>();
+            //services.AddScoped<IHttpClientService, HttpClientService>();
 
             services.AddControllersWithViews();
 
