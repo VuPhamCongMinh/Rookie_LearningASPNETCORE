@@ -15,7 +15,7 @@ namespace SimpleShop.UI.Extensions
     {
         public static void AddRegisterHttpClient (this IServiceCollection services, IConfiguration config)
         {
-            services.AddHttpClient();
+            //services.AddHttpClient();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var configureClient = new Action<IServiceProvider, HttpClient>(async (provider, client) =>
