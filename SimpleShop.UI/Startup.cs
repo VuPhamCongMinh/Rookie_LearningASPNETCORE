@@ -1,6 +1,7 @@
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using SimpleShop.UI.Models;
 using SimpleShop.UI.Services;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SimpleShop.UI
 {
@@ -110,6 +112,18 @@ namespace SimpleShop.UI
                     {
                         NameClaimType = "name",
                         RoleClaimType = "role"
+                    };
+
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnRemoteFailure = context =>
+                        {
+                            context.HttpContext.SignOutAsync("Cookies");
+                            context.Response.Redirect("/");
+                            context.HandleResponse();
+
+                            return Task.CompletedTask;
+                        }
                     };
 
                 });

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
@@ -167,12 +168,10 @@ namespace SimpleShop.UI.Services
             #region Define HttpClient & HttpRequest
             var url = new UriBuilder(ApiUrl.ORDERS_API_URL);
             var orderRequest = new OrderCreateRequest { productId = productId, quantity = quanity };
-            var content = JsonConvert.SerializeObject(orderRequest);
-            var stringContent = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
             #endregion
 
-            var get_cart_request = await client.PostAsync(url.ToString(), stringContent);
+            var get_cart_request = await client.PostAsync(url.ToString(), JsonContent.Create(orderRequest));
             if (get_cart_request.IsSuccessStatusCode)
             {
                 var get_userCart_responseData = await get_cart_request.Content.ReadAsStringAsync();
