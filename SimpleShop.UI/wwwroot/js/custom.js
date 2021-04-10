@@ -241,44 +241,34 @@
             }
         })
 
+        var increment_descrementBtn = $('.ti-angle-down, .ti-angle-up');
+        increment_descrementBtn.each(function (index) {
+            $(this).on("click", function () {
+                const input = $(this).closest('.product_count').find('input');
+                const isNegative = $(this).closest('.ti-angle-down').is('.ti-angle-down');
+                if (input.is('input')) {
+                    input[0][isNegative ? 'stepDown' : 'stepUp']();
 
-        $('.ti-angle-down, .ti-angle-up').on('click', function (e) {
-            const isNegative = $(e.target).closest('.ti-angle-down').is('.ti-angle-down');
-            const input = $(e.target).closest('.product_count').find('input');
-            console.log(input);
-            if (input.is('input')) {
-                input[0][isNegative ? 'stepDown' : 'stepUp']();
+                    if (input.val() > 0 && input.val() < 15) {
+                        let productId = input.attr('product-id');
+                        let quantity = 1;
 
-                if (input.val() > 0 && input.val() < 15) {
+                        let input1 = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", "productId").val(productId);
+                        let input3 = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", "quantity").val(quantity);
+                        let input4 = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", "isIncrement").val(!isNegative);
 
-                    let transformedUrl = new URL('https://localhost:44301/quantity');
-                    let orderId = input.attr('product-id');
-                    let productId = input.attr('order-id');
-                    let quantity = input.val();
-
-                    if (transformedUrl.searchParams.has('productId')) {
-                        transformedUrl.searchParams.set('productId', productId);
-                    }
-                    else {
-                        transformedUrl.searchParams.append('productId', productId);
-                    } if (transformedUrl.searchParams.has('orderId')) {
-                        transformedUrl.searchParams.set('orderId', orderId);
-                    }
-                    else {
-                        transformedUrl.searchParams.append('orderId', orderId);
-                    } if (transformedUrl.searchParams.has('quantity')) {
-                        transformedUrl.searchParams.set('quantity', quantity);
-                    }
-                    else {
-                        transformedUrl.searchParams.append('quantity', quantity);
-                    }
-                    if (window.location.href != transformedUrl.href) {
-                        window.location = transformedUrl;
+                        $(this).parents('form')[0].append(input1[0], input3[0], input4[0]);
+                        $(this).parents('form')[0].submit();
                     }
                 }
-            }
+            });
         })
-
         //$("#update_cart_btn").click(function () {
 
         //});

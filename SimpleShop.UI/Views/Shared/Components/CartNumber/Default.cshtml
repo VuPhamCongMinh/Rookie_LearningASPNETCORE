@@ -1,7 +1,7 @@
 ﻿@model int
 
 <div class="dropdown cart">
-    <button type="button" class="btn btn-dark">
+    <button type="button" class="btn btn-dark" onclick="window.location.href ='@Url.Action("Index","Cart")'">
         Cart <span class="badge badge-light">@Model</span>
     </button>
 </div>

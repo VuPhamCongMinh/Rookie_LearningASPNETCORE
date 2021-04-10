@@ -26,12 +26,19 @@ namespace SimpleShop.UI.Controllers
             return View(null);
         }
         [Authorize]
-        public async Task<ActionResult> AddCart (int productId, int quantity, bool isIncrement)
+        public async Task<ActionResult> AddCart (int productId, int quantity , bool isIncrement = true)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                await httpClientService.PostCart(productId, quantity,isIncrement);
-                return RedirectToAction("Product", "Home", new { id = productId });
+                try
+                {
+                    await httpClientService.PostCart(productId, quantity, isIncrement);
+                    return RedirectToAction("Index");
+                }
+                catch (System.Exception e)
+                {
+                    throw;
+                }
             }
             return View("Error");
         }

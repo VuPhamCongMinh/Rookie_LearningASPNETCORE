@@ -38,11 +38,13 @@
                                         <h5>$@item.Product.productPrice</h5>
                                     </td>
                                     <td>
-                                        <div class="product_count">
-                                            <span class="input-number-decrement"> <i class="ti-angle-down" style="cursor:pointer"></i></span>
-                                            <input class="input-number" type="number" order-id="@item.orderId" product-id="@item.productId" value="@item.quantity" min="0" max="10">
-                                            <span class="input-number-increment"> <i class="ti-angle-up" style="cursor:pointer"></i></span>
-                                        </div>
+                                        <form asp-action="addcart" method="post">
+                                            <div class="product_count">
+                                                <span class="input-number-decrement"> <i class="ti-angle-down" style="cursor:pointer"></i></span>
+                                                <input class="input-number" type="number" order-id="@item.orderId" product-id="@item.productId" value="@item.quantity" min="1" max="10">
+                                                <span class="input-number-increment"> <i class="ti-angle-up" style="cursor:pointer"></i></span>
+                                            </div>
+                                        </form>
                                     </td>
                                     <td>
                                         <h5>$@(item.Product.productPrice * item.quantity)</h5>
