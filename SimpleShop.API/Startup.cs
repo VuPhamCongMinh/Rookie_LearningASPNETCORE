@@ -132,6 +132,8 @@ namespace SimpleShop.API
             app.UseIdentityServer();
             app.UseAuthorization();
 
+            app.UseCors(option => { option.AllowAnyOrigin(); });
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
