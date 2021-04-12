@@ -58,7 +58,14 @@ namespace SimpleShop.API.Services
             var productExistOrder = order.orderDetails.Where(x => x.productId == orderCreateRequest.productId).FirstOrDefault();
             if (productExistOrder != null)
             {
-                productExistOrder.quantity += orderCreateRequest.quantity;
+                if (productExistOrder.quantity + orderCreateRequest.quantity <= 0)
+                {
+                    order.orderDetails.Remove(productExistOrder);
+                }
+                else
+                {
+                    productExistOrder.quantity += orderCreateRequest.quantity;
+                }
             }
             else
             {
