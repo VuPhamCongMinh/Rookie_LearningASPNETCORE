@@ -9,6 +9,8 @@ using SimpleShop.Shared.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpleShop.API.Services
 {
@@ -113,6 +115,9 @@ namespace SimpleShop.API.Services
 
         public int GetProductCount () => productLength;
 
+
+        [HttpPost]
+        [Authorize("Bearer")]
         public async Task<Product> PostProduct (ProductPostRequest product)
         {
             var productAdded = _mapper.Map<Product>(product);
@@ -138,9 +143,30 @@ namespace SimpleShop.API.Services
 
         }
 
+        [HttpPut("{id}")]
+        [Authorize("Bearer")]
         public async Task<Product> PutProduct (int id, ProductPostRequest product)
         {
-            throw new System.NotImplementedException();
+            var productUpdated = _mapper.Map<Product>(product);
+
+            if (product.ImageFiles != null)
+            {
+                foreach (IFormFile file in product.ImageFiles)
+                {
+                    productUpdated.Images.Add(new Image { productId = productUpdated.productId, imageUrl = await _filesService.SaveFilePath(file) });
+                }
+
+            }
+            try
+            {
+                _context.Add(productUpdated);
+                await _context.SaveChangesAsync();
+                return productUpdated;
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
         }
 
         public Task<int> DeleteProduct (int id)
