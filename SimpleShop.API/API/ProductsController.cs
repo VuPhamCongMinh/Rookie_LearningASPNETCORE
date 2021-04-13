@@ -57,7 +57,7 @@ namespace SimpleShop.API.Controllers
 
         [HttpPost]
         [Authorize("Bearer")]
-        public async Task<ActionResult<IEnumerable<ProductPostRequest>>> PostProduct ([FromForm] ProductPostRequest request)
+        public async Task<ActionResult<IEnumerable<Product>>> PostProduct ([FromForm] ProductPostRequest request)
         {
             var product = await _productService.PostProduct(request);
             if (product != null)
@@ -70,20 +70,27 @@ namespace SimpleShop.API.Controllers
             }
 
         }
-        //[HttpPut("{id}")]
-        //[Authorize("Bearer")]
-        //public async Task<ActionResult<IEnumerable<ProductPostRequest>>> PutProduct (int id, [FromForm] ProductPostRequest request)
-        //{
-        //    var product = await _productService.PutProduct(id, request);
-        //    return Ok(product);
-        //}
-        //[HttpDelete("{id}")]
-        //[Authorize("Bearer")]
-        //public async Task<ActionResult<IEnumerable<ProductPostRequest>>> DeleteProduct (int id)
-        //{
-        //    var product = await _productService.DeleteProduct(id);
-        //    return Ok(product);
-        //}
+
+        [HttpPut("{id}")]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<Product>> PutProduct (int id, [FromForm] ProductPostRequest request)
+        {
+            var product = await _productService.PutProduct(id, request);
+
+            if (product is null)
+            {
+                return BadRequest();
+            }
+            return Ok(product);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<ProductPostRequest>>> DeleteProduct (int id)
+        {
+            var product = await _productService.DeleteProduct(id);
+            return Ok(product);
+        }
     }
 }
 

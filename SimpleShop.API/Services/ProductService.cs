@@ -147,23 +147,30 @@ namespace SimpleShop.API.Services
         [Authorize("Bearer")]
         public async Task<Product> PutProduct (int id, ProductPostRequest product)
         {
-            var productUpdated = _mapper.Map<Product>(product);
+            var productToBeUpdated = await _context.Products.FindAsync(id);
+
+            if (productToBeUpdated is null)
+            {
+                return null;
+            }
+
 
             if (product.ImageFiles != null)
             {
+                productToBeUpdated.Images = new List<Image>(); //reset to zero image
                 foreach (IFormFile file in product.ImageFiles)
                 {
-                    productUpdated.Images.Add(new Image { productId = productUpdated.productId, imageUrl = await _filesService.SaveFilePath(file) });
+                    productToBeUpdated.Images.Add(new Image { productId = productToBeUpdated.productId, imageUrl = await _filesService.SaveFilePath(file) });
                 }
 
             }
             try
             {
-                _context.Add(productUpdated);
+                _context.Entry(productToBeUpdated).CurrentValues.SetValues(product);
                 await _context.SaveChangesAsync();
-                return productUpdated;
+                return productToBeUpdated;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 return null;
             }
