@@ -11,25 +11,19 @@ namespace SimpleShop.UnitTest.MockData
 {
     public static class NewDatas
     {
-        public static Product NewProduct ()
+        public static Product NewProduct () => new Product
         {
-            var id = new Random().Next(0, 20);
-
-
-            return new Product
+            productName = "Test Product Request Name",
+            productPrice = 200,
+            productDescription = "Test Product Request Desc",
+            Images = new List<Image>()
             {
-                productId = id,
-                productName = "Test Product Request Name",
-                productPrice = 200,
-                productDescription = "Test Product Request Desc",
-                Images = new List<Image>()
-                {
-                    new Image{imageUrl = "picture1.jpg",productId = id },
-                    new Image{imageUrl = "picture2.jpg",productId = id },
-                    new Image{imageUrl = "picture3.jpg",productId = id },
-                }
-            };
-        }
+                new Image{imageUrl = "picture1.jpg" },
+                new Image{imageUrl = "picture2.jpg"},
+                new Image{imageUrl = "picture3.jpg"},
+            }
+        };
+
 
         public static ProductPostRequest NewProductPostRequest () => new ProductPostRequest
         {
