@@ -24,6 +24,11 @@ namespace SimpleShop.UnitTest.MockData
             }
         };
 
+        public static Category NewCategory () => new Category
+        {
+            categoryName = "Test Category"
+        };
+
 
         public static ProductPostRequest NewProductPostRequest () => new ProductPostRequest
         {
@@ -38,9 +43,33 @@ namespace SimpleShop.UnitTest.MockData
             }
         };
 
-        public static Category NewCategory () => new Category
+        public static ProductPostRequest NewProductPutRequest () => new ProductPostRequest
         {
-            categoryName = "Test Category",
+            productName = "Name Changed",
+            productPrice = 400,
+            productDescription = "Desc Changed",
+            ImageFiles = new List<IFormFile>()
+            {
+                new FormFile(null,1,1,"picture1.jpg","picture1"),
+                new FormFile(null,2,3,"picture3.jpg","picture2"),
+                new FormFile(null,2,3,"picture2.jpg","picture3"),
+            }
+        };
+
+        public static Product ProductAfterPut () => new Product
+        {
+            productId = 10,
+            productName = "Name Changed",
+            productPrice = 400,
+            productDescription = "Desc Changed",
+            Images = new List<Image>()
+            {
+                new Image{imageUrl = "picture3.jpg" },
+                new Image{imageUrl = "picture2.jpg"},
+                new Image{imageUrl = "picture1.jpg"},
+            }
+            ,
+            Category = NewCategory()
         };
 
 
