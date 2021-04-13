@@ -6,6 +6,7 @@ using SimpleShop.API.Services;
 using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
 using SimpleShop.Shared.Interfaces;
+using System.Linq;
 
 namespace SimpleShop.API.Controllers
 {
@@ -26,11 +27,18 @@ namespace SimpleShop.API.Controllers
         public ActionResult<ProductResponse> GetProducts (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var products = _productService.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
-            return Ok(new ProductResponse
+            if (products.Count() <= 0)
             {
-                Products = products,
-                Count = _productService.GetProductCount()
-            });
+                return NoContent();
+            }
+            else
+            {
+                return Ok(new ProductResponse
+                {
+                    Products = products,
+                    Count = _productService.GetProductCount()
+                });
+            }
         }
 
         //GET: api/Products/5
@@ -44,7 +52,7 @@ namespace SimpleShop.API.Controllers
                 return NoContent();
             }
 
-            return product;
+            return Ok(product);
         }
 
         [HttpPost]
