@@ -124,21 +124,18 @@ namespace SimpleShop.API.Services
                     productAdded.Images.Add(new Image { productId = productAdded.productId, imageUrl = await _filesService.SaveFilePath(file) });
                 }
 
-                try
-                {
-                    _context.Add(productAdded);
-                    await _context.SaveChangesAsync();
-                    return productAdded;
-                }
-                catch (System.Exception)
-                {
-                    return null;
-                }
             }
-            else
+            try
+            {
+                _context.Add(productAdded);
+                await _context.SaveChangesAsync();
+                return productAdded;
+            }
+            catch (System.Exception)
             {
                 return null;
             }
+
         }
 
         public async Task<Product> PutProduct (int id, ProductPostRequest product)
