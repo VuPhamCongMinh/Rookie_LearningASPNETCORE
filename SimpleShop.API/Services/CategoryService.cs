@@ -13,12 +13,10 @@ namespace SimpleShop.API.Services
     {
 
         private readonly MyDBContext _context;
-        private readonly IMapper mapper;
 
-        public CategoryService (MyDBContext context,IMapper mapper)
+        public CategoryService (MyDBContext context)
         {
             _context = context;
-            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<Category>> GetCategories ()
