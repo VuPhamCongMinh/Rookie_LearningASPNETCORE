@@ -117,7 +117,7 @@ namespace SimpleShop.API.Services
         {
             var productAdded = _mapper.Map<Product>(product);
 
-            if (product.ImageFiles.Any())
+            if (product.ImageFiles != null)
             {
                 foreach (IFormFile file in product.ImageFiles)
                 {
