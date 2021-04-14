@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
 using System;
@@ -27,6 +28,18 @@ namespace SimpleShop.UnitTest.MockData
         public static Category NewCategory () => new Category
         {
             categoryName = "Test Category"
+        };
+        public static IdentityUser NewUser () => new IdentityUser
+        {
+            UserName = "Test User"
+        };
+        public static Rating NewRating () => new Rating
+        {
+            rateValue = 5,
+            comment = "Test comment",
+            createdDate = DateTime.Now,
+            updatedDate = DateTime.Now,
+
         };
         public static Category CategoryAfterPut () => new Category
         {
