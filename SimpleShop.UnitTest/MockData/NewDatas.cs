@@ -50,6 +50,22 @@ namespace SimpleShop.UnitTest.MockData
             categoryName = "Category Changed",
         };
 
+        public static OrderDetail NewOrderDetail () => new OrderDetail
+        {
+            quantity = 2,
+        };
+        public static OrderCreateRequest NewOrderDetailRequest () => new OrderCreateRequest
+        {
+            quantity = 3,
+        };
+
+
+        public static Order NewOrder () => new Order
+        {
+            orderId = Guid.NewGuid().ToString(),
+            createdDate = DateTime.Now,
+            updatedDate = DateTime.Now,
+        };
 
         public static ProductPostRequest NewProductPostRequest () => new ProductPostRequest
         {
