@@ -39,12 +39,11 @@ namespace SimpleShop.UnitTest.ProductsControllerTest.Tests
             // Assert
             Assert.IsType<OkObjectResult>(result.Result);
 
-            var productReponseAfterPut = (Product)((OkObjectResult)result.Result).Value;
-            Assert.Equal(productReponseAfterPut.productName, productAfterPut.productName);
-            Assert.Equal(productReponseAfterPut.productPrice, productAfterPut.productPrice);
-            Assert.Equal(productReponseAfterPut.productDescription, productAfterPut.productDescription);
-            Assert.Equal(productReponseAfterPut.Images.Count, productAfterPut.Images.Count);
-            Assert.Equal(productReponseAfterPut.Category, category);
+            Assert.Equal(productBeforePut.productName, productAfterPut.productName);
+            Assert.Equal(productBeforePut.productPrice, productAfterPut.productPrice);
+            Assert.Equal(productBeforePut.productDescription, productAfterPut.productDescription);
+            Assert.Equal(productBeforePut.Images.Count, productAfterPut.Images.Count);
+            Assert.Equal(productBeforePut.Category, category);
 
         }
     }

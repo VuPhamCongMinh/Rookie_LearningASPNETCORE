@@ -28,6 +28,14 @@ namespace SimpleShop.UnitTest.MockData
         {
             categoryName = "Test Category"
         };
+        public static Category CategoryAfterPut () => new Category
+        {
+            categoryName = "Category Changed"
+        };
+        public static Category CategoryPutRequest () => new Category
+        {
+            categoryName = "Category Changed",
+        };
 
 
         public static ProductPostRequest NewProductPostRequest () => new ProductPostRequest
