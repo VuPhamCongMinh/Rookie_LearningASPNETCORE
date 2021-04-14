@@ -24,7 +24,6 @@ namespace SimpleShop.API.Services
         public async Task<Order> PostOrderAsync (OrderCreateRequest order, string userId)
         {
             Order orderToBeAdded;
-            var productInDB = await context.Products.FindAsync(order.productId);
 
             if (!context.Orders.Any(o => o.user.Id == userId))
             {
@@ -34,6 +33,33 @@ namespace SimpleShop.API.Services
                 orderDetail.orderId = orderToBeAdded.orderId;
                 orderToBeAdded.orderDetails = new List<OrderDetail>() { orderDetail };
                 context.Orders.Add(orderToBeAdded);
+            }
+            else
+            {
+                orderToBeAdded = await context.Orders.Where(o => o.user.Id == userId).Include(o => o.orderDetails).FirstOrDefaultAsync();
+                AddToCart(ref orderToBeAdded, order);
+            }
+
+            try
+            {
+
+                await context.SaveChangesAsync();
+                return orderToBeAdded;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Order> PutOrderAsync (OrderCreateRequest order, string userId)
+        {
+            Order orderToBeAdded;
+            var productInDB = await context.Products.FindAsync(order.productId);
+
+            if (!context.Orders.Any(o => o.user.Id == userId))
+            {
+                return null;
             }
             else
             {

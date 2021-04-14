@@ -36,7 +36,8 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             var product3 = NewDatas.NewProduct();
             await dbContext.Products.AddRangeAsync(product1, product2, product3);
             await dbContext.SaveChangesAsync();
-
+           
+            #region create intial order data
             var order = NewDatas.NewOrder();
             dbContext.Orders.Add(order);
             await dbContext.SaveChangesAsync();
@@ -56,7 +57,7 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             order.orderDetails = new List<OrderDetail> { orderDetail1, orderDetail2, orderDetail3 };
             order.user = user;
             await dbContext.SaveChangesAsync();
-
+            #endregion
             var ordersService = new OrderService(dbContext, mapper);
             var ordersController = new OrdersController(ordersService, mapper);
             // Act
