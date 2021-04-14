@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RatingsControllerTest\" />
     <Folder Include="OrdersControllerTest\" />
   </ItemGroup>
 
