@@ -18,13 +18,11 @@ namespace SimpleShop.API.API
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly MyDBContext _context;
         private readonly IOrderService service;
         private readonly IMapper mapper;
 
-        public OrdersController (MyDBContext context, IOrderService service, IMapper mapper)
+        public OrdersController (IOrderService service, IMapper mapper)
         {
-            _context = context;
             this.service = service;
             this.mapper = mapper;
         }
@@ -33,7 +31,7 @@ namespace SimpleShop.API.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders ()
         {
-            var orders = mapper.Map<IEnumerable<OrderResponse>>(await _context.Orders.Include(o => o.orderDetails).ToListAsync());
+            var orders = mapper.Map<IEnumerable<OrderResponse>>(await service.GetOrders());
             return Ok(orders);
         }
 
@@ -41,46 +39,23 @@ namespace SimpleShop.API.API
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder (string id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await service.GetOrder(id);
 
             if (order == null)
             {
                 return NotFound();
             }
 
-            return order;
+            return Ok(order);
         }
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder (string id, Order order)
-        {
-            if (id != order.orderId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(order).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutOrder (string id, Order order)
+        //{
+           
+        //}
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -99,27 +74,6 @@ namespace SimpleShop.API.API
 
                 throw;
             }
-        }
-
-        // DELETE: api/Orders/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder (string id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool OrderExists (string id)
-        {
-            return _context.Orders.Any(e => e.orderId == id);
         }
 
         [Authorize("Bearer")]

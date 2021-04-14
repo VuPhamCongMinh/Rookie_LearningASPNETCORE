@@ -10,6 +10,8 @@ namespace SimpleShop.Shared.Interfaces
     {
         public Task<Order> PostOrderAsync (OrderCreateRequest order, string userId);
         public Task<IEnumerable<OrderDetail>> GetUserOrderDetailAsync (string userId);
+        public Task<IEnumerable<Order>> GetOrders ();
+        public Task<Order> GetOrder (string id);
 
         public int CountUserOrderAsync (string userId);
     }

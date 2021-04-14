@@ -95,5 +95,28 @@ namespace SimpleShop.API.Services
             return userOrder;
         }
 
+        public async Task<IEnumerable<Order>> GetOrders ()
+        {
+            try
+            {
+                return await context.Orders.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Order> GetOrder (string id)
+        {
+            try
+            {
+                return (await context.Orders.Where(x => x.orderId == id).FirstAsync());
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 }
