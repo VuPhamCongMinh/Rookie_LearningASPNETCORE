@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="OrdersControllerTest\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SimpleShop.API\SimpleShop.API.csproj" />
     <ProjectReference Include="..\SimpleShop.Shared\SimpleShop.Shared.csproj" />
   </ItemGroup>
