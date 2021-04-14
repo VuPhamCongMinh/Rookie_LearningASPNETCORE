@@ -17,6 +17,10 @@ namespace SimpleShop.API.Services
         {
             this.context = context;
         }
+        public async Task<IEnumerable<Rating>> GetRatings ()
+        {
+            return await context.Ratings.ToListAsync();
+        }
         public async Task<IEnumerable<Rating>> GetRatingByProductId (int id)
         {
             return await context.Ratings.Where(x => x.productId == id).Include(rt => rt.User).ToListAsync();
@@ -36,6 +40,30 @@ namespace SimpleShop.API.Services
             {
 
                 throw;
+            }
+        }
+
+        public async Task<Rating> PutRating (int id, string userId, int productId, string comment, int rateValue)
+        {
+            var ratingToBeUpdated = await context.Ratings.FindAsync(id);
+
+            if (ratingToBeUpdated is null)
+            {
+                return null;
+            }
+
+            try
+            {
+                ratingToBeUpdated.userId = userId;
+                ratingToBeUpdated.productId = productId;
+                ratingToBeUpdated.comment = comment;
+                ratingToBeUpdated.rateValue = rateValue;
+                await context.SaveChangesAsync();
+                return ratingToBeUpdated;
+            }
+            catch (System.Exception e)
+            {
+                return null;
             }
         }
     }

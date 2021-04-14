@@ -21,12 +21,17 @@ namespace SimpleShop.API.API
             this.mapper = mapper;
         }
 
-        //// GET: api/Ratings
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Rating>>> GetRatings()
-        //{
-        //    return await _context.Ratings.ToListAsync();
-        //}
+        // GET: api/Ratings
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Rating>>> GetRatings ()
+        {
+            var rating = await ratingService.GetRatings();
+            if (rating is null)
+            {
+                return NotFound();
+            }
+            return Ok(rating);
+        }
 
         // GET: api/Ratings/5
         [HttpGet("{id}")]
@@ -38,36 +43,19 @@ namespace SimpleShop.API.API
             return Ok(ratings);
         }
 
-        //// PUT: api/Ratings/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutRating(int id, Rating rating)
-        //{
-        //    if (id != rating.ratingId)
-        //    {
-        //        return BadRequest();
-        //    }
+        // PUT: api/Ratings/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutRating (int id, [FromForm] string userId, [FromForm] int productId, [FromForm] int rateValue, [FromForm] string comment)
+        {
+            var product = await ratingService.PutRating(id, userId, productId, comment, rateValue);
 
-        //    _context.Entry(rating).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!RatingExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
+            if (product is null)
+            {
+                return BadRequest();
+            }
+            return Ok(product);
+        }
 
         //// POST: api/Ratings
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -99,9 +87,6 @@ namespace SimpleShop.API.API
         //    return NoContent();
         //}
 
-        //private bool RatingExists(int id)
-        //{
-        //    return _context.Ratings.Any(e => e.ratingId == id);
-        //}
+
     }
 }
