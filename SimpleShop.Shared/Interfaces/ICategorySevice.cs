@@ -8,5 +8,7 @@ namespace SimpleShop.Shared.Interfaces
     {
         public Task<IEnumerable<Category>> GetCategories ();
         public Task<Category> GetCategoryById (int id);
+        public Task<Category> PostCategory (Category cate);
+        public Task<Category> PutCategory (int id, Category cate);
     }
 }

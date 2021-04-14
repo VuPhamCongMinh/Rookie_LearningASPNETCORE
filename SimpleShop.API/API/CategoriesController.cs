@@ -34,14 +34,26 @@ namespace SimpleShop.API.API
 
         // POST api/<CategoriesController>
         [HttpPost]
-        public void Post ([FromForm] string value)
+        public async Task<ActionResult<Category>> Post ([FromForm] Category category)
         {
+            var returnCate = await _categoryService.PostCategory(category);
+            if (returnCate is null)
+            {
+                return BadRequest();
+            }
+            return CreatedAtAction(nameof(GetCategory), new { id = returnCate.categoryId });
         }
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
-        public void Put (int id, [FromForm] string value)
+        public async Task<ActionResult<Category>> Put (int id, [FromForm] Category category)
         {
+            var returnCate = await _categoryService.PutCategory(id,category);
+            if (returnCate is null)
+            {
+                return BadRequest();
+            }
+            return Ok(returnCate);
         }
 
         // DELETE api/<CategoriesController>/5

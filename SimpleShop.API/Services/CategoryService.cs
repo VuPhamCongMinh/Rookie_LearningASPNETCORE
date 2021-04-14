@@ -29,5 +29,41 @@ namespace SimpleShop.API.Services
         {
             return await _context.Categories.FindAsync(id);
         }
+
+        public async Task<Category> PostCategory (Category cate)
+        {
+            try
+            {
+                await _context.Categories.AddAsync(cate);
+                await _context.SaveChangesAsync();
+                return cate;
+            }
+            catch (System.Exception e)
+            {
+
+                return null;
+            }
+        }
+
+        public async Task<Category> PutCategory (int id, Category cate)
+        {
+            var cateInDb = await _context.Categories.FindAsync(id);
+            if (cateInDb is null)
+            {
+                return null;
+            }
+
+            try
+            {
+                cateInDb.categoryName = cate.categoryName;
+                await _context.SaveChangesAsync();
+                return cateInDb;
+            }
+            catch (System.Exception e)
+            {
+                return null;
+            }
+
+        }
     }
 }
