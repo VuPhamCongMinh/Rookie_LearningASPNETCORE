@@ -132,7 +132,7 @@ namespace SimpleShop.API
             app.UseIdentityServer();
             app.UseAuthorization();
 
-            app.UseCors(option => { option.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(host => true); });
+            app.UseCors(option => { option.WithOrigins("http://localhost:3000/").AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(host => true); });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
