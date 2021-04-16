@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SimpleShop.Shared.ViewModels;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
+using System;
 
 namespace SimpleShop.API.Services
 {
@@ -116,6 +117,7 @@ namespace SimpleShop.API.Services
         public async Task<Product> PostProduct (ProductPostRequest product)
         {
             var productAdded = _mapper.Map<Product>(product);
+            productAdded.createdDate = productAdded.updatedDate = DateTime.Now;
 
             if (product.ImageFiles != null)
             {
@@ -147,7 +149,7 @@ namespace SimpleShop.API.Services
                 return null;
             }
 
-
+            productToBeUpdated.updatedDate = DateTime.Now;
             if (product.ImageFiles != null)
             {
                 productToBeUpdated.Images = new List<Image>(); //reset to zero image
