@@ -56,8 +56,8 @@ namespace SimpleShop.API.Controllers
         }
 
         [HttpPost]
-        [Authorize("Bearer")]
-        public async Task<ActionResult<IEnumerable<Product>>> PostProduct ([FromForm] ProductPostRequest request)
+        //[Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<Product>>> PostProduct ([FromBody] ProductPostRequest request)
         {
             var product = await _productService.PostProduct(request);
             if (product != null)

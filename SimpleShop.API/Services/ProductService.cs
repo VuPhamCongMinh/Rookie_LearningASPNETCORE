@@ -7,10 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpleShop.Shared.ViewModels;
 using Microsoft.AspNetCore.Http;
-using System;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SimpleShop.API.Services
 {
@@ -116,8 +113,6 @@ namespace SimpleShop.API.Services
         public int GetProductCount () => productLength;
 
 
-        [HttpPost]
-        [Authorize("Bearer")]
         public async Task<Product> PostProduct (ProductPostRequest product)
         {
             var productAdded = _mapper.Map<Product>(product);
@@ -143,8 +138,6 @@ namespace SimpleShop.API.Services
 
         }
 
-        [HttpPut("{id}")]
-        [Authorize("Bearer")]
         public async Task<Product> PutProduct (int id, ProductPostRequest product)
         {
             var productToBeUpdated = await _context.Products.FindAsync(id);
