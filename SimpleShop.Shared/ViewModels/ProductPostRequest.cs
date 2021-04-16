@@ -10,6 +10,5 @@ namespace SimpleShop.Shared.ViewModels
         public string productDescription { get; set; }
         public int? categoryId { get; set; }
         public List<IFormFile> ImageFiles { get; set; }
-        public int? ratingId { get; set; }
     }
 }
