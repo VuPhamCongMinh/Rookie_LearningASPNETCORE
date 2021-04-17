@@ -61,12 +61,16 @@ namespace SimpleShop.API.Services
 
         void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
         {
+            if (pageindex == 0)
+            {
+                return;
+            }
             sourceProducts = sourceProducts.Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
         void CategorizeProducts (ref IEnumerable<Product> sourceProducts, int cateId)
         {
-            if (cateId != -1)
+            if (cateId != 0)
             {
                 sourceProducts = allProduct.Where(x => x.categoryId == cateId);
                 productLength = sourceProducts.Count();
@@ -76,11 +80,11 @@ namespace SimpleShop.API.Services
         void FilterProducts (ref IEnumerable<Product> sourceProducts, double? min, double? max)
         {
 
-            if (min > 0)
+            if (min != null && min > 0)
             {
                 sourceProducts = sourceProducts.Where(p => p.productPrice >= min);
             }
-            if (max > 0)
+            if (max != null && max > 0)
             {
                 sourceProducts = sourceProducts.Where(p => p.productPrice <= max);
             }
@@ -89,7 +93,7 @@ namespace SimpleShop.API.Services
 
         void SortProducts (ref IEnumerable<Product> sourceProducts, string sortorder)
         {
-            if (sortorder == "asc")
+            if (String.IsNullOrWhiteSpace(sortorder) || sortorder == "asc")
             {
                 sourceProducts = sourceProducts.OrderBy(p => p.productPrice);
             }
