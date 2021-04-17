@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Table } from "reactstrap";
+import { ProductContext } from "../context/product_context";
 
 export const MyTable = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetch("https://localhost:44348/api/products")
-      .then((res) => res.json())
-      .then((result) => {
-        const { products } = result;
-        setProducts(products);
-      });
-  }, []);
+  const { productItems } = useContext(ProductContext);
 
   return (
     <Table responsive={true} striped={true}>
@@ -26,7 +18,7 @@ export const MyTable = () => {
         </tr>
       </thead>
       <tbody>
-        {products.map((prod, index) => {
+        {productItems.map((prod, index) => {
           return (
             <tr key={prod.productId}>
               <th className="align-middle" scope="row">

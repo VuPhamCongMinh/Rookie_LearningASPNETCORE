@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Col, Container, Row } from "reactstrap";
 import MyForm from "./components/Form";
 import MyNavbar from "./components/Navbar";
 import { MyTable } from "./components/Table";
+import { ProductContext } from "./context/product_context";
 
 function App() {
+  const { setProductItems, setCategories } = useContext(ProductContext);
+
   return (
     <div>
       <MyNavbar></MyNavbar>
