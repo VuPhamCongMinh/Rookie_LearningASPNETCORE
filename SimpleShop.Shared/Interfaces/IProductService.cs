@@ -7,7 +7,7 @@ namespace SimpleShop.Shared.Interfaces
 {
     public interface IProductService
     {
-
+        public Task<IEnumerable<Product>> GetProducts ();
         public IEnumerable<Product> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max, int cate);
 
         public Task<IEnumerable<Product>> GetProduct ();

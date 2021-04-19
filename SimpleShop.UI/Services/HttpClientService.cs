@@ -74,7 +74,7 @@ namespace SimpleShop.UI.Services
         public async Task<ProductResponse> GetProductsAsync (int pageIndex, int pageSize, string searchString, string sortOrder, double? minPrice, double? maxPrice, int cate)
         {
             #region Define HttpClient & HttpRequest
-            var url = new UriBuilder(ApiUrl.PRODUCTS_API_URL)
+            var url = new UriBuilder(ApiUrl.FILTERED_PRODUCTS_API_URL)
             {
                 Query = $"pageindex={pageIndex}&pagesize={pageSize}&searchstring={searchString}&sortorder={sortOrder}&minprice={minPrice}&maxprice={maxPrice}&cate={cate}"
             };

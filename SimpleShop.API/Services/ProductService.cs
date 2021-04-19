@@ -70,7 +70,7 @@ namespace SimpleShop.API.Services
 
         void CategorizeProducts (ref IEnumerable<Product> sourceProducts, int cateId)
         {
-            if (cateId != 0)
+            if (cateId != -1)
             {
                 sourceProducts = allProduct.Where(x => x.categoryId == cateId);
                 productLength = sourceProducts.Count();
@@ -178,6 +178,12 @@ namespace SimpleShop.API.Services
         public Task<int> DeleteProduct (int id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Product>> GetProducts ()
+        {
+            var product = await _context.Products.ToListAsync();
+            return product;
         }
     }
 }
