@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
 import { ProductContext } from "../context/product_context";
 
 export const MyTable = () => {
-  const { productItems } = useContext(ProductContext);
+  const { productItems, setSelectedItem } = useContext(ProductContext);
 
   return (
     <Table responsive={true} striped={true}>
@@ -27,10 +27,18 @@ export const MyTable = () => {
               <td className="align-middle">{prod.productName}</td>
               <td className="align-middle">$ {prod.productPrice}</td>
               <td className="align-middle">{prod.category.categoryName}</td>
-              <td>
-                <img className="img-fluid" src={prod.images[0].imageUrl} />
-              </td>
+              {prod.images.length > 0 && (
+                <td>
+                  <img className="img-fluid" src={prod.images[0].imageUrl} />
+                </td>
+              )}
+
               <td className="align-middle">{prod.productDescription}</td>
+              <td>
+                <Button color="primary" onClick={() => setSelectedItem(prod)}>
+                  Edit
+                </Button>
+              </td>
             </tr>
           );
         })}

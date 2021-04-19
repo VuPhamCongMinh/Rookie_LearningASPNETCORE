@@ -6,8 +6,6 @@ import { MyTable } from "./components/Table";
 import { ProductContext } from "./context/product_context";
 
 function App() {
-  const { setProductItems, setCategories } = useContext(ProductContext);
-
   return (
     <div>
       <MyNavbar></MyNavbar>

@@ -1,24 +1,33 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { GetCategories } from "../api/category_api";
+import { GetProducts } from "../api/product_api";
 
 export const ProductContext = React.createContext();
 
 const ProductContextProvider = ({ children }) => {
   const [productItems, setProductItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({});
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://localhost:44348/api/products")
-      .then(({ data: { products } }) => {
-        setProductItems(products);
-        return axios.get("https://localhost:44348/api/categories");
-      })
-      .then(({ data: { categories } }) => setCategories(categories));
+    const fetchData = async () => {
+      setCategories(await GetCategories());
+      setProductItems(await GetProducts());
+    };
+
+    fetchData();
   }, []);
+
   return (
     <ProductContext.Provider
-      value={{ productItems, setProductItems, categories, setCategories }}
+      value={{
+        productItems,
+        setProductItems,
+        categories,
+        setCategories,
+        selectedItem,
+        setSelectedItem,
+      }}
     >
       {children}
     </ProductContext.Provider>

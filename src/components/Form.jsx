@@ -1,74 +1,102 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { PostProducts, PutProducts } from "../api/product_api";
 import { ProductContext } from "../context/product_context";
+import { ProductFormData } from "../model/product_formdata";
 
 const MyForm = () => {
-  const { categories } = useContext(ProductContext);
+  const {
+    categories,
+    selectedItem,
+    productItems,
+    setProductItems,
+  } = useContext(ProductContext);
   const {
     register,
     handleSubmit,
+    setValue,
+    control,
     formState: { errors },
   } = useForm();
 
-  const submitHandle = (formData) => {
-    // Khởi tạo FormData từ các input trong form trả về thông qua biến formData
-    // do sử dụng FormData nên phải trong API controller phải dùng attribute [FromForm] trước paramter - tui đã mất 1 ngày trời để biết chiện này :((
-    let myFormData = new FormData();
-    myFormData.append("productName", formData.productName);
-    myFormData.append("productPrice", formData.productPrice);
-    myFormData.append("productDescription", formData.productDescription);
-    myFormData.append("categoryId", formData.categoryId);
-    [...formData.ImageFiles].map((file) => {
-      myFormData.append("ImageFiles", file);
+  useEffect(() => {
+    Object.keys(selectedItem).forEach((x) => {
+      setValue(x, selectedItem[x]);
     });
+  }, [selectedItem]);
 
-    axios({
-      method: "post",
-      url: "https://localhost:44348/api/products",
-      data: myFormData,
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+  const submitHandle = async (formData) => {
+    console.log(formData);
+    let returnData;
+    let myFormData = ProductFormData(formData);
+    if (myFormData.get("productId") === null) {
+      returnData = await PostProducts(myFormData);
+      setProductItems((prev) => [...prev, returnData]);
+    } else {
+      returnData = await PutProducts(myFormData);
+      console.log(returnData);
+      let newProducts = productItems.map((prod) =>
+        prod.productId === returnData.productId ? returnData : prod
+      );
+      setProductItems(newProducts);
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit(submitHandle)}>
       <FormGroup row>
+        <Controller
+          name="productId"
+          control={control}
+          defaultValue=""
+          render={({ field }) => <Input type="hidden" {...field} />}
+        />
         <Label sm={2}>Product Name</Label>
         <Col sm={10}>
-          <Input
-            type="text"
-            placeholder="enter product name"
-            {...register("productName")}
+          <Controller
+            name="productName"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <Input {...field} placeholder="enter product name" />
+            )}
           />
         </Col>
       </FormGroup>
       <FormGroup row>
         <Label sm={2}>Price</Label>
         <Col sm={10}>
-          <Input
-            type="number"
-            placeholder="enter product price"
-            {...register("productPrice")}
+          <Controller
+            name="productPrice"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <Input
+                {...field}
+                type="number"
+                placeholder="enter product price"
+              />
+            )}
           />
         </Col>
       </FormGroup>
       <FormGroup row>
         <Label sm={2}>Product Description</Label>
         <Col sm={10}>
-          <Input type="textarea" {...register("productDescription")} />
+          <Controller
+            name="productDescription"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <Input type="textarea" {...field} />}
+          />
         </Col>
       </FormGroup>
       <FormGroup row>
         <Label sm={2}>Product File</Label>
         <Col sm={10}>
           <input
+            defaultValue={null}
             accept="image/*"
             type="file"
             {...register("ImageFiles")}
@@ -80,17 +108,29 @@ const MyForm = () => {
       <FormGroup row>
         <Label sm={2}>Select</Label>
         <Col sm={{ offset: 0, size: 10 }}>
-          <Input type="select" {...register("categoryId", { required: true })}>
-            <option>Select Category</option>
-            {categories.map((cate) => {
-              return (
-                <option key={cate.categoryId} value={cate.categoryId}>
-                  {cate.categoryName}
-                </option>
-              );
-            })}
-          </Input>
-          {errors.categoryId && <span>This field is required</span>}
+          <Controller
+            name="categoryId"
+            control={control}
+            rules={{
+              required: true,
+              validate: (value) => !isNaN(value) || "error message",
+            }}
+            defaultValue=""
+            render={({ field }) => (
+              <Input type="select" {...field} key={selectedItem.categoryId}>
+                <option>Select Category</option>
+                {categories.map((cate) => {
+                  return (
+                    <option key={cate.categoryId} value={cate.categoryId}>
+                      {cate.categoryName}
+                    </option>
+                  );
+                })}
+              </Input>
+            )}
+          />
+
+          {errors.categoryId && <span>{errors.categoryId.message}</span>}
         </Col>
       </FormGroup>
       <FormGroup row>
