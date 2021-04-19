@@ -1,9 +1,7 @@
-import { useContext } from "react";
-import { Col, Container, Row } from "reactstrap";
-import MyForm from "./components/Form";
-import MyNavbar from "./components/Navbar";
-import { MyTable } from "./components/Table";
-import { ProductContext } from "./context/product_context";
+import { Container } from "reactstrap";
+import { MyNavbar } from "./components/Navbar";
+import { ProductPage } from "./pages/Product";
+import ProductContextProvider from "./context/product_context";
 
 function App() {
   return (
@@ -12,16 +10,9 @@ function App() {
       {/* Spacer */}
       <div className="p-5"></div>
       <Container>
-        <Row>
-          <Col md="12">
-            {/* Form */}
-            <MyForm></MyForm>
-            {/* Spacer */}
-            <div className="p-5"></div>
-            {/* Table */}
-            <MyTable></MyTable>
-          </Col>
-        </Row>
+        <ProductContextProvider>
+          <ProductPage />
+        </ProductContextProvider>
       </Container>
     </div>
   );

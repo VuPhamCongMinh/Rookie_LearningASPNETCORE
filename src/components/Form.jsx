@@ -4,13 +4,15 @@ import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { PostProducts, PutProducts } from "../api/product_api";
 import { ProductContext } from "../context/product_context";
 import { ProductFormData } from "../model/product_formdata";
+import { submitHandler } from "../utils/form_util";
 
-const MyForm = () => {
+export const MyForm = () => {
   const {
     categories,
     selectedItem,
     productItems,
     setProductItems,
+    setSelectedItem,
   } = useContext(ProductContext);
   const {
     register,
@@ -18,33 +20,27 @@ const MyForm = () => {
     setValue,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: {} });
 
   useEffect(() => {
     Object.keys(selectedItem).forEach((x) => {
       setValue(x, selectedItem[x]);
     });
-  }, [selectedItem]);
+  }, [setValue, selectedItem]);
 
-  const submitHandle = async (formData) => {
-    console.log(formData);
-    let returnData;
-    let myFormData = ProductFormData(formData);
-    if (myFormData.get("productId") === null) {
-      returnData = await PostProducts(myFormData);
-      setProductItems((prev) => [...prev, returnData]);
-    } else {
-      returnData = await PutProducts(myFormData);
-      console.log(returnData);
-      let newProducts = productItems.map((prod) =>
-        prod.productId === returnData.productId ? returnData : prod
-      );
-      setProductItems(newProducts);
-    }
+  const submit = async (formData) => {
+    submitHandler(
+      selectedItem,
+      setProductItems,
+      productItems,
+      formData,
+      setValue,
+      setSelectedItem
+    );
   };
 
   return (
-    <Form onSubmit={handleSubmit(submitHandle)}>
+    <Form onSubmit={handleSubmit(submit)}>
       <FormGroup row>
         <Controller
           name="productId"

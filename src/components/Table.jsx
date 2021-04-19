@@ -29,7 +29,11 @@ export const MyTable = () => {
               <td className="align-middle">{prod.category.categoryName}</td>
               {prod.images.length > 0 && (
                 <td>
-                  <img className="img-fluid" src={prod.images[0].imageUrl} />
+                  <img
+                    className="img-fluid"
+                    src={prod.images[0].imageUrl}
+                    alt="alu alu"
+                  />
                 </td>
               )}
 

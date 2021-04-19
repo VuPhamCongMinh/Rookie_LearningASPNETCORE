@@ -14,7 +14,7 @@ import {
   NavbarText,
 } from "reactstrap";
 
-const MyNavbar = () => {
+export const MyNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
