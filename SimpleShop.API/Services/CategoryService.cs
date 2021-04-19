@@ -22,12 +22,12 @@ namespace SimpleShop.API.Services
         public async Task<IEnumerable<Category>> GetCategories ()
         {
 
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories.Include(cate => cate.Products).AsNoTracking().ToListAsync();
         }
 
         public async Task<Category> GetCategoryById (int id)
         {
-            return await _context.Categories.FindAsync(id);
+            return await _context.Categories.Include(cate => cate.Products).AsNoTracking().FirstOrDefaultAsync(cate => cate.categoryId == id);
         }
 
         public async Task<Category> PostCategory (Category cate)
