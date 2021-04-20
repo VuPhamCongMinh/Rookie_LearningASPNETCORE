@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Row } from "reactstrap";
 import { ProductContext } from "../context/product_context";
 import { SortPrice, SortCate } from "../utils/toolbar_util";
 
-export const Toolbar = () => {
+export const ProductToolbar = () => {
   const { productItems, setProductItems } = useContext(ProductContext);
   const [sortOption, setSortOption] = useState({
     sort: "asc",

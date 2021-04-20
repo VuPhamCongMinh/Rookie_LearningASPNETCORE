@@ -1,19 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { PostProducts, PutProducts } from "../api/product_api";
+import { CategoryContext } from "../context/category_context";
 import { ProductContext } from "../context/product_context";
-import { ProductFormData } from "../model/product_formdata";
-import { submitHandler } from "../utils/form_util";
+import { productSubmitHandle } from "../utils/form_util";
 
-export const MyForm = () => {
+export const ProductForm = () => {
   const {
-    categories,
     selectedItem,
     productItems,
     setProductItems,
     setSelectedItem,
   } = useContext(ProductContext);
+  const { categories } = useContext(CategoryContext);
   const {
     register,
     handleSubmit,
@@ -29,7 +28,7 @@ export const MyForm = () => {
   }, [setValue, selectedItem]);
 
   const submit = async (formData) => {
-    submitHandler(
+    productSubmitHandle(
       selectedItem,
       setProductItems,
       productItems,
@@ -138,4 +137,4 @@ export const MyForm = () => {
   );
 };
 
-export default MyForm;
+export default ProductForm;

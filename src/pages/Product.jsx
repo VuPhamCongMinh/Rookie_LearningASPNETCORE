@@ -1,20 +1,20 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
-import { MyForm } from "../components/Form";
-import { MyTable } from "../components/Table";
-import { Toolbar } from "../components/Toolbar";
+import { ProductForm } from "../components/product_form";
+import { ProductTable } from "../components/product_table";
+import { ProductToolbar } from "../components/product_toolbar";
 export const ProductPage = () => {
   return (
     <Row>
       <Col md="12">
         {/* Form */}
-        <MyForm></MyForm>
+        <ProductForm></ProductForm>
         {/* Spacer */}
         <div className="p-5"></div>
         {/* Toolbar */}
-        <Toolbar></Toolbar>
+        <ProductToolbar></ProductToolbar>
         {/* Table */}
-        <MyTable></MyTable>
+        <ProductTable></ProductTable>
       </Col>
     </Row>
   );

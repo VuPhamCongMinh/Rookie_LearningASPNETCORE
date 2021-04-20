@@ -7,12 +7,9 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   NavbarText,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 export const MyNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,22 +24,18 @@ export const MyNavbar = () => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink>Products</NavLink>
+              <Link className="nav-link" to="/products">
+                Products
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link className="nav-link" to="/categories">
+                Categories
+              </Link>
             </NavItem>
             <NavItem>
               <NavLink>User</NavLink>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Categories
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
           </Nav>
           <NavbarText>Hello User !</NavbarText>
         </Collapse>

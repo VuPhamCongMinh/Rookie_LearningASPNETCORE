@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { GetCategories } from "../api/category_api";
 import { GetProducts } from "../api/product_api";
 
 export const ProductContext = React.createContext();
@@ -7,15 +6,11 @@ export const ProductContext = React.createContext();
 const ProductContextProvider = ({ children }) => {
   const [productItems, setProductItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
-  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setCategories(await GetCategories());
+    (async () => {
       setProductItems(await GetProducts());
-    };
-
-    fetchData();
+    })();
   }, []);
 
   return (
@@ -23,8 +18,6 @@ const ProductContextProvider = ({ children }) => {
       value={{
         productItems,
         setProductItems,
-        categories,
-        setCategories,
         selectedItem,
         setSelectedItem,
       }}

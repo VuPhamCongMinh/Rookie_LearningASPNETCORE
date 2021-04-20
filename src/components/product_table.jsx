@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Table, Button } from "reactstrap";
 import { ProductContext } from "../context/product_context";
 
-export const MyTable = () => {
+export const ProductTable = () => {
   const { productItems, setSelectedItem } = useContext(ProductContext);
 
   return (
@@ -15,6 +15,7 @@ export const MyTable = () => {
           <th>Category</th>
           <th>Product Images</th>
           <th>Product Description</th>
+          <th>Operation</th>
         </tr>
       </thead>
       <tbody>

@@ -5,7 +5,7 @@ const product_url = "https://localhost:44348/api/products";
 export const GetProducts = () => {
   return axios
     .get(product_url)
-    .then(({ data: { products } }) => products)
+    .then((response) => response.data)
     .catch((error) => {
       console.log(error.response);
       return [];
