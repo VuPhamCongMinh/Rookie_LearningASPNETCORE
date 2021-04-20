@@ -47,7 +47,7 @@ namespace SimpleShop.API.Services
 
         public async Task<Category> PutCategory (int id, Category cate)
         {
-            var cateInDb = await _context.Categories.FindAsync(id);
+            var cateInDb = await _context.Categories.Include(cate => cate.Products).FirstOrDefaultAsync(cate => cate.categoryId.Equals(id));
             if (cateInDb is null)
             {
                 return null;
