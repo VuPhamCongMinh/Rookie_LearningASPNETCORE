@@ -18,8 +18,8 @@ export const ProductForm = () => {
     handleSubmit,
     setValue,
     control,
-    formState: { errors },
-  } = useForm({ defaultValues: {} });
+    formState: { errors, isSubmitting },
+  } = useForm();
 
   useEffect(() => {
     Object.keys(selectedItem).forEach((x) => {
@@ -52,6 +52,12 @@ export const ProductForm = () => {
           <Controller
             name="productName"
             control={control}
+            rules={{
+              required: {
+                value: isSubmitting,
+                message: "you forgot to enter product name",
+              },
+            }}
             defaultValue=""
             render={({ field }) => (
               <Input {...field} placeholder="enter product name" />
@@ -66,6 +72,9 @@ export const ProductForm = () => {
             name="productPrice"
             control={control}
             defaultValue=""
+            rules={{
+              validate: (value) => value > 0 || "you forgot to enter price",
+            }}
             render={({ field }) => (
               <Input
                 {...field}
@@ -78,12 +87,24 @@ export const ProductForm = () => {
       </FormGroup>
       <FormGroup row>
         <Label sm={2}>Product Description</Label>
-        <Col sm={10}>
+        <Col sm={10} className="text-center">
           <Controller
             name="productDescription"
             control={control}
+            rules={{
+              required: {
+                value: isSubmitting,
+                message: "you forgot to enter description",
+              },
+            }}
             defaultValue=""
-            render={({ field }) => <Input type="textarea" {...field} />}
+            render={({ field }) => (
+              <Input
+                placeholder="enter product description"
+                type="textarea"
+                {...field}
+              />
+            )}
           />
         </Col>
       </FormGroup>
@@ -107,8 +128,8 @@ export const ProductForm = () => {
             name="categoryId"
             control={control}
             rules={{
-              required: true,
-              validate: (value) => !isNaN(value) || "error message",
+              validate: (value) =>
+                !isNaN(value) || "you forgot to select category",
             }}
             defaultValue=""
             render={({ field }) => (
@@ -124,8 +145,8 @@ export const ProductForm = () => {
               </Input>
             )}
           />
-
-          {errors.categoryId && <span>{errors.categoryId.message}</span>}
+          {errors &&
+            Object.entries(errors).map((x, i) => <p key={i}>{x[1].message}</p>)}
         </Col>
       </FormGroup>
       <FormGroup row>

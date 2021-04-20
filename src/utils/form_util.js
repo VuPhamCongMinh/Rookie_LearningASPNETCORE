@@ -16,6 +16,9 @@ export const productSubmitHandle = async (
 
   if (!myFormData.get("productId")) {
     returnData = await PostProducts(myFormData);
+
+    alert(JSON.stringify(returnData));
+
     if (returnData != null) setProductItems((prev) => [...prev, returnData]);
   } else {
     returnData = await PutProducts(myFormData);
@@ -43,7 +46,6 @@ export const cagetorySubmitHandle = async (
 
   if (!myFormData.get("categoryId")) {
     returnData = await PostCategory(myFormData);
-    console.log(returnData);
     if (returnData != null) setCategories((prev) => [...prev, returnData]);
   } else {
     returnData = await PutCategory(myFormData);
@@ -60,7 +62,6 @@ export const cagetorySubmitHandle = async (
 
 const resetForm = (selectedItem, setValue, setSelectedItem) => {
   Object.keys(selectedItem).forEach((x) => {
-    console.log(x);
     setValue(x, "");
   });
   setSelectedItem({});
