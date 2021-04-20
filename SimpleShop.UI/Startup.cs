@@ -66,7 +66,7 @@ namespace SimpleShop.UI
                                 var refreshToken = cookieCtx.Properties.GetTokenValue("refresh_token");
                                 var client = new HttpClient();
                                 client.DefaultRequestHeaders.Add("Bearer", accessToken);
-                                DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync("https://gunforkids.azurewebsites.net");
+                                DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(Configuration[("ClientUrl:Swagger")].ToString());
                                 // TODO: Get this HttpClient from a factory
                                 var response = await new HttpClient().RequestRefreshTokenAsync(new RefreshTokenRequest
                                 {
@@ -98,7 +98,7 @@ namespace SimpleShop.UI
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://gunforkids.azurewebsites.net";
+                    options.Authority = Configuration[("ClientUrl:Swagger")].ToString();
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;

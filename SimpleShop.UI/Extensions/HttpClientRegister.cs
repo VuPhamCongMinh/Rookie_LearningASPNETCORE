@@ -23,7 +23,7 @@ namespace SimpleShop.UI.Extensions
                 var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
                 var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync("access_token");
 
-                client.BaseAddress = new Uri("https://gunforkids.azurewebsites.net/");
+                client.BaseAddress = new Uri(config[("ClientUrl:Swagger")].ToString());
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             });
 
