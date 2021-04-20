@@ -20,6 +20,7 @@ namespace SimpleShop.UI
 {
     public class Startup
     {
+        public static string backEndUrl = "";
         public Startup (IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +31,8 @@ namespace SimpleShop.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
+            backEndUrl = Configuration.GetSection("ClientUrl")["Swagger"];
+
             services.AddRegisterHttpClient(Configuration);
 
             services.AddAuthentication(options =>
@@ -63,7 +66,7 @@ namespace SimpleShop.UI
                                 var refreshToken = cookieCtx.Properties.GetTokenValue("refresh_token");
                                 var client = new HttpClient();
                                 client.DefaultRequestHeaders.Add("Bearer", accessToken);
-                                DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync("https://localhost:44348/");
+                                DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync("https://gunforkids.azurewebsites.net");
                                 // TODO: Get this HttpClient from a factory
                                 var response = await new HttpClient().RequestRefreshTokenAsync(new RefreshTokenRequest
                                 {
@@ -95,7 +98,7 @@ namespace SimpleShop.UI
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:44348";
+                    options.Authority = "https://gunforkids.azurewebsites.net";
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;

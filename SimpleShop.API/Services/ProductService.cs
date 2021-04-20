@@ -21,12 +21,12 @@ namespace SimpleShop.API.Services
 
         private IEnumerable<Product> allProduct { get; set; }
 
-        public ProductService (MyDBContext context, IFilesService filesService, IMapper mapper)
+        public ProductService  (MyDBContext context, IFilesService filesService, IMapper mapper)
         {
             _context = context;
             _filesService = filesService;
             _mapper = mapper;
-            allProduct = _context.Products.Include(p => p.Category).Include(p => p.Images).ToList();
+            allProduct = GetProducts().Result;
         }
 
         public IEnumerable<Product> GetFilteredProducts (int pageIndex, int pageSize, string searchString, string sortOrder, double? minPrice, double? maxPrice, int cate)
@@ -43,10 +43,7 @@ namespace SimpleShop.API.Services
             return allProducts.ToList();
         }
 
-        public async Task<IEnumerable<Product>> GetProduct ()
-        {
-            return await _context.Products.Include(p => p.Category).Include(p => p.Images).AsNoTracking().ToListAsync();
-        }
+
 
         public async Task<Product> GetProductByID (int id)
         {
@@ -182,7 +179,21 @@ namespace SimpleShop.API.Services
 
         public async Task<IEnumerable<Product>> GetProducts ()
         {
-            var product = await _context.Products.ToListAsync();
+            var product = await _context.Products.Include(p=>p.Images).Include(p=>p.Category).ToListAsync();
+            if (product.Count > 0)
+            {
+                foreach (var item in product)
+                {
+                    foreach (var img in item.Images)
+                    {
+                        if (!img.imageUrl.Contains("https"))
+                        {
+                            img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
+
+                        }
+                    }
+                }
+            }
             return product;
         }
     }

@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using SimpleShop.Shared.Constant;
+using SimpleShop.API.Constant;
 using SimpleShop.Shared.Interfaces;
 
 namespace SimpleShop.API.Services
@@ -21,7 +21,7 @@ namespace SimpleShop.API.Services
         //Mốt lấy từ UI thì dùng hàm này 
         public string GetFileUrl (string fileName)
         {
-            return $"{Url.API_URL}/{FilePath.USER_IMAGES_PATH}/{fileName}";
+            return $" {Startup.clientUrls["Swagger"]}/{FilePath.USER_IMAGES_PATH}/{fileName}";
         }
 
         public async Task SaveFileAsync (Stream mediaBinaryStream, string fileName)

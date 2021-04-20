@@ -1,15 +1,12 @@
 ﻿using Newtonsoft.Json;
-using SimpleShop.Shared.Constant;
 using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
+using SimpleShop.UI.Constant;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleShop.UI.Services

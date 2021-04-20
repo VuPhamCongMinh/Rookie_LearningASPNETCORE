@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SimpleShop.Shared.Constant;
 using SimpleShop.Shared.ViewModels;
+using SimpleShop.UI.Constant;
 using System.Net.Http;
 
 namespace SimpleShop.ViewModels.ViewComponents
