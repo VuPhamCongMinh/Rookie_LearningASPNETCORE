@@ -29,7 +29,13 @@ namespace SimpleShop.API.API
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory (int id)
         {
-            return Ok(await _categoryService.GetCategoryById(id));
+            var returnCate = await _categoryService.GetCategoryById(id);
+            if (returnCate is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(returnCate);
         }
 
         // POST api/<CategoriesController>
@@ -41,14 +47,14 @@ namespace SimpleShop.API.API
             {
                 return BadRequest();
             }
-            return CreatedAtAction(nameof(GetCategory), new { id = returnCate.categoryId });
+            return CreatedAtAction(nameof(GetCategory), new { id = returnCate.categoryId }, returnCate);
         }
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult<Category>> Put (int id, [FromForm] Category category)
         {
-            var returnCate = await _categoryService.PutCategory(id,category);
+            var returnCate = await _categoryService.PutCategory(id, category);
             if (returnCate is null)
             {
                 return BadRequest();
