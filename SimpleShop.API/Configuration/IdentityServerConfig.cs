@@ -18,7 +18,7 @@ namespace SimpleShop.API.Configuration
              {
                   new ApiScope("product.api", "Product Shop API")
              };
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients (Dictionary<string, string> clientUrls) =>
             new List<Client>
             {
                 // machine to machine client
@@ -40,9 +40,8 @@ namespace SimpleShop.API.Configuration
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44301/signin-oidc" },
-
-                    PostLogoutRedirectUris = { "https://localhost:44301/signout-callback-oidc" },
+                     RedirectUris = { $"{clientUrls["Mvc"]}/signin-oidc" },
+                    PostLogoutRedirectUris = { $"{clientUrls["Mvc"]}/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
@@ -67,9 +66,9 @@ namespace SimpleShop.API.Configuration
                     RequireConsent = false,
                     RequirePkce = true,
 
-                    RedirectUris =           { $"https://localhost:44348/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"https://localhost:44348/swagger/oauth2-redirect.html" },
-                    AllowedCorsOrigins =     { $"https://localhost:44348" },
+                   RedirectUris =           { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { $"{clientUrls["Swagger"]}" },
 
                     AllowedScopes = new List<string>
                     {

@@ -28,6 +28,13 @@ namespace SimpleShop.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
+            var clientUrls = new Dictionary<string, string>
+            {
+                ["Mvc"] = Configuration["ClientUrl:Mvc"],
+                ["Swagger"] = Configuration["ClientUrl:Swagger"],
+                ["React"] = Configuration["ClientUrl:React"]
+            };
+
             services.AddDbContext<MyDBContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("RookieConnection")));
@@ -47,7 +54,7 @@ namespace SimpleShop.API
             })
             .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
             .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-            .AddInMemoryClients(IdentityServerConfig.Clients)
+            .AddInMemoryClients(IdentityServerConfig.Clients((clientUrls)))
             .AddAspNetIdentity<IdentityUser>()
             .AddProfileService<CustomProfileService>()
             .AddDeveloperSigningCredential(); // not recommended for production - you need to store your key material somewhere secure
@@ -113,17 +120,9 @@ namespace SimpleShop.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseMigrationsEndPoint();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
