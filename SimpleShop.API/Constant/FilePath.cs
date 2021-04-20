@@ -1,4 +1,4 @@
-﻿namespace SimpleShop.Shared.Constant
+﻿namespace SimpleShop.API.Constant
 {
     public static class FilePath
     {

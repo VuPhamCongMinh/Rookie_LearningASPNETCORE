@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimpleShop.Shared.Constant
+namespace SimpleShop.UI.Constant
 {
     public class Url
     {
-        public const string API_URL = "https://localhost:44348";
+        public string API_URL = $"{Startup.backEndUrl}";
     }
 }
