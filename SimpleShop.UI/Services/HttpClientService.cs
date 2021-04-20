@@ -56,7 +56,7 @@ namespace SimpleShop.UI.Services
 
             Product products;
 
-            if ((int)get_product_response.StatusCode == 200)
+            if (get_product_response.IsSuccessStatusCode)
             {
                 var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
                 products = JsonConvert.DeserializeObject<Product>(get_product_responseData);
@@ -83,7 +83,13 @@ namespace SimpleShop.UI.Services
             if (get_product_response.IsSuccessStatusCode)
             {
                 var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
+                var products = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
+                if (products != null)
+                {
+                    return products;
+
+                }
+                return new ProductResponse { Products = new List<Product>(), Count = 0 };
             }
             else
             {

@@ -43,8 +43,6 @@ namespace SimpleShop.API.Services
             return allProducts.ToList();
         }
 
-
-
         public async Task<Product> GetProductByID (int id)
         {
             return await _context.Products.Include(p => p.Category)
@@ -54,7 +52,6 @@ namespace SimpleShop.API.Services
                 .SingleAsync();
 
         }
-
 
         void PagingProducts (ref IEnumerable<Product> sourceProducts, int pageindex, int pagesize)
         {
@@ -109,8 +106,6 @@ namespace SimpleShop.API.Services
                 productLength = sourceProducts.Count();
             }
         }
-
-
 
         public int GetProductCount () => productLength;
 

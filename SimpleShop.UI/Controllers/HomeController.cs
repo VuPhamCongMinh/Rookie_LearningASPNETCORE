@@ -19,26 +19,19 @@ namespace SimpleShop.UI.Controllers
         public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var productsRespone = await httpClient.GetProductsAsync(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
-            if (productsRespone != null)
-            {
 
-                int totalPage = productsRespone.Count;
-                #region Define ViewBag 
-                ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
-                ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
-                ViewBag.SortOrder = sortOrder == "asc" ? 0 : 1;
-                ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
-                ViewBag.TotalProduct = totalPage;
-                ViewBag.Pages = (int)Math.Ceiling((totalPage / (float)pageSize));
-                ViewBag.CurrentCategory = cate;
-                #endregion
+            int totalPage = productsRespone.Count;
+            #region Define ViewBag 
+            ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
+            ViewBag.MaxPrice = maxPrice != 0 ? maxPrice : null;
+            ViewBag.SortOrder = sortOrder == "asc" ? 0 : 1;
+            ViewBag.SearchString = !string.IsNullOrEmpty(searchString) ? searchString : null;
+            ViewBag.TotalProduct = totalPage;
+            ViewBag.Pages = (int)Math.Ceiling((totalPage / (float)pageSize));
+            ViewBag.CurrentCategory = cate;
+            #endregion
 
-                return View(productsRespone.Products);
-            }
-            else
-            {
-                return View("Error");
-            }
+            return View(productsRespone.Products);
         }
         public async Task<IActionResult> Product (int id)
         {

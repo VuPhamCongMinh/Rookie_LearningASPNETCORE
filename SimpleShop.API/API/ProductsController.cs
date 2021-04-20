@@ -23,22 +23,15 @@ namespace SimpleShop.API.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<ProductResponse>> GetProducts ()
+        public async Task<ActionResult<Product>> GetProducts ()
         {
             var products = await _productService.GetProducts();
-            if (products.Count() <= 0)
-            {
-                return NoContent();
-            }
-            else
-            {
-                return Ok(products);
-            }
+            return Ok(products);
         }
-        
+
         //[Authorize("Bearer")] 
         [HttpGet("/api/GetFilteredProducts")]
-        public ActionResult<ProductResponse> GetFilteredProducts (int pageIndex, int pageSize, string searchString, string sortOrder, double? minPrice, double? maxPrice, int cate)
+        public ActionResult<Product> GetFilteredProducts (int pageIndex, int pageSize, string searchString, string sortOrder, double? minPrice, double? maxPrice, int cate)
         {
             var products = _productService.GetFilteredProducts(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
             if (products.Count() <= 0)
