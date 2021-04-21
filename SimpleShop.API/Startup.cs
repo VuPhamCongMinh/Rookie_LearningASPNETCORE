@@ -41,7 +41,14 @@ namespace SimpleShop.API
                     Configuration.GetConnectionString("RookieConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredUniqueChars = 0;
+            })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MyDBContext>();
 
