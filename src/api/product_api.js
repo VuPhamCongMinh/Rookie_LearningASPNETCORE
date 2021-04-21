@@ -3,13 +3,7 @@ import axios from "axios";
 const product_url = "https://localhost:44348/api/products";
 
 export const GetProducts = () => {
-  return axios
-    .get(product_url)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response);
-      return [];
-    });
+  return axios.get(product_url);
 };
 
 export const PostProducts = (myFormData) => {
