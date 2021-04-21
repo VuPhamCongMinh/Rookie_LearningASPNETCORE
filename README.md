@@ -20,10 +20,15 @@
  
  > Unit Test:
 
-		-   Test Get, GetById, Post và Put phần API sản phẩm 
-		-   Test Get, GetById, Post và Put phần API danh mục
-		-   Test Get, GetById, Post và Put phần API đánh giá
-		-   Test Get, GetById, Post và Put phần API giỏ hàng
+		-   Test Get, GetById, Post và Put API sản phẩm 
+		-   Test Get, GetById, Post và Put API danh mục
+		-   Test Get, GetById, Post và Put API đánh giá
+		-   Test Get, GetById, Post và Put API giỏ hàng
+
+> Tài khoản đăng nhập :
+
+		-   Username: admin@gmail.com 
+		-   Password : 123456
 
 ## Thư viện sử dụng
 
