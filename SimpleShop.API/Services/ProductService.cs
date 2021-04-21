@@ -129,7 +129,7 @@ namespace SimpleShop.API.Services
                 await _context.SaveChangesAsync();
                 return productAdded;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 return null;
             }
@@ -138,7 +138,7 @@ namespace SimpleShop.API.Services
 
         public async Task<Product> PutProduct (int id, ProductPostRequest product)
         {
-            var productToBeUpdated = await _context.Products.FindAsync(id);
+            var productToBeUpdated = await _context.Products.Include(prod => prod.Category).FirstOrDefaultAsync(prod => prod.productId == id);
 
             if (productToBeUpdated is null)
             {
