@@ -145,6 +145,7 @@ namespace SimpleShop.API.Services
                 return null;
             }
 
+            productToBeUpdated.categoryId = product.categoryId;
             productToBeUpdated.updatedDate = DateTime.Now;
             if (product.ImageFiles != null)
             {
@@ -157,7 +158,6 @@ namespace SimpleShop.API.Services
             }
             try
             {
-                _context.Entry(productToBeUpdated).CurrentValues.SetValues(product);
                 await _context.SaveChangesAsync();
                 return productToBeUpdated;
             }
