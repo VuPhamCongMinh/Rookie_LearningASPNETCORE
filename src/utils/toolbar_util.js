@@ -1,42 +1,23 @@
-export const SortPrice = (
-  productItems,
-  setProductItems,
-  sortOption,
-  setSortOption
-) => {
-  if (sortOption.sort === "asc") {
-    let newProduct = [...productItems].sort(
-      (a, b) => a.productPrice - b.productPrice
-    );
-    setSortOption({ ...sortOption, sort: "desc" });
-    setProductItems(newProduct);
-  } else {
-    let newProduct = [...productItems].sort(
-      (a, b) => b.productPrice - a.productPrice
-    );
+import {
+  sortProductsByCategory,
+  sortProductsByPrice,
+} from "../redux/actions/product_actions";
+import store from "../redux/store";
 
+export const SortPrice = (sortOption, setSortOption) => {
+  store.dispatch(sortProductsByPrice(sortOption));
+  if (sortOption.sort === "asc") {
+    setSortOption({ ...sortOption, sort: "desc" });
+  } else {
     setSortOption({ ...sortOption, sort: "asc" });
-    setProductItems(newProduct);
   }
 };
 
-export const SortCate = (
-  productItems,
-  setProductItems,
-  sortOption,
-  setSortOption
-) => {
+export const SortCate = (sortOption, setSortOption) => {
+  store.dispatch(sortProductsByCategory(sortOption));
   if (sortOption.cate === "asc") {
-    let newProduct = [...productItems].sort((a, b) =>
-      a.category.categoryName.localeCompare(b.category.categoryName)
-    );
     setSortOption({ ...sortOption, cate: "desc" });
-    setProductItems(newProduct);
   } else {
-    let newProduct = [...productItems].sort((a, b) =>
-      b.category.categoryName.localeCompare(a.category.categoryName)
-    );
     setSortOption({ ...sortOption, cate: "asc" });
-    setProductItems(newProduct);
   }
 };
