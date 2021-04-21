@@ -20,9 +20,9 @@ namespace SimpleShop.API.API
         }
         // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategories ()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories ()
         {
-            return Ok(new CategoryResponse { Categories = await _categoryService.GetCategories() });
+            return Ok(await _categoryService.GetCategories());
         }
 
         // GET api/<CategoriesController>/5

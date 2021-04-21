@@ -1,4 +1,4 @@
-﻿@model CategoryResponse
+﻿@model IEnumerable<Category>
 @{
     int i = 0;
 }
@@ -12,7 +12,7 @@
             <label class="form-check-label" for="custom-radio-all">All</label>
         </li>
 
-        @foreach (var category in Model.Categories)
+        @foreach (var category in Model)
         {
             <li>
                 <input type="radio" id=@($"custom-radio-{i+1}") name="category-radio" value="@category.categoryId" class="form-check-input" checked="@((int)ViewBag.CurrentCategory == category.categoryId)">

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SimpleShop.Shared.ViewModels;
+using SimpleShop.Shared.Models;
 using SimpleShop.UI.Constant;
+using System.Collections.Generic;
 using System.Net.Http;
 
 namespace SimpleShop.ViewModels.ViewComponents
@@ -21,12 +22,12 @@ namespace SimpleShop.ViewModels.ViewComponents
 
             var get_categories_response = await client.SendAsync(category_request);
 
-            CategoryResponse categoryResponse;
+            IEnumerable<Category> categoryResponse;
 
             if (get_categories_response.IsSuccessStatusCode)
             {
                 var get_categories_responseData = await get_categories_response.Content.ReadAsStringAsync();
-                categoryResponse = JsonConvert.DeserializeObject<CategoryResponse>(get_categories_responseData);
+                categoryResponse = JsonConvert.DeserializeObject<IEnumerable<Category>>(get_categories_responseData);
             }
             else
             {
