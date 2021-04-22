@@ -10,5 +10,6 @@ namespace SimpleShop.Shared.Interfaces
         public Task<Category> GetCategoryById (int id);
         public Task<Category> PostCategory (Category cate);
         public Task<Category> PutCategory (int id, Category cate);
+        public Task<bool> DeleteCategory (int id);
     }
 }

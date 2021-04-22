@@ -19,6 +19,21 @@ namespace SimpleShop.API.Services
             _context = context;
         }
 
+        public async Task <bool> DeleteCategory (int id)
+        {
+            try
+            {
+                var productToDelete = await _context.Categories.FindAsync(id);
+                _context.Remove(productToDelete);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                return false;
+            }
+        }
+
         public async Task<IEnumerable<Category>> GetCategories ()
         {
 

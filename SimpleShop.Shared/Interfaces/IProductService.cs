@@ -15,7 +15,7 @@ namespace SimpleShop.Shared.Interfaces
         public int GetProductCount ();
         public Task<Product> PostProduct (ProductPostRequest product);
         public Task<Product> PutProduct (int id, ProductPostRequest product);
-        public Task<int> DeleteProduct (int id);
+        public Task<bool> DeleteProduct (int id);
 
     }
 }

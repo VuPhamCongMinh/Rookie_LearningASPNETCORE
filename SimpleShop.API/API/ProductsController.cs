@@ -93,10 +93,14 @@ namespace SimpleShop.API.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize("Bearer")]
-        public async Task<ActionResult<IEnumerable<ProductPostRequest>>> DeleteProduct (int id)
+        public async Task<ActionResult> DeleteProduct (int id)
         {
-            var product = await _productService.DeleteProduct(id);
-            return Ok(product);
+            var isDeleteSuccessful = await _productService.DeleteProduct(id);
+            if (isDeleteSuccessful)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SimpleShop.API.Services
 
         private IEnumerable<Product> allProduct { get; set; }
 
-        public ProductService  (MyDBContext context, IFilesService filesService, IMapper mapper)
+        public ProductService (MyDBContext context, IFilesService filesService, IMapper mapper)
         {
             _context = context;
             _filesService = filesService;
@@ -121,13 +121,14 @@ namespace SimpleShop.API.Services
                 {
                     productAdded.Images.Add(new Image { productId = productAdded.productId, imageUrl = await _filesService.SaveFilePath(file) });
                 }
-
             }
             try
             {
                 _context.Add(productAdded);
                 await _context.SaveChangesAsync();
-                return productAdded;
+
+                var productAdded4Real = await GetProductByID(productAdded.productId);
+                return productAdded4Real;
             }
             catch (System.Exception e)
             {
@@ -145,7 +146,6 @@ namespace SimpleShop.API.Services
                 return null;
             }
 
-            productToBeUpdated.categoryId = product.categoryId;
             productToBeUpdated.updatedDate = DateTime.Now;
             if (product.ImageFiles != null)
             {
@@ -158,6 +158,8 @@ namespace SimpleShop.API.Services
             }
             try
             {
+                _context.Entry(productToBeUpdated).CurrentValues.SetValues(product);
+                productToBeUpdated.Category = await _context.Categories.FindAsync(product.categoryId);
                 await _context.SaveChangesAsync();
                 return productToBeUpdated;
             }
@@ -167,14 +169,28 @@ namespace SimpleShop.API.Services
             }
         }
 
-        public Task<int> DeleteProduct (int id)
+        public async Task<bool> DeleteProduct (int id)
         {
-            throw new System.NotImplementedException();
+            var productToRemove = await _context.Products.FindAsync(id);
+            if (productToRemove is not null)
+            {
+                try
+                {
+                    _context.Products.Remove(productToRemove);
+                    await _context.SaveChangesAsync();
+                    return (true);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
         }
 
         public async Task<IEnumerable<Product>> GetProducts ()
         {
-            var product = await _context.Products.Include(p=>p.Images).Include(p=>p.Category).ToListAsync();
+            var product = await _context.Products.Include(p => p.Images).Include(p => p.Category).ToListAsync();
             if (product.Count > 0)
             {
                 foreach (var item in product)

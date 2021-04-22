@@ -64,8 +64,17 @@ namespace SimpleShop.API.API
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
-        public void Delete (int id)
+        public async Task<ActionResult<bool>> Delete (int id)
         {
+            var isDeleteSuccessful = await _categoryService.DeleteCategory(id);
+            if (isDeleteSuccessful)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
