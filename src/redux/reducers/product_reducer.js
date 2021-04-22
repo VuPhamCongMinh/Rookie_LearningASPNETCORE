@@ -1,3 +1,4 @@
+import { DeleteProduct } from "../../api/product_api";
 import { ActionTypes } from "../constants/action_types";
 const initialProductState = {
   productList: [],
@@ -7,6 +8,18 @@ const productReducer = (state = initialProductState, { type, payload }) => {
   switch (type) {
     case ActionTypes.SET_PRODUCTS: {
       return { ...state, productList: payload };
+    }
+    case ActionTypes.UPDATE_PRODUCT: {
+      let newProducts = state.productList.map((prod) =>
+        prod.productId === payload.productId ? payload : prod
+      );
+      return { ...state, productList: newProducts };
+    }
+    case ActionTypes.DELETE_PRODUCT: {
+      let newProducts = state.productList.filter(
+        (prod) => prod.productId !== payload
+      );
+      return { ...state, productList: newProducts };
     }
     case ActionTypes.ADD_NEW_PRODUCT: {
       return { ...state, productList: [...state.productList, payload] };
@@ -47,6 +60,9 @@ const productReducer = (state = initialProductState, { type, payload }) => {
           ),
         };
       }
+    }
+    case ActionTypes.CLEAR_SELECTED_PRODUCT: {
+      return { ...state, selectedProduct: {} };
     }
     default:
       return state;

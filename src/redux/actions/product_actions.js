@@ -1,3 +1,4 @@
+import { DeleteProduct } from "../../api/product_api";
 import { ActionTypes } from "../constants/action_types";
 
 export const addNewProduct = (product) => {
@@ -38,5 +39,26 @@ export const sortProductsByCategory = (sortOption) => {
   return {
     type: ActionTypes.SORT_PRODUCTS_BY_CATEGORY,
     payload: sortOption,
+  };
+};
+
+export const clearSelectedProduct = () => {
+  return {
+    type: ActionTypes.CLEAR_SELECTED_PRODUCT,
+  };
+};
+
+export const deleteProductRequest = (id) => {
+  return (dispatch) => {
+    DeleteProduct(id).then((_) => {
+      dispatch(deleteProduct(id));
+    });
+  };
+};
+
+export const deleteProduct = (id) => {
+  return {
+    type: ActionTypes.DELETE_PRODUCT,
+    payload: id,
   };
 };
