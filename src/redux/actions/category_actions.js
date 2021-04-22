@@ -1,3 +1,4 @@
+import { DeleteCategory } from "../../api/category_api";
 import { ActionTypes } from "../constants/action_types";
 
 export const addNewCategory = (category) => {
@@ -25,5 +26,26 @@ export const setSelectedCategory = (category) => {
   return {
     type: ActionTypes.SET_SELECTED_CATEGORY,
     payload: category,
+  };
+};
+
+export const clearSelectedCategory = () => {
+  return {
+    type: ActionTypes.CLEAR_SELECTED_CATEGORY,
+  };
+};
+
+export const deleteCategoryRequest = (id) => {
+  return (dispatch) => {
+    DeleteCategory(id).then((_) => {
+      dispatch(deleteCategory(id));
+    });
+  };
+};
+
+export const deleteCategory = (id) => {
+  return {
+    type: ActionTypes.DELETE_CATEGORY,
+    payload: id,
   };
 };
