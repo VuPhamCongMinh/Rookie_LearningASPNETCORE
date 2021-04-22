@@ -1,18 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { CategoryContext } from "../context/category_context";
-import { ProductContext } from "../context/product_context";
 import { productSubmitHandle } from "../utils/form_util";
 
 export const ProductForm = () => {
-  const {
-    selectedItem,
-    productItems,
-    setProductItems,
-    setSelectedItem,
-  } = useContext(ProductContext);
-  const { categories } = useContext(CategoryContext);
+  const selectedProduct = useSelector((state) => state.product.selectedProduct);
+  const categoryList = useSelector((state) => state.category.categoryList);
   const {
     register,
     handleSubmit,
@@ -22,20 +16,15 @@ export const ProductForm = () => {
   } = useForm();
 
   useEffect(() => {
-    Object.keys(selectedItem).forEach((x) => {
-      setValue(x, selectedItem[x]);
-    });
-  }, [setValue, selectedItem]);
+    if (selectedProduct) {
+      Object.keys(selectedProduct).forEach((x) => {
+        setValue(x, selectedProduct[x]);
+      });
+    }
+  }, [setValue, selectedProduct]);
 
   const submit = async (formData) => {
-    productSubmitHandle(
-      selectedItem,
-      setProductItems,
-      productItems,
-      formData,
-      setValue,
-      setSelectedItem
-    );
+    productSubmitHandle(formData, setValue);
   };
 
   return (
@@ -128,14 +117,13 @@ export const ProductForm = () => {
             name="categoryId"
             control={control}
             rules={{
-              validate: (value) =>
-                !isNaN(value) || "you forgot to select category",
+              validate: (value) => !isNaN(value) || "invalid number",
             }}
             defaultValue=""
             render={({ field }) => (
-              <Input type="select" {...field} key={selectedItem.categoryId}>
-                <option>Select Category</option>
-                {categories.map((cate) => {
+              <Input type="select" {...field}>
+                <option>Select categoryList</option>
+                {categoryList.map((cate) => {
                   return (
                     <option key={cate.categoryId} value={cate.categoryId}>
                       {cate.categoryName}

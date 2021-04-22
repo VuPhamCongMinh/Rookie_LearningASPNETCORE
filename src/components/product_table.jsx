@@ -1,9 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Table, Button } from "reactstrap";
-import { ProductContext } from "../context/product_context";
+import {
+  deleteProductRequest,
+  setSelectedProduct,
+} from "../redux/actions/product_actions";
 
 export const ProductTable = () => {
-  const { productItems, setSelectedItem } = useContext(ProductContext);
+  const productItems = useSelector((state) => state.product.productList);
+  const dispatch = useDispatch();
 
   return (
     <Table responsive={true} striped={true}>
@@ -27,7 +32,7 @@ export const ProductTable = () => {
               </th>
               <td className="align-middle">{prod.productName}</td>
               <td className="align-middle">$ {prod.productPrice}</td>
-              <td className="align-middle">{prod.category.categoryName}</td>
+              <td className="align-middle">{prod.category?.categoryName}</td>
               {prod.images.length > 0 && (
                 <td>
                   <img
@@ -40,8 +45,21 @@ export const ProductTable = () => {
 
               <td className="align-middle">{prod.productDescription}</td>
               <td>
-                <Button color="primary" onClick={() => setSelectedItem(prod)}>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    dispatch(setSelectedProduct(prod));
+                  }}
+                >
                   Edit
+                </Button>
+                <Button
+                  color="danger"
+                  onClick={() => {
+                    dispatch(deleteProductRequest(prod.productId));
+                  }}
+                >
+                  Delete
                 </Button>
               </td>
             </tr>

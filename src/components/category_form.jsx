@@ -1,16 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { CategoryContext } from "../context/category_context";
 import { cagetorySubmitHandle } from "../utils/form_util";
 
 export const CategoryForm = () => {
-  const {
-    categories,
-    setCategories,
-    selectedCate,
-    setSelectedCate,
-  } = useContext(CategoryContext);
+  const selectedCategory = useSelector(
+    (state) => state.category.selectedCategory
+  );
+
   const {
     handleSubmit,
     setValue,
@@ -19,20 +17,13 @@ export const CategoryForm = () => {
   } = useForm();
 
   useEffect(() => {
-    Object.keys(selectedCate).forEach((x) => {
-      setValue(x, selectedCate[x]);
+    Object.keys(selectedCategory).forEach((x) => {
+      setValue(x, selectedCategory[x]);
     });
-  }, [setValue, selectedCate]);
+  }, [setValue, selectedCategory]);
 
   const submit = async (formData) => {
-    cagetorySubmitHandle(
-      categories,
-      setCategories,
-      selectedCate,
-      setSelectedCate,
-      formData,
-      setValue
-    );
+    cagetorySubmitHandle(formData, setValue);
   };
 
   return (

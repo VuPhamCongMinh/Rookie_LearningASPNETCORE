@@ -1,9 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Table, Button } from "reactstrap";
-import { CategoryContext } from "../context/category_context";
+import {
+  deleteCategoryRequest,
+  setSelectedCategory,
+} from "../redux/actions/category_actions";
 
 export const CategoryTable = () => {
-  const { categories, setSelectedCate } = useContext(CategoryContext);
+  const categoryList = useSelector((state) => state.category.categoryList);
+  const dispatch = useDispatch();
 
   return (
     <Table responsive={true} striped={true}>
@@ -16,7 +21,7 @@ export const CategoryTable = () => {
         </tr>
       </thead>
       <tbody>
-        {categories.map((cate, index) => {
+        {categoryList.map((cate, index) => {
           return (
             <tr key={cate.categoryId}>
               <th className="align-middle" scope="row">
@@ -27,8 +32,19 @@ export const CategoryTable = () => {
                 {cate?.products?.length || 0} product
               </td>
               <td>
-                <Button color="primary" onClick={() => setSelectedCate(cate)}>
+                <Button
+                  color="primary"
+                  onClick={() => dispatch(setSelectedCategory(cate))}
+                >
                   Edit
+                </Button>
+                <Button
+                  color="danger"
+                  onClick={() =>
+                    dispatch(deleteCategoryRequest(cate.categoryId))
+                  }
+                >
+                  Delete
                 </Button>
               </td>
             </tr>
