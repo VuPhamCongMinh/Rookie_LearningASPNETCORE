@@ -77,6 +77,37 @@ namespace SimpleShop.API.Configuration
                         "product.api"
                     }
                 },
+                 new Client
+                {
+                    ClientName = "react",
+                    ClientId = "react",
+                    AccessTokenType = AccessTokenType.Reference,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RequireClientSecret = false,
+                    RequireConsent = false,
+                    RequirePkce = true,
+
+                    RedirectUris = new List<string>
+                    {
+                        $"{clientUrls["React"]}/signin-oidc",
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        $"{clientUrls["React"]}/signout-oidc",
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        $"{clientUrls["React"]}"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "product.api"
+                    }
+                }
             };
     }
 }
