@@ -35,3 +35,14 @@ export const PutCategory = (myFormData) => {
       return null;
     });
 };
+
+export const DeleteCategory = async (id) => {
+  try {
+    await axios({
+      method: "delete",
+      url: category_url + "/" + id,
+    }).then((_) => true);
+  } catch (error) {
+    return false;
+  }
+};
