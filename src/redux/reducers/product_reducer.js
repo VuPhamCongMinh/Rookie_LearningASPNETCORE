@@ -1,4 +1,3 @@
-import { DeleteProduct } from "../../api/product_api";
 import { ActionTypes } from "../constants/action_types";
 const initialProductState = {
   productList: [],
