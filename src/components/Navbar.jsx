@@ -6,15 +6,17 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   NavbarText,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { signoutRedirect } from "../auth/auth_services";
+import { useSelector } from "react-redux";
 
 export const MyNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
+
+  const currentUser = useSelector((state) => state.auth.user);
 
   return (
     <div>
@@ -34,10 +36,16 @@ export const MyNavbar = () => {
               </Link>
             </NavItem>
             <NavItem>
-              <NavLink>User</NavLink>
+              {currentUser && (
+                <a className="nav-link" onClick={() => signoutRedirect()}>
+                  Sign Out
+                </a>
+              )}
             </NavItem>
           </Nav>
-          <NavbarText>Hello User !</NavbarText>
+          {currentUser && (
+            <NavbarText>Hello,{currentUser.profile.name}</NavbarText>
+          )}
         </Collapse>
       </Navbar>
     </div>

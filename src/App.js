@@ -3,17 +3,33 @@ import { MyNavbar } from "./components/Navbar";
 import { ProductPage } from "./pages/Product";
 import { CategoryPage } from "./pages/Category";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
+import LoginPage from "./components/login";
+import LogoutPage from "./components/logout";
+import store from "./redux/store";
+import ProtectedRoute from "./utils/route_ulti";
+import { loadUserFromStorage } from "./auth/auth_services";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function App() {
+  useEffect(() => {
+    loadUserFromStorage(store);
+  }, []);
+
   return (
     <div>
       <MyNavbar></MyNavbar>
       {/* Spacer */}
       <div className="p-5"></div>
       <Container>
-        <Route path="/products" component={ProductPage}></Route>
-        <Route path="/categories" component={CategoryPage}></Route>
+        <Switch>
+          <Route path="/signin-oidc" component={LoginPage} />
+          <Route path="/signout-oidc" component={LogoutPage} />
+
+          <ProtectedRoute path="/products" component={ProductPage} />
+          <ProtectedRoute path="/categories" component={CategoryPage} />
+        </Switch>
       </Container>
     </div>
   );
