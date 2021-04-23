@@ -5,6 +5,7 @@ import {
   deleteCategoryRequest,
   setSelectedCategory,
 } from "../redux/actions/category_actions";
+import { scrollToTop } from "../utils/form_util";
 
 export const CategoryTable = () => {
   const categoryList = useSelector((state) => state.category.categoryList);
@@ -34,15 +35,19 @@ export const CategoryTable = () => {
               <td>
                 <Button
                   color="primary"
-                  onClick={() => dispatch(setSelectedCategory(cate))}
+                  onClick={() => {
+                    dispatch(setSelectedCategory(cate));
+                    scrollToTop();
+                  }}
                 >
                   Edit
                 </Button>
                 <Button
                   color="danger"
-                  onClick={() =>
-                    dispatch(deleteCategoryRequest(cate.categoryId))
-                  }
+                  onClick={() => {
+                    dispatch(deleteCategoryRequest(cate.categoryId));
+                    scrollToTop();
+                  }}
                 >
                   Delete
                 </Button>

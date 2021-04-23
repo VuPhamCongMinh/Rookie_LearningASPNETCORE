@@ -59,3 +59,10 @@ const resetForm = (formData, setValue) => {
     setValue(x, "");
   });
 };
+
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};

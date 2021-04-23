@@ -5,6 +5,7 @@ import {
   deleteProductRequest,
   setSelectedProduct,
 } from "../redux/actions/product_actions";
+import { scrollToTop } from "../utils/form_util";
 
 export const ProductTable = () => {
   const productItems = useSelector((state) => state.product.productList);
@@ -49,6 +50,7 @@ export const ProductTable = () => {
                   color="primary"
                   onClick={() => {
                     dispatch(setSelectedProduct(prod));
+                    scrollToTop();
                   }}
                 >
                   Edit
@@ -57,6 +59,7 @@ export const ProductTable = () => {
                   color="danger"
                   onClick={() => {
                     dispatch(deleteProductRequest(prod.productId));
+                    scrollToTop();
                   }}
                 >
                   Delete
