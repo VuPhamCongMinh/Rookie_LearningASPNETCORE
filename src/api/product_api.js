@@ -36,7 +36,7 @@ export const PutProducts = async (myFormData) => {
 
 export const DeleteProduct = async (id) => {
   try {
-    await axios({
+    return await axios({
       method: "delete",
       url: product_url + "/" + id,
     }).then((_) => true);

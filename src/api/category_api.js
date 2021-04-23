@@ -38,7 +38,7 @@ export const PutCategory = (myFormData) => {
 
 export const DeleteCategory = async (id) => {
   try {
-    await axios({
+    return await axios({
       method: "delete",
       url: category_url + "/" + id,
     }).then((_) => true);

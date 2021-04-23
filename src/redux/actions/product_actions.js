@@ -50,8 +50,8 @@ export const clearSelectedProduct = () => {
 
 export const deleteProductRequest = (id) => {
   return (dispatch) => {
-    DeleteProduct(id).then((_) => {
-      dispatch(deleteProduct(id));
+    DeleteProduct(id).then((res) => {
+      res === true && dispatch(deleteProduct(id));
     });
   };
 };

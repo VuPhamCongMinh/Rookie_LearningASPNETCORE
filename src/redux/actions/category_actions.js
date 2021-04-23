@@ -37,8 +37,8 @@ export const clearSelectedCategory = () => {
 
 export const deleteCategoryRequest = (id) => {
   return (dispatch) => {
-    DeleteCategory(id).then((_) => {
-      dispatch(deleteCategory(id));
+    DeleteCategory(id).then((res) => {
+      res === true && dispatch(deleteCategory(id));
     });
   };
 };
