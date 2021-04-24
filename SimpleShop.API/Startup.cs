@@ -134,12 +134,17 @@ namespace SimpleShop.API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseCors(option =>
+            {
+                option.WithOrigins(clientUrls["React"]).AllowAnyOrigin()
+                                                       .AllowAnyHeader()
+                                                       .AllowAnyMethod();
+            });
             app.UseRouting();
+
 
             app.UseIdentityServer();
             app.UseAuthorization();
-
-            app.UseCors(option => { option.WithOrigins("http://localhost:3000/").AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(host => true); });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

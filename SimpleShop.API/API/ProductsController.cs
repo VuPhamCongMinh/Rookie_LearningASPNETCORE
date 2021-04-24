@@ -63,7 +63,7 @@ namespace SimpleShop.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize("Bearer")]
+        [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<Product>>> PostProduct ([FromForm] ProductPostRequest request)
         {
             var product = await _productService.PostProduct(request);
@@ -79,7 +79,7 @@ namespace SimpleShop.API.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize("Bearer")]
+        [Authorize("Bearer")]
         public async Task<ActionResult<Product>> PutProduct (int id, [FromForm] ProductPostRequest request)
         {
             var product = await _productService.PutProduct(id, request);
@@ -92,7 +92,7 @@ namespace SimpleShop.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize("Bearer")]
+        [Authorize("Bearer")]
         public async Task<ActionResult> DeleteProduct (int id)
         {
             var isDeleteSuccessful = await _productService.DeleteProduct(id);

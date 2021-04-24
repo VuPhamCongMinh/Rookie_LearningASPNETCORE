@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimpleShop.API.Services;
 using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.Models;
@@ -40,6 +41,7 @@ namespace SimpleShop.API.API
 
         // POST api/<CategoriesController>
         [HttpPost]
+        [Authorize("Bearer")]
         public async Task<ActionResult<Category>> Post ([FromForm] Category category)
         {
             var returnCate = await _categoryService.PostCategory(category);
@@ -52,6 +54,7 @@ namespace SimpleShop.API.API
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
+        [Authorize("Bearer")]
         public async Task<ActionResult<Category>> Put (int id, [FromForm] Category category)
         {
             var returnCate = await _categoryService.PutCategory(id, category);
@@ -64,6 +67,7 @@ namespace SimpleShop.API.API
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
+        [Authorize("Bearer")]
         public async Task<ActionResult<bool>> Delete (int id)
         {
             var isDeleteSuccessful = await _categoryService.DeleteCategory(id);

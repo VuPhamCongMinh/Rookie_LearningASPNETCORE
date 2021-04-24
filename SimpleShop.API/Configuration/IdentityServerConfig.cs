@@ -82,7 +82,7 @@ namespace SimpleShop.API.Configuration
                     ClientName = "react",
                     ClientId = "react",
                     AccessTokenType = AccessTokenType.Reference,
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
                     RequireClientSecret = false,

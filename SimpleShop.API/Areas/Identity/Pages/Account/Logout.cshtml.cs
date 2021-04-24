@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SimpleShop.API.Configuration;
 
 namespace SimpleShop.API.Areas.Identity.Pages.Account
 {
@@ -33,6 +34,7 @@ namespace SimpleShop.API.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost (string returnUrl = null)
         {
+            var choMinh = HttpContext.Request.Headers["Referer"].ToString();
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
 
@@ -53,7 +55,7 @@ namespace SimpleShop.API.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    return Page();
+                    return this.Redirect(choMinh);
                 }
             }
             else
