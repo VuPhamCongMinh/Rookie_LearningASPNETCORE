@@ -3,14 +3,13 @@ import { MyNavbar } from "./components/Navbar";
 import { ProductPage } from "./pages/Product";
 import { CategoryPage } from "./pages/Category";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Redirect, Route, Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import LoginPage from "./components/login";
 import LogoutPage from "./components/logout";
 import store from "./redux/store";
 import ProtectedRoute from "./utils/route_ulti";
 import { loadUserFromStorage } from "./auth/auth_services";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 function App() {
   useEffect(() => {

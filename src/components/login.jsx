@@ -15,7 +15,7 @@ const LoginPage = () => {
       history.push("/");
     }
     signinAsync();
-  }, [history]);
+  }, [history, dispatch]);
 
   return <div>Sign In Redirecting...</div>;
 };

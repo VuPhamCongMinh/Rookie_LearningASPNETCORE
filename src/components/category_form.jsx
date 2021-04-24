@@ -56,7 +56,11 @@ export const CategoryForm = () => {
       </FormGroup>
       <FormGroup row>
         <Col sm={{ offset: 0, size: 12 }}>
-          <Button className="w-100">Submit</Button>
+          <Button className="w-100">
+            {Object.getOwnPropertyNames(selectedCategory).length === 0
+              ? "Add category"
+              : "Update category"}
+          </Button>
         </Col>
       </FormGroup>
     </Form>

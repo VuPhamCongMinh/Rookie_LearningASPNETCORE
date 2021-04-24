@@ -16,12 +16,13 @@ export const ProductForm = () => {
   } = useForm();
 
   useEffect(() => {
+    console.log(selectedProduct);
     if (selectedProduct) {
       Object.keys(selectedProduct).forEach((x) => {
         setValue(x, selectedProduct[x]);
       });
     }
-  }, [setValue, selectedProduct]);
+  }, [selectedProduct]);
 
   const submit = async (formData) => {
     productSubmitHandle(formData, setValue);
@@ -139,7 +140,11 @@ export const ProductForm = () => {
       </FormGroup>
       <FormGroup row>
         <Col sm={{ offset: 0, size: 12 }}>
-          <Button className="w-100">Submit</Button>
+          <Button className="w-100">
+            {Object.getOwnPropertyNames(selectedProduct).length === 0
+              ? "Add product"
+              : "Update product"}
+          </Button>
         </Col>
       </FormGroup>
     </Form>

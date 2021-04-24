@@ -15,7 +15,7 @@ const LogoutPage = () => {
       // history.push("/");
     }
     signoutAsync();
-  }, [history]);
+  }, [history, dispatch]);
 
   return <div>Sign Out Redirecting...</div>;
 };

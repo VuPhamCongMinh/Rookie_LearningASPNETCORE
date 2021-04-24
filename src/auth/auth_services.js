@@ -1,5 +1,4 @@
 import Oidc from "oidc-client";
-import { useDispatch } from "react-redux";
 import { storeUser } from "../redux/actions/auth_actions";
 
 const oidcSettings = {
