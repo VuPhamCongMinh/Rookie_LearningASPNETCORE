@@ -36,6 +36,11 @@ export const MyNavbar = () => {
               </Link>
             </NavItem>
             <NavItem>
+              <Link className="nav-link" to="/users">
+                Users
+              </Link>
+            </NavItem>
+            <NavItem>
               {currentUser && (
                 <a className="nav-link" onClick={() => signoutRedirect()}>
                   Sign Out
