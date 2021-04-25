@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { signinRedirectCallback } from "../auth/auth_services";
 import { storeUser } from "../redux/actions/auth_actions";
+import { fetchInitialDatas } from "../redux/actions/common_actions";
 
 const LoginPage = () => {
   const history = useHistory();
@@ -10,8 +11,10 @@ const LoginPage = () => {
 
   useEffect(() => {
     async function signinAsync() {
-      var alu = await signinRedirectCallback();
-      dispatch(storeUser(alu));
+      await signinRedirectCallback().then((user) => {
+        dispatch(storeUser(user));
+        dispatch(fetchInitialDatas());
+      });
       history.push("/");
     }
     signinAsync();
