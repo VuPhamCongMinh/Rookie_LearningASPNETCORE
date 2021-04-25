@@ -2,6 +2,7 @@ import { Container } from "reactstrap";
 import { MyNavbar } from "./components/Navbar";
 import { ProductPage } from "./pages/Product";
 import { CategoryPage } from "./pages/Category";
+import { AccountPage } from "./pages/Account";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch } from "react-router";
 import LoginPage from "./components/login";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/signout-oidc" component={LogoutPage} />
 
           <ProtectedRoute path="/products" component={ProductPage} />
+          <ProtectedRoute path="/users" component={AccountPage} />
           <ProtectedRoute path="/categories" component={CategoryPage} />
         </Switch>
       </Container>
