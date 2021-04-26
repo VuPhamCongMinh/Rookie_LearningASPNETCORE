@@ -5,7 +5,7 @@ const oidcSettings = {
   authority: "https://localhost:44348",
   client_id: "react",
   redirect_uri: "http://localhost:3000/signin-oidc",
-  post_logout_redirect_uri: "http://localhost:3000/singout-oidc",
+  post_logout_redirect_uri: "http://localhost:3000/signout-oidc",
   response_type: "id_token token",
   scope: "product.api openid profile",
 };
