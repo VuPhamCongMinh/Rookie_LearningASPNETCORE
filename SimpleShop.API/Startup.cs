@@ -79,7 +79,7 @@ namespace SimpleShop.API
                 {
                     policy.AddAuthenticationSchemes("Bearer");
                     policy.RequireAuthenticatedUser();
-                    policy.RequireRole("Admin");
+                    policy.RequireRole("User");
                 });
 
                 options.AddPolicy("Admin", policy =>
