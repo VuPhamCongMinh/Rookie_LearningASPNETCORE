@@ -28,6 +28,7 @@ namespace SimpleShop.API.API
         }
 
         // GET: api/Orders
+        [Authorize("Bearer")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders ()
         {
