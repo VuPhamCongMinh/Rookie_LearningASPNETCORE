@@ -34,11 +34,11 @@ namespace SimpleShop.API.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost (string returnUrl = null)
         {
-            var choMinh = HttpContext.Request.Headers["Referer"].ToString();
+            var requestHeader = HttpContext.Request.Headers["Referer"].ToString();
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
 
-            var logoutId = this.Request.Query["logoutId"].ToString();
+            var logoutId = Request.Query["logoutId"].ToString();
 
             if (returnUrl != null)
             {
@@ -46,16 +46,20 @@ namespace SimpleShop.API.Areas.Identity.Pages.Account
             }
             else if (!string.IsNullOrEmpty(logoutId))
             {
-                var logoutContext = await this._interaction.GetLogoutContextAsync(logoutId);
+                var logoutContext = await _interaction.GetLogoutContextAsync(logoutId);
                 returnUrl = logoutContext.PostLogoutRedirectUri;
 
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
-                    return this.Redirect(returnUrl);
+                    return Redirect(returnUrl);
                 }
-                else
+                else if (logoutContext.ClientIds.ElementAt(0) == "react")
                 {
-                    return this.Redirect(choMinh);
+                    return Redirect($"{requestHeader}signout-oidc");
+                }
+                else 
+                {
+                    return Redirect(requestHeader);
                 }
             }
             else
