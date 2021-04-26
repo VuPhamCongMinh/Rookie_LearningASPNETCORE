@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace SimpleShop.API.API
 {
     [Route("api/[controller]")]
+    [Authorize("Admin")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -21,7 +22,6 @@ namespace SimpleShop.API.API
             this.context = context;
         }
         // GET: api/<AccountsController>
-        [Authorize("Bearer")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IdentityUser>>> GetUsers ()
         {

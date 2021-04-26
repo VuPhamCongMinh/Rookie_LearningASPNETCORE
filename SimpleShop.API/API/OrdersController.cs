@@ -15,6 +15,7 @@ using SimpleShop.Shared.ViewModels;
 namespace SimpleShop.API.API
 {
     [Route("api/[controller]")]
+    [Authorize("User")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -28,7 +29,7 @@ namespace SimpleShop.API.API
         }
 
         // GET: api/Orders
-        [Authorize("Bearer")]
+        [Authorize("Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders ()
         {
@@ -37,6 +38,7 @@ namespace SimpleShop.API.API
         }
 
         // GET: api/Orders/5
+        [Authorize("Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder (string id)
         {
@@ -55,12 +57,11 @@ namespace SimpleShop.API.API
         //[HttpPut("{id}")]
         //public async Task<IActionResult> PutOrder (string id, Order order)
         //{
-           
+
         //}
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize("Bearer")]
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder ([FromBody] OrderCreateRequest order)
         {
@@ -77,7 +78,6 @@ namespace SimpleShop.API.API
             }
         }
 
-        [Authorize("Bearer")]
         [HttpGet("/api/GetUserOrder")]
         public async Task<ActionResult<OrderDetailResponse>> GetUserOrder (string userId)
         {
@@ -90,7 +90,6 @@ namespace SimpleShop.API.API
             return NotFound();
         }
 
-        [Authorize("Bearer")]
         [HttpGet("/api/CountUserOrder")]
         public ActionResult<int> CountUserOrder (string userId)
         {

@@ -11,6 +11,7 @@ namespace SimpleShop.API.API
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize("Admin")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategorySevice _categoryService;
@@ -20,6 +21,7 @@ namespace SimpleShop.API.API
             _categoryService = categoryService;
         }
         // GET: api/<CategoriesController>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories ()
         {
@@ -41,7 +43,6 @@ namespace SimpleShop.API.API
 
         // POST api/<CategoriesController>
         [HttpPost]
-        [Authorize("Bearer")]
         public async Task<ActionResult<Category>> Post ([FromForm] Category category)
         {
             var returnCate = await _categoryService.PostCategory(category);
@@ -54,7 +55,6 @@ namespace SimpleShop.API.API
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
-        [Authorize("Bearer")]
         public async Task<ActionResult<Category>> Put (int id, [FromForm] Category category)
         {
             var returnCate = await _categoryService.PutCategory(id, category);
@@ -67,7 +67,6 @@ namespace SimpleShop.API.API
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
-        [Authorize("Bearer")]
         public async Task<ActionResult<bool>> Delete (int id)
         {
             var isDeleteSuccessful = await _categoryService.DeleteCategory(id);

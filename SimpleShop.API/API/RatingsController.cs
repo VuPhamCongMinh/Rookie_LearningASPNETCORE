@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.Models;
@@ -8,6 +9,7 @@ using SimpleShop.Shared.ViewModels;
 
 namespace SimpleShop.API.API
 {
+ 
     [Route("api/[controller]")]
     [ApiController]
     public class RatingsController : ControllerBase
@@ -22,6 +24,7 @@ namespace SimpleShop.API.API
         }
 
         // GET: api/Ratings
+        [Authorize("Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rating>>> GetRatings ()
         {
@@ -34,6 +37,7 @@ namespace SimpleShop.API.API
         }
 
         // GET: api/Ratings/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<RatingResponse>>> GetRatingByProductId (int id)
         {
@@ -45,6 +49,7 @@ namespace SimpleShop.API.API
 
         // PUT: api/Ratings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize("Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRating (int id, [FromForm] string userId, [FromForm] int productId, [FromForm] int rateValue, [FromForm] string comment)
         {
@@ -59,6 +64,7 @@ namespace SimpleShop.API.API
 
         //// POST: api/Ratings
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize("User")]
         [HttpPost]
         public async Task<ActionResult<Rating>> PostRating ([FromForm] string userId, [FromForm] int productId, [FromForm] int rateValue, [FromForm] string comment)
         {

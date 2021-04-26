@@ -22,6 +22,7 @@ namespace SimpleShop.API.Controllers
         }
 
         // GET: api/Products
+        [Authorize("Admin")]
         [HttpGet]
         public async Task<ActionResult<Product>> GetProducts ()
         {
@@ -29,7 +30,7 @@ namespace SimpleShop.API.Controllers
             return Ok(products);
         }
 
-        //[Authorize("Bearer")] 
+        [AllowAnonymous]
         [HttpGet("/api/GetFilteredProducts")]
         public ActionResult<Product> GetFilteredProducts (int pageIndex, int pageSize, string searchString, string sortOrder, double? minPrice, double? maxPrice, int cate)
         {
@@ -49,6 +50,7 @@ namespace SimpleShop.API.Controllers
         }
 
         //GET: api/Products/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct (int id)
         {
@@ -62,8 +64,8 @@ namespace SimpleShop.API.Controllers
             return Ok(product);
         }
 
+        [Authorize("User")]
         [HttpPost]
-        [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<Product>>> PostProduct ([FromForm] ProductPostRequest request)
         {
             var product = await _productService.PostProduct(request);
@@ -77,9 +79,8 @@ namespace SimpleShop.API.Controllers
             }
 
         }
-
+        [Authorize("Admin")]
         [HttpPut("{id}")]
-        [Authorize("Bearer")]
         public async Task<ActionResult<Product>> PutProduct (int id, [FromForm] ProductPostRequest request)
         {
             var product = await _productService.PutProduct(id, request);
@@ -90,9 +91,8 @@ namespace SimpleShop.API.Controllers
             }
             return Ok(product);
         }
-
+        [Authorize("Admin")]
         [HttpDelete("{id}")]
-        [Authorize("Bearer")]
         public async Task<ActionResult> DeleteProduct (int id)
         {
             var isDeleteSuccessful = await _productService.DeleteProduct(id);
