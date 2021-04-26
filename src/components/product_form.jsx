@@ -22,7 +22,7 @@ export const ProductForm = () => {
         setValue(x, selectedProduct[x]);
       });
     }
-  }, [selectedProduct]);
+  }, [setValue, selectedProduct]);
 
   const submit = async (formData) => {
     productSubmitHandle(formData, setValue);
@@ -119,7 +119,9 @@ export const ProductForm = () => {
         <Label sm={2}>Images in Database</Label>
         <Col sm={10}>
           {selectedProduct?.images?.map((img) => {
-            return <img src={img.imageUrl} className="w-25" />;
+            return (
+              <img src={img.imageUrl} alt={img.imageId} className="w-25" />
+            );
           })}
         </Col>
       </FormGroup>
@@ -127,8 +129,14 @@ export const ProductForm = () => {
         <Label sm={2}>Current images</Label>
         <Col sm={10}>
           {currentImages?.map((img) => {
-            console.log(img);
-            return <img src={URL.createObjectURL(img)} className="w-25" />;
+            return (
+              <img
+                src={URL.createObjectURL(img)}
+                key={img.name}
+                alt={img.name}
+                className="w-25"
+              />
+            );
           })}
         </Col>
       </FormGroup>
