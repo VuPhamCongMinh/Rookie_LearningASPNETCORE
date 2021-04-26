@@ -75,10 +75,18 @@ namespace SimpleShop.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Bearer", policy =>
+                options.AddPolicy("User", policy =>
                 {
                     policy.AddAuthenticationSchemes("Bearer");
                     policy.RequireAuthenticatedUser();
+                    policy.RequireRole("Admin");
+                });
+
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.AddAuthenticationSchemes("Bearer");
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("Admin");
                 });
             });
 
