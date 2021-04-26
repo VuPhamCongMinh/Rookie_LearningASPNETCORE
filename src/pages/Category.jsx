@@ -11,7 +11,6 @@ export const CategoryPage = () => {
         {/* Spacer */}
         <div className="p-5"></div>
         {/* Toolbar */}
-        {/* <ProductToolbar></ProductToolbar> */}
         {/* Table */}
         <CategoryTable></CategoryTable>
       </Col>

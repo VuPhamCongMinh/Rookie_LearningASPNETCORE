@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
@@ -7,6 +7,7 @@ import { productSubmitHandle } from "../utils/form_util";
 export const ProductForm = () => {
   const selectedProduct = useSelector((state) => state.product.selectedProduct);
   const categoryList = useSelector((state) => state.category.categoryList);
+  const [currentImages, setCurrentImages] = useState([]);
   const {
     register,
     handleSubmit,
@@ -16,7 +17,6 @@ export const ProductForm = () => {
   } = useForm();
 
   useEffect(() => {
-    console.log(selectedProduct);
     if (selectedProduct) {
       Object.keys(selectedProduct).forEach((x) => {
         setValue(x, selectedProduct[x]);
@@ -26,6 +26,7 @@ export const ProductForm = () => {
 
   const submit = async (formData) => {
     productSubmitHandle(formData, setValue);
+    setCurrentImages([]);
   };
 
   return (
@@ -108,7 +109,27 @@ export const ProductForm = () => {
             {...register("ImageFiles")}
             className="form-control-file"
             multiple
+            onChange={(e) => {
+              setCurrentImages([...e.target.files]);
+            }}
           />
+        </Col>
+      </FormGroup>
+      <FormGroup row>
+        <Label sm={2}>Images in Database</Label>
+        <Col sm={10}>
+          {selectedProduct?.images?.map((img) => {
+            return <img src={img.imageUrl} className="w-25" />;
+          })}
+        </Col>
+      </FormGroup>
+      <FormGroup row>
+        <Label sm={2}>Current images</Label>
+        <Col sm={10}>
+          {currentImages?.map((img) => {
+            console.log(img);
+            return <img src={URL.createObjectURL(img)} className="w-25" />;
+          })}
         </Col>
       </FormGroup>
       <FormGroup row>
