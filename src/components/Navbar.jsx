@@ -7,6 +7,7 @@ import {
   Nav,
   NavItem,
   NavbarText,
+  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { signoutRedirect } from "../auth/auth_services";
@@ -40,16 +41,18 @@ export const MyNavbar = () => {
                 Users
               </Link>
             </NavItem>
-            <NavItem>
-              {currentUser && (
-                <a className="nav-link" onClick={() => signoutRedirect()}>
-                  Sign Out
-                </a>
-              )}
-            </NavItem>
           </Nav>
           {currentUser && (
-            <NavbarText>Hello,{currentUser.profile.name}</NavbarText>
+            <NavbarText>
+              Hello,{currentUser.profile.name}
+              <Button
+                color="danger"
+                className="ml-1"
+                onClick={() => signoutRedirect()}
+              >
+                Sign Out
+              </Button>
+            </NavbarText>
           )}
         </Collapse>
       </Navbar>
