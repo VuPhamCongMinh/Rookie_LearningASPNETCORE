@@ -9,26 +9,9 @@ export function storeUser(user) {
   };
 }
 
-export function loadingUser() {
+export function clearUser() {
+  setAuthHeader(null);
   return {
-    type: ActionTypes.LOADING_USER,
-  };
-}
-
-export function storeUserError() {
-  return {
-    type: ActionTypes.STORE_USER_ERROR,
-  };
-}
-
-export function userExpired() {
-  return {
-    type: ActionTypes.USER_EXPIRED,
-  };
-}
-
-export function userSignedOut() {
-  return {
-    type: ActionTypes.USER_SIGNED_OUT,
+    type: ActionTypes.CLEAR_USER,
   };
 }
