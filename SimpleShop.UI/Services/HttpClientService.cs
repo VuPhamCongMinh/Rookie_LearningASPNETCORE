@@ -5,6 +5,7 @@ using SimpleShop.Shared.ViewModels;
 using SimpleShop.UI.Constant;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -78,22 +79,23 @@ namespace SimpleShop.UI.Services
             var get_product_request = new HttpRequestMessage(HttpMethod.Get, url.ToString());
             #endregion
 
-            var get_product_response = await client.SendAsync(get_product_request);
-
-            if (get_product_response.IsSuccessStatusCode)
+            try
             {
-                var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
-                var products = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
-                if (products != null)
+                var get_product_response = await client.SendAsync(get_product_request);
+                if (get_product_response.IsSuccessStatusCode)
                 {
+                    var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
+                    var products = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
                     return products;
-
                 }
-                return new ProductResponse { Products = new List<Product>(), Count = 0 };
+                else
+                {
+                    return new ProductResponse { Products = new List<Product>(), Count = 0 };
+                }
             }
-            else
+            catch (Exception e)
             {
-                return null;
+                return new ProductResponse { Products = new List<Product>(), Count = 0 };
             }
         }
 
@@ -125,16 +127,25 @@ namespace SimpleShop.UI.Services
             var url = new UriBuilder(ApiUrl.RATING_API_URL);
             var productRating_request = new HttpRequestMessage(HttpMethod.Get, $"{url}/{id}");
             #endregion
-            var get_productRating_response = await client.SendAsync(productRating_request);
 
-            if (get_productRating_response.IsSuccessStatusCode)
+            try
             {
-                var get_productRating_responseData = await get_productRating_response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<RatingResponse>>(get_productRating_responseData);
+                var get_productRating_response = await client.SendAsync(productRating_request);
+
+                if (get_productRating_response.IsSuccessStatusCode)
+                {
+                    var get_productRating_responseData = await get_productRating_response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<RatingResponse>>(get_productRating_responseData);
+                }
+                else
+                {
+                    return Enumerable.Empty<RatingResponse>();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return null;
+
+                return Enumerable.Empty<RatingResponse>();
             }
         }
 
@@ -180,6 +191,52 @@ namespace SimpleShop.UI.Services
             else
             {
                 return null;
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetMostOrderedProducts ()
+        {
+            var products_request = new HttpRequestMessage(HttpMethod.Get, ApiUrl.MOST_ORDERED_PRODUCTS_API_URL);
+            try
+            {
+                var get_products_response = await client.SendAsync(products_request);
+                if (get_products_response.IsSuccessStatusCode)
+                {
+                    var get_products_responseData = await get_products_response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<Product>>(get_products_responseData);
+                }
+                else
+                {
+                    return Enumerable.Empty<Product>();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Enumerable.Empty<Product>();
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetNewlyAddProducts ()
+        {
+            var products_request = new HttpRequestMessage(HttpMethod.Get, ApiUrl.NEWLY_ADDED_PRODUCTS_API_URL);
+            try
+            {
+                var get_products_response = await client.SendAsync(products_request);
+                if (get_products_response.IsSuccessStatusCode)
+                {
+                    var get_products_responseData = await get_products_response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<Product>>(get_products_responseData);
+                }
+                else
+                {
+                    return Enumerable.Empty<Product>();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Enumerable.Empty<Product>();
             }
         }
     }

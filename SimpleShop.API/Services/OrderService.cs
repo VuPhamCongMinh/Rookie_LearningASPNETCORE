@@ -86,11 +86,14 @@ namespace SimpleShop.API.Services
             {
                 if (productExistOrder.quantity + orderCreateRequest.quantity <= 0)
                 {
-                    order.orderDetails.Remove(productExistOrder);
+                    context.OrderDetails.Remove(productExistOrder);
+                    //order.orderDetails.Remove(productExistOrder);
+                    
                 }
                 else
                 {
                     productExistOrder.quantity += orderCreateRequest.quantity;
+                    order.updatedDate = DateTime.Now;
                 }
             }
             else
