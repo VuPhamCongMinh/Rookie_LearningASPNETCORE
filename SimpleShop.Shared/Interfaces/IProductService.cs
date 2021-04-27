@@ -8,9 +8,9 @@ namespace SimpleShop.Shared.Interfaces
     public interface IProductService
     {
         public IEnumerable<Product> GetFilteredProducts (int pageindex, int pagesize, string searchstring, string sortorder, double? min, double? max, int cate);
-
-        public Task<IEnumerable<Product>> GetProducts();
-
+        public IEnumerable<Product> GetMostOrderedProducts ();
+        public IEnumerable<Product> GetNewlyAddProducts ();
+        public Task<IEnumerable<Product>> GetProducts ();
         public Task<Product> GetProductByID (int id);
         public int GetProductCount ();
         public Task<Product> PostProduct (ProductPostRequest product);

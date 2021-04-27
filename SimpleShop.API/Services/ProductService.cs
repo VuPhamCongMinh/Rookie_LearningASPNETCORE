@@ -146,7 +146,6 @@ namespace SimpleShop.API.Services
                 return null;
             }
 
-            productToBeUpdated.updatedDate = DateTime.Now;
             if (product.ImageFiles != null)
             {
                 productToBeUpdated.Images = new List<Image>(); //reset to zero image
@@ -159,6 +158,7 @@ namespace SimpleShop.API.Services
             try
             {
                 _context.Entry(productToBeUpdated).CurrentValues.SetValues(product);
+                productToBeUpdated.updatedDate = DateTime.Now;
                 productToBeUpdated.Category = await _context.Categories.FindAsync(product.categoryId);
                 await _context.SaveChangesAsync();
                 return productToBeUpdated;
@@ -202,6 +202,57 @@ namespace SimpleShop.API.Services
                             img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
 
                         }
+                    }
+                }
+            }
+            return product;
+        }
+
+        public IEnumerable<Product> GetMostOrderedProducts ()
+        {
+            var topFoursProduct = _context.OrderDetails.GroupBy(x => x.productId)
+                                                       .Select(item => new { ProductID = item.Key, Count = item.Sum(c => c.quantity) })
+                                                       .OrderByDescending(x => x.Count)
+                                                       .Select(item => item.ProductID)
+                                                       .Take(4)
+                                                       .ToList();
+
+            if (topFoursProduct.Count > 0)
+            {
+                var product = _context.Products.Include(prod=>prod.Images).Where(prod => topFoursProduct.Contains(prod.productId))
+                                                                                .Include(p => p.Images)
+                                                                                .Include(p => p.Category)
+                                                                                .ToList();
+                foreach (var item in product)
+                {
+                    foreach (var img in item.Images)
+                    {
+                        if (!img.imageUrl.Contains("https"))
+                        {
+                            img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
+                        }
+                    }
+                }
+
+                return product;
+            }
+            else
+            {
+                return Enumerable.Empty<Product>();
+            }
+
+        }
+
+        public IEnumerable<Product> GetNewlyAddProducts ()
+        {
+            var product = _context.Products.Include(prod => prod.Images).OrderBy(prod => prod.createdDate).Take(10);
+            foreach (var item in product)
+            {
+                foreach (var img in item.Images)
+                {
+                    if (!img.imageUrl.Contains("https"))
+                    {
+                        img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
                     }
                 }
             }

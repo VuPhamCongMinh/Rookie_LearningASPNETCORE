@@ -49,6 +49,36 @@ namespace SimpleShop.API.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("/api/GetMostOrderedProducts")]
+        public ActionResult<Product> GetMostOrderedProducts ()
+        {
+            var products = _productService.GetMostOrderedProducts();
+            if (products.Count() <= 0)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(products);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/api/GetNewlyAddProducts")]
+        public ActionResult<Product> GetNewlyAddProducts ()
+        {
+            var products = _productService.GetNewlyAddProducts();
+            if (products.Count() <= 0)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(products);
+            }
+        }
+
         //GET: api/Products/5
         [AllowAnonymous]
         [HttpGet("{id}")]
