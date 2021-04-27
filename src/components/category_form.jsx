@@ -35,7 +35,7 @@ export const CategoryForm = () => {
           defaultValue=""
           render={({ field }) => <Input type="hidden" {...field} />}
         />
-        <Label sm={2}>Product Name</Label>
+        <Label sm={2}>Category Name</Label>
         <Col sm={10}>
           <Controller
             name="categoryName"
