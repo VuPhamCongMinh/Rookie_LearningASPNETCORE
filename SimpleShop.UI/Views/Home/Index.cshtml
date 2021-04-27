@@ -4,6 +4,15 @@
     ViewData["Title"] = "Guns";
 }
 
+
+
+<!--================Feature Product Area =================-->
+@await Component.InvokeAsync("MostOrderedProduct")
+@await Component.InvokeAsync("NewlyAddProduct")
+<!--================End Feature Product Area =================-->
+
+
+
 <!--================Category Product Area =================-->
 <section class="cat_product_area section_padding">
     <div class="container">
@@ -101,6 +110,10 @@
     </div>
 </section>
 <!--================End Category Product Area =================-->
+
+
+
+
 @section Scripts {
     <script src="~/js/product/script.js"></script>
     <script src="~/js/category/script.js"></script>

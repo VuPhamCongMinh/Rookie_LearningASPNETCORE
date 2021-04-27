@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SimpleShop.Shared.Models;
 using SimpleShop.UI.Constant;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 
 namespace SimpleShop.ViewModels.ViewComponents
@@ -20,21 +21,26 @@ namespace SimpleShop.ViewModels.ViewComponents
             var client = _httpClientFactory.CreateClient();
             var category_request = new HttpRequestMessage(HttpMethod.Get, ApiUrl.CATEGORIES_API_URL);
 
-            var get_categories_response = await client.SendAsync(category_request);
 
-            IEnumerable<Category> categoryResponse;
-
-            if (get_categories_response.IsSuccessStatusCode)
+            try
             {
-                var get_categories_responseData = await get_categories_response.Content.ReadAsStringAsync();
-                categoryResponse = JsonConvert.DeserializeObject<IEnumerable<Category>>(get_categories_responseData);
+                var get_categories_response = await client.SendAsync(category_request);
+                IEnumerable<Category> categoryResponse;
+                if (get_categories_response.IsSuccessStatusCode)
+                {
+                    var get_categories_responseData = await get_categories_response.Content.ReadAsStringAsync();
+                    categoryResponse = JsonConvert.DeserializeObject<IEnumerable<Category>>(get_categories_responseData);
+                }
+                else
+                {
+                    categoryResponse = null;
+                }
+                return View(categoryResponse);
             }
-            else
+            catch (System.Exception)
             {
-                categoryResponse = null;
+                return View(Enumerable.Empty<Category>());
             }
-
-            return View(categoryResponse);
         }
 
 

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Product>
+ <!-- product_list part start-->
+<section class="product_list best_seller section_padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section_tittle text-center">
+                    <h2>Best Sellers</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-12">
+                <div class="best_product_slider owl-carousel">
+                    @foreach (var prod in Model)
+                    {
+                        <div class="single_product_item">
+                            <img src="@prod.Images[0].imageUrl" alt="@prod.Images[0].imageId">
+                            <div class="single_product_text">
+                                <h4>@prod.productName</h4>
+                                <h3>$@prod.productPrice</h3>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product_list part end-->
