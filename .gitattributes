@@ -1,4 +1,4 @@
-**/wwwroot/js/* linguist-vendored
+**/wwwroot/js/ linguist-vendored
 **/wwwroot/js/category/* -linguist-vendored
 **/wwwroot/js/order/* -linguist-vendored
 **/wwwroot/js/product/* -linguist-vendored
