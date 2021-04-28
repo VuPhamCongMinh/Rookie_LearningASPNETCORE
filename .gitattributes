@@ -1,2 +1,7 @@
 SimpleShop.UI/wwwroot/js/** linguist-vendored
+SimpleShop.UI/wwwroot/js/category/** -linguist-vendored
+SimpleShop.UI/wwwroot/js/order/** -linguist-vendored
+SimpleShop.UI/wwwroot/js/product/** -linguist-vendored
+SimpleShop.UI/wwwroot/js/rating/** -linguist-vendored
+SimpleShop.UI/wwwroot/css/** linguist-vendored
 SimpleShop.UI/wwwroot/lib/** linguist-vendored
