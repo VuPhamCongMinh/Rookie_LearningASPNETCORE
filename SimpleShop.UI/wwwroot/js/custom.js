@@ -1,17 +1,6 @@
 (function ($) {
     "use strict";
 
-    $('.popup-youtube, .popup-vimeo').magnificPopup({
-        // disableOn: 700,
-        type: 'iframe',
-        mainClass: 'mfp-fade',
-        removalDelay: 160,
-        preloader: false,
-        fixedContentPos: false
-    });
-
-
-
     var review = $('.textimonial_iner');
     if (review.length) {
         review.owlCarousel({
@@ -105,22 +94,6 @@
         });
     }
 
-    //single banner slider
-    // var banner_slider = $('.banner_slider');
-    // if (banner_slider.length) {
-    //   banner_slider.owlCarousel({
-    //     items: 1,
-    //     loop: true,
-    //     dots: false,
-    //     autoplay: true,
-    //     autoplayHoverPause: true,
-    //     autoplayTimeout: 5000,
-    //     nav: true,
-    //     navText: ["next","previous"],
-    //     smartSpeed: 1000,
-    //   });
-    // }
-
     if ($('.img-gal').length > 0) {
         $('.img-gal').magnificPopup({
             type: 'image',
@@ -129,7 +102,6 @@
             }
         });
     }
-
 
     //single banner slider
     $('.banner_slider').on('initialized.owl.carousel changed.owl.carousel', function (e) {
@@ -169,20 +141,7 @@
         $('select').niceSelect();
     });
 
-    // menu fixed js code
-    // $(window).scroll(function () {
-    //   var window_top = $(window).scrollTop() + 1;
-    //   if (window_top > 50) {
-    //     $('.main_menu').addClass('menu_fixed animated fadeInDown');
-    //   } else {
-    //     $('.main_menu').removeClass('menu_fixed animated fadeInDown');
-    //   }
-    // });
-
-
-    $('.counter').counterUp({
-        time: 2000
-    });
+    
 
     $('.slider').slick({
         slidesToShow: 1,
@@ -224,11 +183,7 @@
         $('#search_input_box').slideUp(500);
     });
 
-    //------- Mailchimp js --------//  
-    function mailChimp() {
-        $('#mc_embed_signup').find('form').ajaxChimp();
-    }
-    mailChimp();
+  
 
     // click counter js
     (function () {
@@ -275,17 +230,7 @@
 
     })();
 
-    // click counter js
-
-
-    // var a = 0;
-    // $('.increase').on('click', function(){
-
-
-
-    //   console.log(  $(this).innerHTML='Product Count: '+ a++ );
-    // });
-
+ 
     var product_overview = $('#vertical');
     if (product_overview.length) {
         product_overview.lightSlider({
