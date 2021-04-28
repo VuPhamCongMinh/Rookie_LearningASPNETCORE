@@ -94,7 +94,7 @@ namespace SimpleShop.API.Controllers
             return Ok(product);
         }
 
-        [Authorize("User")]
+        [Authorize("Admin")]
         [HttpPost]
         public async Task<ActionResult<IEnumerable<Product>>> PostProduct ([FromForm] ProductPostRequest request)
         {
