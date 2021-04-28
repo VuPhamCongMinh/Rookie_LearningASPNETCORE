@@ -6,13 +6,24 @@ import {
   setSelectedCategory,
 } from "../redux/actions/category_actions";
 import { scrollToTop } from "../utils/form_util";
+import { alertConfirm } from "../utils/sweetalert_util";
 
 export const CategoryTable = () => {
   const categoryList = useSelector((state) => state.category.categoryList);
   const dispatch = useDispatch();
 
+  const selectHandle = (cate) => {
+    dispatch(setSelectedCategory(cate));
+    scrollToTop();
+  };
+
+  const deleteHandle = (cate_id) => {
+    dispatch(deleteCategoryRequest(cate_id));
+    scrollToTop();
+  };
+
   return (
-    <Table responsive={true} striped={true}>
+    <Table responsive striped>
       <thead>
         <tr>
           <th>#</th>
@@ -33,20 +44,14 @@ export const CategoryTable = () => {
                 {cate?.products?.length || 0} product
               </td>
               <td>
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    dispatch(setSelectedCategory(cate));
-                    scrollToTop();
-                  }}
-                >
+                <Button color="primary" onClick={() => selectHandle(cate)}>
                   Edit
                 </Button>
                 <Button
+                  className="ml-2"
                   color="danger"
                   onClick={() => {
-                    dispatch(deleteCategoryRequest(cate.categoryId));
-                    scrollToTop();
+                    alertConfirm(deleteHandle, cate.categoryId);
                   }}
                 >
                   Delete

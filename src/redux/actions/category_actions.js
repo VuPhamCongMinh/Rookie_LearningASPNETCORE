@@ -1,4 +1,5 @@
 import { DeleteCategory } from "../../api/category_api";
+import { alertSuccess } from "../../utils/sweetalert_util";
 import { ActionTypes } from "../constants/action_types";
 
 export const addNewCategory = (category) => {
@@ -39,6 +40,7 @@ export const deleteCategoryRequest = (id) => {
   return (dispatch) => {
     DeleteCategory(id).then((res) => {
       res === true && dispatch(deleteCategory(id));
+      alertSuccess("Xóa");
     });
   };
 };

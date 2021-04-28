@@ -106,7 +106,12 @@ export const ProductForm = () => {
             defaultValue={null}
             accept="image/*"
             type="file"
-            {...register("ImageFiles")}
+            {...register("ImageFiles", {
+              required: {
+                value: Object.getOwnPropertyNames(selectedProduct).length === 0,
+                message: "you forgot to select images",
+              },
+            })}
             className="form-control-file"
             multiple
             onChange={(e) => {
@@ -120,7 +125,12 @@ export const ProductForm = () => {
         <Col sm={10}>
           {selectedProduct?.images?.map((img) => {
             return (
-              <img src={img.imageUrl} alt={img.imageId} className="w-25" />
+              <img
+                src={img.imageUrl}
+                alt={img.imageId}
+                key={img.imageId}
+                className="w-25"
+              />
             );
           })}
         </Col>

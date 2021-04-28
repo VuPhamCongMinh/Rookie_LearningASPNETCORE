@@ -6,13 +6,24 @@ import {
   setSelectedProduct,
 } from "../redux/actions/product_actions";
 import { scrollToTop } from "../utils/form_util";
+import { alertConfirm } from "../utils/sweetalert_util";
 
 export const ProductTable = () => {
   const productItems = useSelector((state) => state.product.productList);
   const dispatch = useDispatch();
 
+  const selectHandle = (product) => {
+    dispatch(setSelectedProduct(product));
+    scrollToTop();
+  };
+
+  const deleteHandle = (product_id) => {
+    dispatch(deleteProductRequest(product_id));
+    scrollToTop();
+  };
+
   return (
-    <Table responsive={true} striped={true}>
+    <Table responsive striped>
       <thead>
         <tr>
           <th>#</th>
@@ -47,20 +58,16 @@ export const ProductTable = () => {
               <td className="align-middle">{prod.productDescription}</td>
               <td>
                 <Button
+                  className="w-100"
                   color="primary"
-                  onClick={() => {
-                    dispatch(setSelectedProduct(prod));
-                    scrollToTop();
-                  }}
+                  onClick={() => selectHandle(prod)}
                 >
                   Edit
                 </Button>
                 <Button
+                  className="w-100 mt-2"
                   color="danger"
-                  onClick={() => {
-                    dispatch(deleteProductRequest(prod.productId));
-                    scrollToTop();
-                  }}
+                  onClick={() => alertConfirm(deleteHandle, prod.productId)}
                 >
                   Delete
                 </Button>

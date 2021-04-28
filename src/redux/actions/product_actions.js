@@ -1,4 +1,5 @@
 import { DeleteProduct } from "../../api/product_api";
+import { alertSuccess } from "../../utils/sweetalert_util";
 import { ActionTypes } from "../constants/action_types";
 
 export const addNewProduct = (product) => {
@@ -52,6 +53,7 @@ export const deleteProductRequest = (id) => {
   return (dispatch) => {
     DeleteProduct(id).then((res) => {
       res === true && dispatch(deleteProduct(id));
+      alertSuccess("Xóa");
     });
   };
 };

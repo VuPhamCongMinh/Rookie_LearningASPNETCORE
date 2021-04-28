@@ -13,6 +13,7 @@ import {
   updateCategory,
   clearSelectedCategory,
 } from "../redux/actions/category_actions";
+import { alertError, alertSuccess } from "./sweetalert_util";
 
 export const productSubmitHandle = async (formData, setValue) => {
   let returnData;
@@ -22,11 +23,17 @@ export const productSubmitHandle = async (formData, setValue) => {
     returnData = await PostProducts(myFormData);
     if (returnData != null) {
       store.dispatch(addNewProduct(returnData));
+      alertSuccess("Thêm sản phẩm");
+    } else {
+      alertError("Thêm sản phẩm");
     }
   } else {
     returnData = await PutProducts(myFormData);
     if (returnData != null) {
+      alertSuccess("Sửa sản phẩm");
       store.dispatch(updateProduct(returnData));
+    } else {
+      alertError("Sửa sản phẩm");
     }
   }
 
@@ -41,11 +48,13 @@ export const cagetorySubmitHandle = async (formData, setValue) => {
   if (!myFormData.get("categoryId")) {
     returnData = await PostCategory(myFormData);
     if (returnData != null) {
+      alertSuccess("Thêm danh mục");
       store.dispatch(addNewCategory(returnData));
     }
   } else {
     returnData = await PutCategory(myFormData);
     if (returnData != null) {
+      alertSuccess("Sửa danh mục");
       store.dispatch(updateCategory(returnData));
     }
   }
