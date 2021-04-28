@@ -1,3 +1,4 @@
+
 # Nashtech Rookie - Stage 1
 
 **Đây là một trang E-Commerce website có một số tính năng cơ bản sau :**
@@ -25,10 +26,11 @@
 		-   Test Get, GetById, Post và Put API đánh giá
 		-   Test Get, GetById, Post và Put API giỏ hàng
 
-> Tài khoản đăng nhập :
-
-		-   Username: admin@gmail.com 
-		-   Password : 123456
+## Migration
+Bước 1 : chuột phải SimpleShop.API chọn Set as Startup Project
+Bước 2 : vào Package Manager Console chọn Default project là 
+SimpleShop.Shared 
+Bước 3 : chạy các lệnh migration như thường
 
 ## Thư viện sử dụng
 
