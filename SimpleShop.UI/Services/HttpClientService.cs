@@ -33,7 +33,7 @@ namespace SimpleShop.UI.Services
 
             int userOrder;
 
-            if (get_cartNumber_response.IsSuccessStatusCode)
+            if ((int)get_cartNumber_response.StatusCode == 200)
             {
                 var get_cartNumber_responseData = await get_cartNumber_response.Content.ReadAsStringAsync();
                 userOrder = int.Parse(get_cartNumber_responseData);
@@ -57,7 +57,7 @@ namespace SimpleShop.UI.Services
 
             Product products;
 
-            if (get_product_response.IsSuccessStatusCode)
+            if ((int)get_product_response.StatusCode == 200)
             {
                 var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
                 products = JsonConvert.DeserializeObject<Product>(get_product_responseData);
@@ -82,7 +82,7 @@ namespace SimpleShop.UI.Services
             try
             {
                 var get_product_response = await client.SendAsync(get_product_request);
-                if (get_product_response.IsSuccessStatusCode)
+                if ((int)get_product_response.StatusCode == 200)
                 {
                     var get_product_responseData = await get_product_response.Content.ReadAsStringAsync();
                     var products = JsonConvert.DeserializeObject<ProductResponse>(get_product_responseData);
@@ -110,7 +110,7 @@ namespace SimpleShop.UI.Services
             #endregion
             var get_userOrder_response = await client.SendAsync(userOrder_request);
 
-            if (get_userOrder_response.IsSuccessStatusCode)
+            if ((int)get_userOrder_response.StatusCode == 200)
             {
                 var get_cartNumber_responseData = await get_userOrder_response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<OrderDetailResponse>(get_cartNumber_responseData);
@@ -132,7 +132,7 @@ namespace SimpleShop.UI.Services
             {
                 var get_productRating_response = await client.SendAsync(productRating_request);
 
-                if (get_productRating_response.IsSuccessStatusCode)
+                if ((int)get_productRating_response.StatusCode == 200)
                 {
                     var get_productRating_responseData = await get_productRating_response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<IEnumerable<RatingResponse>>(get_productRating_responseData);
@@ -163,7 +163,7 @@ namespace SimpleShop.UI.Services
             #endregion
 
             var get_userRating_request = await client.PostAsync(url.ToString(), content);
-            if (get_userRating_request.IsSuccessStatusCode)
+            if ((int)get_userRating_request.StatusCode == 200)
             {
                 var get_userRating_responseData = await get_userRating_request.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Rating>(get_userRating_responseData);
@@ -183,7 +183,7 @@ namespace SimpleShop.UI.Services
             #endregion
 
             var get_cart_request = await client.PostAsync(url.ToString(), JsonContent.Create(orderRequest));
-            if (get_cart_request.IsSuccessStatusCode)
+            if ((int)get_cart_request.StatusCode == 200)
             {
                 var get_userCart_responseData = await get_cart_request.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Order>(get_userCart_responseData);
@@ -200,7 +200,7 @@ namespace SimpleShop.UI.Services
             try
             {
                 var get_products_response = await client.SendAsync(products_request);
-                if (get_products_response.IsSuccessStatusCode)
+                if ((int)get_products_response.StatusCode == 200)
                 {
                     var get_products_responseData = await get_products_response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<IEnumerable<Product>>(get_products_responseData);
@@ -223,7 +223,7 @@ namespace SimpleShop.UI.Services
             try
             {
                 var get_products_response = await client.SendAsync(products_request);
-                if (get_products_response.IsSuccessStatusCode)
+                if ((int)get_products_response.StatusCode == 200)
                 {
                     var get_products_responseData = await get_products_response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<IEnumerable<Product>>(get_products_responseData);
