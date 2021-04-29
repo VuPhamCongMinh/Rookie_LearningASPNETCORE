@@ -16,7 +16,7 @@ namespace SimpleShop.UI.Controllers
         {
             this.httpClient = httpClient;
         }
-        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 6, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
+        public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 12, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var productsRespone = await httpClient.GetProductsAsync(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
 
