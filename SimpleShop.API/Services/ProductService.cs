@@ -245,7 +245,7 @@ namespace SimpleShop.API.Services
 
         public IEnumerable<Product> GetNewlyAddProducts ()
         {
-            var product = _context.Products.Include(prod => prod.Images).OrderBy(prod => prod.createdDate).Take(10);
+            var product = _context.Products.Include(prod => prod.Images).OrderByDescending(prod => prod.createdDate).Take(10);
             foreach (var item in product)
             {
                 foreach (var img in item.Images)
