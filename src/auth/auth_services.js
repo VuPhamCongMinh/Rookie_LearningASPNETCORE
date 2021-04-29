@@ -2,10 +2,10 @@ import Oidc from "oidc-client";
 import { storeUser } from "../redux/actions/auth_actions";
 
 const oidcSettings = {
-  authority: "https://localhost:44348",
+  authority: process.env.REACT_APP_BACKEND_URL,
   client_id: "react",
-  redirect_uri: "http://localhost:3000/signin-oidc",
-  post_logout_redirect_uri: "http://localhost:3000/signout-oidc",
+  redirect_uri: process.env.REACT_APP_CLIENT_SIGNIN_URL,
+  post_logout_redirect_uri: process.env.REACT_APP_CLIENT_SIGNOUT_URL,
   response_type: "id_token token",
   scope: "product.api openid profile",
 };

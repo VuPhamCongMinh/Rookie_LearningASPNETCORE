@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const category_url = "https://localhost:44348/api/categories";
+const category_url = process.env.REACT_APP_CATEGORY_API;
 
 export const GetCategories = () => {
   return axios.get(category_url);

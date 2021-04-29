@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const product_url = "https://localhost:44348/api/products";
+const product_url = process.env.REACT_APP_PRODUCT_API;
 
 export const GetProducts = () => {
   return axios.get(product_url);
