@@ -19,7 +19,6 @@ namespace SimpleShop.UI.Controllers
         public async Task<IActionResult> Index (int pageIndex = 1, int pageSize = 12, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var productsRespone = await httpClient.GetProductsAsync(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
-
             int totalPage = productsRespone.Count;
             #region Define ViewBag 
             ViewBag.MinPrice = minPrice != 0 ? minPrice : null;
@@ -33,16 +32,22 @@ namespace SimpleShop.UI.Controllers
 
             return View(productsRespone.Products);
         }
-        public async Task<IActionResult> IndexToJson (int pageIndex = 1, int pageSize = 12, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
+
+        public async Task<IActionResult> ProductsAjaxRequest (int pageIndex = 1, int pageSize = 12, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
         {
             var productsRespone = await httpClient.GetProductsAsync(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
             TempData["itemsfound"] = productsRespone.Count;
+            TempData["pages"] = (int)Math.Ceiling((productsRespone.Count / (float)pageSize));
             return ViewComponent("Product", productsRespone.Products);
         }
-        public IActionResult ItemsFoundToJson()
+        public IActionResult ItemsFoundAjaxRequest()
         {
             int num = int.Parse(TempData["itemsfound"].ToString()); 
             return Json(num);
+        } public IActionResult PaginationAjaxRequest()
+        {
+            int num = int.Parse(TempData["pages"].ToString());
+            return ViewComponent("Pagination", num);
         }
         public async Task<IActionResult> Product (int id)
         {

@@ -1,6 +1,6 @@
 ﻿$(function () {
     let sortFilterBtn = $('select.filters');
-    let pagingBtn = $('.data-paging [paging-btn]');
+    let pagingSection = $('#pagination-section');
     let priceFilterBtn = $('button[filter-btn]');
     let searchBtn = $('i[search-btn]');
     let searchInput = $('input[search-input]');
@@ -26,18 +26,26 @@
         }
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
-            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
             $.ajax({
                 type: 'GET',
                 url: transformedUrl,
                 success: function (result) {
                     $('#product-section').html(result);
-                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
                     $.ajax({
                         type: 'GET',
                         url: transformedUrl,
                         success: function (result) {
                             $('#product-found').html(result);
+                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
+                            $.ajax({
+                                type: 'GET',
+                                url: transformedUrl,
+                                success: function (result) {
+                                    $('#pagination-section').html(result);
+                                }
+                            });
                         }
                     });
                 }
@@ -81,18 +89,26 @@
         }
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
-            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
             $.ajax({
                 type: 'GET',
                 url: transformedUrl,
                 success: function (result) {
                     $('#product-section').html(result);
-                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
                     $.ajax({
                         type: 'GET',
                         url: transformedUrl,
                         success: function (result) {
                             $('#product-found').html(result);
+                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
+                            $.ajax({
+                                type: 'GET',
+                                url: transformedUrl,
+                                success: function (result) {
+                                    $('#pagination-section').html(result);
+                                }
+                            });
                         }
                     });
                 }
@@ -123,18 +139,26 @@
 
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
-            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
             $.ajax({
                 type: 'GET',
                 url: transformedUrl,
                 success: function (result) {
                     $('#product-section').html(result);
-                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
                     $.ajax({
                         type: 'GET',
                         url: transformedUrl,
                         success: function (result) {
                             $('#product-found').html(result);
+                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
+                            $.ajax({
+                                type: 'GET',
+                                url: transformedUrl,
+                                success: function (result) {
+                                    $('#pagination-section').html(result);
+                                }
+                            });
                         }
                     });
                 }
@@ -142,7 +166,7 @@
         }
     })
 
-    pagingBtn.on('click', function (e) {
+    pagingSection.on('click', '.data-paging [paging-btn]', function (e) {
         let $this = $(this).attr("paging-btn");
 
         let baseUrl = new URL(window.location);
@@ -156,18 +180,26 @@
         }
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
-            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
             $.ajax({
                 type: 'GET',
                 url: transformedUrl,
                 success: function (result) {
                     $('#product-section').html(result);
-                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
                     $.ajax({
                         type: 'GET',
                         url: transformedUrl,
                         success: function (result) {
                             $('#product-found').html(result);
+                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
+                            $.ajax({
+                                type: 'GET',
+                                url: transformedUrl,
+                                success: function (result) {
+                                    $('#pagination-section').html(result);
+                                }
+                            });
                         }
                     });
                 }

@@ -10,9 +10,6 @@
 @await Component.InvokeAsync("MostOrderedProduct")
 @await Component.InvokeAsync("NewlyAddProduct")
 <!--================End Feature Product Area =================-->
-
-
-
 <!--================Category Product Area =================-->
 <section class="cat_product_area section_padding">
     <div class="container">
@@ -88,20 +85,13 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center latest_product_inner" id="product-section">
-                    @await Component.InvokeAsync("Product", new { products = Model })
+                <div class="row align-items-center latest_product_inner">
+                    <div id="product-section">
+                        @await Component.InvokeAsync("Product", new { products = Model })
+                    </div>
                     <div class="col-lg-12">
-                        <div class="pageination">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center data-paging">
-                                    @for (int i = 1; i <= ViewBag.Pages; i++)
-                                    {
-                                        <li class="page-item">
-                                            <button type="button" paging-btn="@i" class="page-link">@i</button>
-                                        </li>
-                                    }
-                                </ul>
-                            </nav>
+                        <div id="pagination-section">
+                            @await Component.InvokeAsync("Pagination", new { pages = ViewBag.Pages })
                         </div>
                     </div>
                 </div>
