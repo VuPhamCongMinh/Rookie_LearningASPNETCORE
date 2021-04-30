@@ -15,7 +15,7 @@
 
 <!--================Category Product Area =================-->
 <section class="cat_product_area section_padding">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-lg-3">
                 <div class="left_sidebar_area">
@@ -61,7 +61,7 @@
                     <div class="col-lg-12">
                         <div class="product_top_bar d-flex justify-content-between align-items-center">
                             <div class="single_product_menu">
-                                <p><span>@ViewBag.TotalProduct</span> Products Found</p>
+                                <p><span id="product-found">@ViewBag.TotalProduct</span> Products Found</p>
                             </div>
                             <div class="single_product_menu d-flex">
                                 <h5>Sort By : </h5>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center latest_product_inner">
+                <div class="row align-items-center latest_product_inner" id="product-section">
                     @await Component.InvokeAsync("Product", new { products = Model })
                     <div class="col-lg-12">
                         <div class="pageination">

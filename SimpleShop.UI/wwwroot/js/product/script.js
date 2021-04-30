@@ -10,125 +10,171 @@
 
     sortFilterBtn.on('change', function (e) {
         let $this = $(this).val();
-        let transformedUrl = new URL(window.location);
+        let baseUrl = new URL(window.location);
 
-
-        if (transformedUrl.searchParams.has('pageIndex')) {
-            transformedUrl.searchParams.set('pageIndex', 0);
+        if (baseUrl.searchParams.has('pageIndex')) {
+            baseUrl.searchParams.set('pageIndex', 0);
         }
 
         if ($this.length != 0) {
-            if (transformedUrl.searchParams.has('sortOrder')) {
-                transformedUrl.searchParams.set('sortOrder', $this);
+            if (baseUrl.searchParams.has('sortOrder')) {
+                baseUrl.searchParams.set('sortOrder', $this);
             }
             else {
-                transformedUrl.searchParams.append('sortOrder', $this);
+                baseUrl.searchParams.append('sortOrder', $this);
             }
         }
-        if (window.location.href != transformedUrl.href) {
-            window.location = transformedUrl;
+        if (window.location.href != baseUrl.href) {
+            history.pushState({}, null, baseUrl);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            $.ajax({
+                type: 'GET',
+                url: transformedUrl,
+                success: function (result) {
+                    $('#product-section').html(result);
+                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    $.ajax({
+                        type: 'GET',
+                        url: transformedUrl,
+                        success: function (result) {
+                            $('#product-found').html(result);
+                        }
+                    });
+                }
+            });
         }
 
     })
 
     priceFilterBtn.on('click', () => {
-        let transformedUrl = new URL(window.location);
+        let baseUrl = new URL(window.location);
 
-        if (transformedUrl.searchParams.has('pageIndex')) {
-            transformedUrl.searchParams.set('pageIndex', 0);
+        if (baseUrl.searchParams.has('pageIndex')) {
+            baseUrl.searchParams.set('pageIndex', 0);
         }
 
         if (minInput.val().length != 0) {
-            if (transformedUrl.searchParams.has('minPrice')) {
-                transformedUrl.searchParams.set('minPrice', minInput.val());
+            if (baseUrl.searchParams.has('minPrice')) {
+                baseUrl.searchParams.set('minPrice', minInput.val());
             }
             else {
-                transformedUrl.searchParams.append('minPrice', minInput.val());
+                baseUrl.searchParams.append('minPrice', minInput.val());
             }
         }
         else {
-            if (transformedUrl.searchParams.has('minPrice')) {
-                transformedUrl.searchParams.delete('minPrice');
+            if (baseUrl.searchParams.has('minPrice')) {
+                baseUrl.searchParams.delete('minPrice');
             }
         }
         if (maxInput.val().length != 0) {
-            if (transformedUrl.searchParams.has('maxPrice')) {
-                transformedUrl.searchParams.set('maxPrice', maxInput.val());
+            if (baseUrl.searchParams.has('maxPrice')) {
+                baseUrl.searchParams.set('maxPrice', maxInput.val());
             }
             else {
-                transformedUrl.searchParams.append('maxPrice', maxInput.val());
+                baseUrl.searchParams.append('maxPrice', maxInput.val());
             }
         }
         else {
-            if (transformedUrl.searchParams.has('maxPrice')) {
-                transformedUrl.searchParams.delete('maxPrice');
+            if (baseUrl.searchParams.has('maxPrice')) {
+                baseUrl.searchParams.delete('maxPrice');
             }
         }
-        if (window.location.href != transformedUrl.href) {
-            window.location = transformedUrl;
-            //$.get(transformedUrl, function (data) {
-            //    console.log(transformedUrl);
-            //    $('#product_section').html(data);
-            //});
+        if (window.location.href != baseUrl.href) {
+            history.pushState({}, null, baseUrl);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            $.ajax({
+                type: 'GET',
+                url: transformedUrl,
+                success: function (result) {
+                    $('#product-section').html(result);
+                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    $.ajax({
+                        type: 'GET',
+                        url: transformedUrl,
+                        success: function (result) {
+                            $('#product-found').html(result);
+                        }
+                    });
+                }
+            });
         }
     })
 
     searchBtn.on('click', () => {
-        let transformedUrl = new URL(window.location);
+        let baseUrl = new URL(window.location);
 
-        if (transformedUrl.searchParams.has('pageIndex')) {
-            transformedUrl.searchParams.set('pageIndex', 0);
+        if (baseUrl.searchParams.has('pageIndex')) {
+            baseUrl.searchParams.set('pageIndex', 0);
         }
 
         if (searchInput.val() != ' ') {
-            if (transformedUrl.searchParams.has('searchString')) {
-                transformedUrl.searchParams.set('searchString', searchInput.val());
+            if (baseUrl.searchParams.has('searchString')) {
+                baseUrl.searchParams.set('searchString', searchInput.val());
             }
             else {
-                transformedUrl.searchParams.append('searchString', searchInput.val());
+                baseUrl.searchParams.append('searchString', searchInput.val());
             }
         }
         else {
-            if (transformedUrl.searchParams.has('searchString')) {
-                transformedUrl.searchParams.delete('searchString');
+            if (baseUrl.searchParams.has('searchString')) {
+                baseUrl.searchParams.delete('searchString');
             }
         }
 
-        if (window.location.href != transformedUrl.href) {
-            window.location = transformedUrl;
+        if (window.location.href != baseUrl.href) {
+            history.pushState({}, null, baseUrl);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            $.ajax({
+                type: 'GET',
+                url: transformedUrl,
+                success: function (result) {
+                    $('#product-section').html(result);
+                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    $.ajax({
+                        type: 'GET',
+                        url: transformedUrl,
+                        success: function (result) {
+                            $('#product-found').html(result);
+                        }
+                    });
+                }
+            });
         }
     })
 
     pagingBtn.on('click', function (e) {
         let $this = $(this).attr("paging-btn");
 
-        console.log($this);
-
-        let transformedUrl = new URL(window.location);
+        let baseUrl = new URL(window.location);
         if ($.isNumeric($this)) {
-            if (transformedUrl.searchParams.has('pageIndex')) {
-                transformedUrl.searchParams.set('pageIndex', $this);
+            if (baseUrl.searchParams.has('pageIndex')) {
+                baseUrl.searchParams.set('pageIndex', $this);
             }
             else {
-                transformedUrl.searchParams.append('pageIndex', $this);
+                baseUrl.searchParams.append('pageIndex', $this);
             }
         }
-        if (window.location.href != transformedUrl.href) {
-            window.location = transformedUrl;
+        if (window.location.href != baseUrl.href) {
+            history.pushState({}, null, baseUrl);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            $.ajax({
+                type: 'GET',
+                url: transformedUrl,
+                success: function (result) {
+                    $('#product-section').html(result);
+                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    $.ajax({
+                        type: 'GET',
+                        url: transformedUrl,
+                        success: function (result) {
+                            $('#product-found').html(result);
+                        }
+                    });
+                }
+            });
         }
 
     })
-
-
-
-
-
-
-
-
-
-
-
 
 
     var noNegative = function (e) {

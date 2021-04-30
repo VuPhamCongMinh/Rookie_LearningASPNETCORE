@@ -33,6 +33,17 @@ namespace SimpleShop.UI.Controllers
 
             return View(productsRespone.Products);
         }
+        public async Task<IActionResult> IndexToJson (int pageIndex = 1, int pageSize = 12, string searchString = null, string sortOrder = "asc", double? minPrice = 0, double? maxPrice = 0, int cate = -1)
+        {
+            var productsRespone = await httpClient.GetProductsAsync(pageIndex, pageSize, searchString, sortOrder, minPrice, maxPrice, cate);
+            TempData["itemsfound"] = productsRespone.Count;
+            return ViewComponent("Product", productsRespone.Products);
+        }
+        public IActionResult ItemsFoundToJson()
+        {
+            int num = int.Parse(TempData["itemsfound"].ToString()); 
+            return Json(num);
+        }
         public async Task<IActionResult> Product (int id)
         {
             var product = await httpClient.GetProductByIdAsync(id);

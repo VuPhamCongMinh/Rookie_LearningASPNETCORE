@@ -3,22 +3,39 @@
 
     categoriesRadio.on('click', function (e) {
         let $this = $(this).val();
-        let transformedUrl = new URL(window.location);
+        let baseUrl = new URL(window.location);
 
-        if (transformedUrl.searchParams.has('pageIndex')) {
-            transformedUrl.searchParams.set('pageIndex', 0);
+        if (baseUrl.searchParams.has('pageIndex')) {
+            baseUrl.searchParams.set('pageIndex', 0);
         }
 
         if ($this != '') {
-            if (transformedUrl.searchParams.has('cate')) {
-                transformedUrl.searchParams.set('cate', $this);
+
+            if (baseUrl.searchParams.has('cate')) {
+                baseUrl.searchParams.set('cate', $this);
             }
             else {
-                transformedUrl.searchParams.append('cate', $this);
+                baseUrl.searchParams.append('cate', $this);
             }
         }
-        if (window.location.href != transformedUrl.href) {
-            window.location = transformedUrl;
+        if (window.location.href != baseUrl.href) {
+            history.pushState({}, null, baseUrl);
+            let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/indextojson/`);
+            $.ajax({
+                type: 'GET',
+                url: transformedUrl,
+                success: function (result) {
+                    $('#product-section').html(result);
+                    transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/itemsfoundTojson/`);
+                    $.ajax({
+                        type: 'GET',
+                        url: transformedUrl,
+                        success: function (result) {
+                            $('#product-found').html(result);
+                        }
+                    });
+                }
+            });
         }
     })
 });
