@@ -27,29 +27,7 @@
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
             let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
-            $.ajax({
-                type: 'GET',
-                url: transformedUrl,
-                success: function (result) {
-                    $('#product-section').html(result);
-                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
-                    $.ajax({
-                        type: 'GET',
-                        url: transformedUrl,
-                        success: function (result) {
-                            $('#product-found').html(result);
-                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
-                            $.ajax({
-                                type: 'GET',
-                                url: transformedUrl,
-                                success: function (result) {
-                                    $('#pagination-section').html(result);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            FilteredProductAjax(transformedUrl);
         }
 
     })
@@ -90,29 +68,7 @@
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
             let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
-            $.ajax({
-                type: 'GET',
-                url: transformedUrl,
-                success: function (result) {
-                    $('#product-section').html(result);
-                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
-                    $.ajax({
-                        type: 'GET',
-                        url: transformedUrl,
-                        success: function (result) {
-                            $('#product-found').html(result);
-                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
-                            $.ajax({
-                                type: 'GET',
-                                url: transformedUrl,
-                                success: function (result) {
-                                    $('#pagination-section').html(result);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            FilteredProductAjax(transformedUrl);
         }
     })
 
@@ -140,29 +96,7 @@
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
             let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
-            $.ajax({
-                type: 'GET',
-                url: transformedUrl,
-                success: function (result) {
-                    $('#product-section').html(result);
-                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
-                    $.ajax({
-                        type: 'GET',
-                        url: transformedUrl,
-                        success: function (result) {
-                            $('#product-found').html(result);
-                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
-                            $.ajax({
-                                type: 'GET',
-                                url: transformedUrl,
-                                success: function (result) {
-                                    $('#pagination-section').html(result);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            FilteredProductAjax(transformedUrl);
         }
     })
 
@@ -181,29 +115,7 @@
         if (window.location.href != baseUrl.href) {
             history.pushState({}, null, baseUrl);
             let transformedUrl = baseUrl.toString().replace(window.location.href.split('?')[0], `${window.location.href.split('?')[0]}home/productsajaxrequest/`);
-            $.ajax({
-                type: 'GET',
-                url: transformedUrl,
-                success: function (result) {
-                    $('#product-section').html(result);
-                    transformedUrl = `${window.location.href.split('?')[0]}home/itemsfoundajaxrequest/`;
-                    $.ajax({
-                        type: 'GET',
-                        url: transformedUrl,
-                        success: function (result) {
-                            $('#product-found').html(result);
-                            transformedUrl = `${window.location.href.split('?')[0]}home/paginationajaxrequest/`;
-                            $.ajax({
-                                type: 'GET',
-                                url: transformedUrl,
-                                success: function (result) {
-                                    $('#pagination-section').html(result);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            FilteredProductAjax(transformedUrl);
         }
 
     })
