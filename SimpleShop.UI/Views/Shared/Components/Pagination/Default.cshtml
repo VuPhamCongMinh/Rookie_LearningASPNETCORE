@@ -1,14 +1,17 @@
 ﻿@model int
 
-<div class="pageination">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center data-paging">
-            @for (int i = 1; i <= Model; i++)
-            {
-                <li class="page-item">
-                    <button type="button" paging-btn="@i" class="page-link">@i</button>
-                </li>
-            }
-        </ul>
-    </nav>
-</div>
+@if (Model > 1)
+{
+    <div class="pageination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center data-paging">
+                @for (int i = 1; i <= Model; i++)
+                {
+                    <li class="page-item">
+                        <button type="button" paging-btn="@i" class="page-link">@i</button>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+}
