@@ -75,3 +75,10 @@ export const scrollToTop = () => {
     behavior: "smooth",
   });
 };
+
+export const scrollToProduct = () => {
+  window.scrollTo({
+    top: 700,
+    behavior: "smooth",
+  });
+};
