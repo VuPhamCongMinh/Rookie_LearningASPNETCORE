@@ -45,7 +45,7 @@ namespace SimpleShop.API.Services
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await SaveFileAsync(file.OpenReadStream(), fileName);
-            return GetFileUrl(fileName);
+            return fileName;
         }
     }
 }

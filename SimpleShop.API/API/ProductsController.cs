@@ -15,10 +15,12 @@ namespace SimpleShop.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IFilesService _fileService;
 
-        public ProductsController (IProductService services)
+        public ProductsController (IProductService services, IFilesService filesService)
         {
             _productService = services;
+            _fileService = filesService;
         }
 
         // GET: api/Products
@@ -27,6 +29,13 @@ namespace SimpleShop.API.Controllers
         public async Task<ActionResult<Product>> GetProducts ()
         {
             var products = await _productService.GetProducts();
+            foreach (var item in products)
+            {
+                foreach (var img in item.Images)
+                {
+                    img.imageUrl = _fileService.GetFileUrl(img.imageUrl);
+                }
+            }
             return Ok(products);
         }
 
