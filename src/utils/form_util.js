@@ -1,4 +1,4 @@
-import { PostCategory, PutCategory } from "../api/category_api";
+import { GetCategories, PostCategory, PutCategory } from "../api/category_api";
 import { PostProducts, PutProducts } from "../api/product_api";
 import { ProductFormData } from "../model/product_formdata";
 import { CategoryFormData } from "../model/category_formdata";
@@ -12,6 +12,7 @@ import {
   addNewCategory,
   updateCategory,
   clearSelectedCategory,
+  setCategories,
 } from "../redux/actions/category_actions";
 import { alertError, alertSuccess } from "./sweetalert_util";
 
@@ -22,6 +23,9 @@ export const productSubmitHandle = async (formData, setValue) => {
   if (!myFormData.get("productId")) {
     returnData = await PostProducts(myFormData);
     if (returnData != null) {
+      GetCategories().then((cateRes) => {
+        store.dispatch(setCategories(cateRes.data));
+      });
       store.dispatch(addNewProduct(returnData));
       alertSuccess("Thêm sản phẩm");
     } else {
@@ -31,6 +35,9 @@ export const productSubmitHandle = async (formData, setValue) => {
     returnData = await PutProducts(myFormData);
     if (returnData != null) {
       alertSuccess("Sửa sản phẩm");
+      GetCategories().then((cateRes) => {
+        store.dispatch(setCategories(cateRes.data));
+      });
       store.dispatch(updateProduct(returnData));
     } else {
       alertError("Sửa sản phẩm");

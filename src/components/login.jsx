@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { signinRedirectCallback, signoutRedirect } from "../auth/auth_services";
 import { storeUser } from "../redux/actions/auth_actions";
 import { fetchInitialDatas } from "../redux/actions/common_actions";
+import { alertError } from "../utils/sweetalert_util";
 
 const LoginPage = () => {
   const history = useHistory();
@@ -16,7 +17,7 @@ const LoginPage = () => {
           dispatch(storeUser(user));
           dispatch(fetchInitialDatas());
         } else {
-          alert("You're not allowed here !!!");
+          alertError("Đăng nhập");
           signoutRedirect();
         }
       });

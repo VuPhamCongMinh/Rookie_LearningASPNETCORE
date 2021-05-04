@@ -1,6 +1,8 @@
+import { GetCategories } from "../../api/category_api";
 import { DeleteProduct } from "../../api/product_api";
 import { alertSuccess } from "../../utils/sweetalert_util";
 import { ActionTypes } from "../constants/action_types";
+import { setCategories } from "./category_actions";
 
 export const addNewProduct = (product) => {
   return {
@@ -53,6 +55,9 @@ export const deleteProductRequest = (id) => {
   return (dispatch) => {
     DeleteProduct(id).then((res) => {
       res === true && dispatch(deleteProduct(id));
+      GetCategories().then((cateRes) => {
+        dispatch(setCategories(cateRes.data));
+      });
       alertSuccess("Xóa");
     });
   };
