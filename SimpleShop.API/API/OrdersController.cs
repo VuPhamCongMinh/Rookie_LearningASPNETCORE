@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SimpleShop.Shared.EF;
 using SimpleShop.Shared.Interfaces;
 using SimpleShop.Shared.Models;
 using SimpleShop.Shared.ViewModels;
@@ -21,11 +19,13 @@ namespace SimpleShop.API.API
     {
         private readonly IOrderService service;
         private readonly IMapper mapper;
+        private readonly IFilesService filesService;
 
-        public OrdersController (IOrderService service, IMapper mapper)
+        public OrdersController (IOrderService service, IMapper mapper, IFilesService filesService)
         {
             this.service = service;
             this.mapper = mapper;
+            this.filesService = filesService;
         }
 
         // GET: api/Orders
@@ -34,6 +34,19 @@ namespace SimpleShop.API.API
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders ()
         {
             var orders = mapper.Map<IEnumerable<OrderResponse>>(await service.GetOrders());
+            if (orders != null)
+            {
+                foreach (var order in orders)
+                {
+                    foreach (var odDetails in order.orderDetails)
+                    {
+                        foreach (var prodImg in odDetails.Product.Images)
+                        {
+                            prodImg.imageUrl = filesService.GetFileUrl(prodImg.imageUrl);
+                        }
+                    }
+                }
+            }
             return Ok(orders);
         }
 
@@ -85,6 +98,14 @@ namespace SimpleShop.API.API
             if (userOrder != null)
             {
                 var od = new OrderDetailResponse { orderDetails = userOrder, totalPrice = userOrder.Sum(o => (o.Product.productPrice * o.quantity)) };
+
+                foreach (var odDetails in od.orderDetails)
+                {
+                    foreach (var prodImg in odDetails.Product.Images)
+                    {
+                        prodImg.imageUrl = filesService.GetFileUrl(prodImg.imageUrl);
+                    }
+                }
                 return Ok(od);
             }
             return NotFound();

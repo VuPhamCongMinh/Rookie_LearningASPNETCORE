@@ -17,7 +17,7 @@ namespace SimpleShop.API.Controllers
         private readonly IProductService _productService;
         private readonly IFilesService _fileService;
 
-        public ProductsController (IProductService services, IFilesService filesService)
+        public ProductsController (IProductService services,IFilesService filesService)
         {
             _productService = services;
             _fileService = filesService;
@@ -29,13 +29,6 @@ namespace SimpleShop.API.Controllers
         public async Task<ActionResult<Product>> GetProducts ()
         {
             var products = await _productService.GetProducts();
-            foreach (var item in products)
-            {
-                foreach (var img in item.Images)
-                {
-                    img.imageUrl = _fileService.GetFileUrl(img.imageUrl);
-                }
-            }
             return Ok(products);
         }
 
@@ -50,6 +43,7 @@ namespace SimpleShop.API.Controllers
             }
             else
             {
+
                 return Ok(new ProductResponse
                 {
                     Products = products,
@@ -100,9 +94,9 @@ namespace SimpleShop.API.Controllers
                 return NoContent();
             }
 
-            foreach (var item in product.Images)
+            foreach (var prodImg in product.Images)
             {
-                item.imageUrl = _fileService.GetFileUrl(item.imageUrl);
+                prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
             }
             return Ok(product);
         }

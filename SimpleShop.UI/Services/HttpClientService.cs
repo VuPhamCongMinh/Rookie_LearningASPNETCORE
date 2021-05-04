@@ -163,7 +163,7 @@ namespace SimpleShop.UI.Services
             #endregion
 
             var get_userRating_request = await client.PostAsync(url.ToString(), content);
-            if ((int)get_userRating_request.StatusCode == 200)
+            if ((int)get_userRating_request.StatusCode == 201)
             {
                 var get_userRating_responseData = await get_userRating_request.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Rating>(get_userRating_responseData);
