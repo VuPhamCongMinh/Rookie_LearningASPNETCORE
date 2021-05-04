@@ -26,7 +26,7 @@ export const ProductTable = () => {
 
   return (
     <Row className="text-center d-flex justify-content-center">
-      <Table responsive striped>
+      <Table striped>
         <thead>
           <tr>
             <th>#</th>
@@ -57,7 +57,7 @@ export const ProductTable = () => {
                       <img
                         className="img-fluid"
                         src={prod.images[0].imageUrl}
-                        alt="alu alu"
+                        alt={prod.productName}
                       />
                     </td>
                   )}

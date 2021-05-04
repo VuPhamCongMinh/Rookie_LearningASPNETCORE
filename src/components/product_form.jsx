@@ -21,6 +21,9 @@ export const ProductForm = () => {
       Object.keys(selectedProduct).forEach((x) => {
         setValue(x, selectedProduct[x]);
       });
+      if (!selectedProduct.categoryId) {
+        setValue("categoryId", "");
+      }
     }
   }, [setValue, selectedProduct]);
 
@@ -165,7 +168,10 @@ export const ProductForm = () => {
                 <option>Select categoryList</option>
                 {categoryList.map((cate) => {
                   return (
-                    <option key={cate.categoryId} value={cate.categoryId}>
+                    <option
+                      key={cate.categoryId}
+                      value={cate?.categoryId ?? null}
+                    >
                       {cate.categoryName}
                     </option>
                   );
