@@ -108,6 +108,10 @@ namespace SimpleShop.API.Controllers
             var product = await _productService.PostProduct(request);
             if (product != null)
             {
+                foreach (var prodImg in product.Images)
+                {
+                    prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
+                }
                 return CreatedAtAction(nameof(GetProduct), new { id = product.productId }, product);
             }
             else
