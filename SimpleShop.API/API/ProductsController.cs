@@ -100,6 +100,10 @@ namespace SimpleShop.API.Controllers
                 return NoContent();
             }
 
+            foreach (var item in product.Images)
+            {
+                item.imageUrl = _fileService.GetFileUrl(item.imageUrl);
+            }
             return Ok(product);
         }
 
