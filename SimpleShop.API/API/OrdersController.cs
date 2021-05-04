@@ -110,7 +110,7 @@ namespace SimpleShop.API.API
             }
             return NotFound();
         }
-        [Authorize("Admin")]
+        [Authorize("User")]
         [HttpGet("/api/CountUserOrder")]
         public ActionResult<int> CountUserOrder (string userId)
         {
