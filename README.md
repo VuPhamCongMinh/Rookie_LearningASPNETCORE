@@ -36,10 +36,10 @@
 		-   Test Get, GetById, Post và Put API giỏ hàng
 
 ## Migration
-Bước 1 : chuột phải SimpleShop.API chọn Set as Startup Project
+Bước 1 : chuột phải SimpleShop.API chọn Set as Startup Project \
 Bước 2 : vào Package Manager Console chọn Default project là 
-SimpleShop.Shared 
-Bước 3 : chạy các lệnh migration như thường
+SimpleShop.Shared \
+Bước 3 : chạy các lệnh migration như thường \
 
 ## Thư viện sử dụng
 
