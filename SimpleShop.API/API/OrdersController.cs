@@ -13,7 +13,6 @@ using SimpleShop.Shared.ViewModels;
 namespace SimpleShop.API.API
 {
     [Route("api/[controller]")]
-    [Authorize("User")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -34,19 +33,19 @@ namespace SimpleShop.API.API
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders ()
         {
             var orders = mapper.Map<IEnumerable<OrderResponse>>(await service.GetOrders());
-            if (orders != null)
-            {
-                foreach (var order in orders)
+                if (orders != null)
                 {
-                    foreach (var odDetails in order.orderDetails)
+                    foreach (var order in orders)
                     {
-                        foreach (var prodImg in odDetails.Product.Images)
+                        foreach (var odDetails in order.orderDetails)
                         {
-                            prodImg.imageUrl = filesService.GetFileUrl(prodImg.imageUrl);
+                            foreach (var prodImg in odDetails.Product.Images)
+                            {
+                                prodImg.imageUrl = filesService.GetFileUrl(prodImg.imageUrl);
+                            }
                         }
                     }
                 }
-            }
             return Ok(orders);
         }
 
@@ -75,6 +74,7 @@ namespace SimpleShop.API.API
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize("User")]
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder ([FromBody] OrderCreateRequest order)
         {
@@ -90,7 +90,7 @@ namespace SimpleShop.API.API
                 throw;
             }
         }
-
+        [Authorize("AdminOrUser")]
         [HttpGet("/api/GetUserOrder")]
         public async Task<ActionResult<OrderDetailResponse>> GetUserOrder (string userId)
         {
@@ -110,7 +110,7 @@ namespace SimpleShop.API.API
             }
             return NotFound();
         }
-
+        [Authorize("Admin")]
         [HttpGet("/api/CountUserOrder")]
         public ActionResult<int> CountUserOrder (string userId)
         {

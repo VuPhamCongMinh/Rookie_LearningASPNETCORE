@@ -88,6 +88,13 @@ namespace SimpleShop.API
                     policy.RequireAuthenticatedUser();
                     policy.RequireRole("Admin");
                 });
+
+                options.AddPolicy("AdminOrUser", policy =>
+                {
+                    policy.AddAuthenticationSchemes("Bearer");
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("Admin","User");
+                });
             });
 
 
