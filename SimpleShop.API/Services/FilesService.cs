@@ -21,7 +21,7 @@ namespace SimpleShop.API.Services
         //Mốt lấy từ UI thì dùng hàm này 
         public string GetFileUrl (string fileName)
         {
-            return $" {Startup.clientUrls["Swagger"]}/{FilePath.USER_IMAGES_PATH}/{fileName}";
+            return $"{Startup.clientUrls["Swagger"]}/{FilePath.USER_IMAGES_PATH}/{fileName}";
         }
 
         public async Task SaveFileAsync (Stream mediaBinaryStream, string fileName)
