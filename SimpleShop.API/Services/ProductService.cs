@@ -191,20 +191,6 @@ namespace SimpleShop.API.Services
         public async Task<IEnumerable<Product>> GetProducts ()
         {
             var product = await _context.Products.Include(p => p.Images).Include(p => p.Category).ToListAsync();
-            if (product.Count > 0)
-            {
-                foreach (var item in product)
-                {
-                    foreach (var img in item.Images)
-                    {
-                        if (!img.imageUrl.Contains("https"))
-                        {
-                            img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
-
-                        }
-                    }
-                }
-            }
             return product;
         }
 
@@ -223,17 +209,6 @@ namespace SimpleShop.API.Services
                                                                                 .Include(p => p.Images)
                                                                                 .Include(p => p.Category)
                                                                                 .ToList();
-                foreach (var item in product)
-                {
-                    foreach (var img in item.Images)
-                    {
-                        if (!img.imageUrl.Contains("https"))
-                        {
-                            img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
-                        }
-                    }
-                }
-
                 return product;
             }
             else
@@ -246,16 +221,6 @@ namespace SimpleShop.API.Services
         public IEnumerable<Product> GetNewlyAddProducts ()
         {
             var product = _context.Products.Include(prod => prod.Images).OrderByDescending(prod => prod.createdDate).Take(10);
-            foreach (var item in product)
-            {
-                foreach (var img in item.Images)
-                {
-                    if (!img.imageUrl.Contains("https"))
-                    {
-                        img.imageUrl = _filesService.GetFileUrl(img.imageUrl);
-                    }
-                }
-            }
             return product;
         }
     }

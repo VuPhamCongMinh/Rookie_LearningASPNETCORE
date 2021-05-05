@@ -36,8 +36,9 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             var product3 = NewDatas.NewProduct();
             await dbContext.Products.AddRangeAsync(product1, product2, product3);
             await dbContext.SaveChangesAsync();
-           
+
             #region create intial order data
+            var fileService = FileServiceMock.FilesService();
             var order = NewDatas.NewOrder();
             dbContext.Orders.Add(order);
             await dbContext.SaveChangesAsync();
@@ -59,7 +60,7 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             await dbContext.SaveChangesAsync();
             #endregion
             var ordersService = new OrderService(dbContext, mapper);
-            var ordersController = new OrdersController(ordersService, mapper);
+            var ordersController = new OrdersController(ordersService, mapper, fileService);
             // Act
             var result = await ordersController.GetOrders();
             // Assert
@@ -72,7 +73,7 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
         {
             var dbContext = _fixture.Context;
             var mapper = MapperMock.Get();
-
+            var fileService = FileServiceMock.FilesService();
             var user = NewDatas.NewUser();
             await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync();
@@ -104,7 +105,7 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             await dbContext.SaveChangesAsync();
 
             var ordersService = new OrderService(dbContext, mapper);
-            var ordersController = new OrdersController(ordersService, mapper);
+            var ordersController = new OrdersController(ordersService, mapper,fileService);
             // Act
             var result = await ordersController.GetOrder(order.orderId);
             // Assert

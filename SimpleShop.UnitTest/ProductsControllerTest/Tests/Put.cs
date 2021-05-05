@@ -33,7 +33,7 @@ namespace SimpleShop.UnitTest.ProductsControllerTest.Tests
             await dbContext.Products.AddAsync(productBeforePut);
             await dbContext.SaveChangesAsync(); productToPut.categoryId = category.categoryId;
             var productsService = new ProductService(dbContext, fileService, mapper);
-            var productsController = new ProductsController(productsService);
+            var productsController = new ProductsController(productsService, fileService);
             // Act
             var result = await productsController.PutProduct(10, productToPut);
             // Assert

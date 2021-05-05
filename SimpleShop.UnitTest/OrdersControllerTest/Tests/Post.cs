@@ -30,6 +30,8 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             var dbContext = _fixture.Context;
             var mapper = MapperMock.Get();
 
+            var fileService = FileServiceMock.FilesService();
+
             var user = NewDatas.NewUser();
             await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync();
@@ -42,7 +44,7 @@ namespace SimpleShop.UnitTest.OrdersControllerTest.Tests
             orderCreateRequest.productId = product1.productId;
 
             var ordersService = new OrderService(dbContext, mapper);
-            var ordersController = new OrdersController(ordersService, mapper);
+            var ordersController = new OrdersController(ordersService, mapper,fileService);
 
             #region set controller user
             ordersController.ControllerContext = new ControllerContext

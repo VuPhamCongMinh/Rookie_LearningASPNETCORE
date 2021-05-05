@@ -29,6 +29,13 @@ namespace SimpleShop.API.Controllers
         public async Task<ActionResult<Product>> GetProducts ()
         {
             var products = await _productService.GetProducts();
+            foreach (var prod in products)
+            {
+                foreach (var prodImg in prod.Images)
+                {
+                    prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
+                }
+            }
             return Ok(products);
         }
 
@@ -43,6 +50,13 @@ namespace SimpleShop.API.Controllers
             }
             else
             {
+                foreach (var prod in products)
+                {
+                    foreach (var prodImg in prod.Images)
+                    {
+                        prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
+                    }
+                }
 
                 return Ok(new ProductResponse
                 {
@@ -63,6 +77,13 @@ namespace SimpleShop.API.Controllers
             }
             else
             {
+                foreach (var prod in products)
+                {
+                    foreach (var prodImg in prod.Images)
+                    {
+                        prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
+                    }
+                }
                 return Ok(products);
             }
         }
@@ -78,6 +99,14 @@ namespace SimpleShop.API.Controllers
             }
             else
             {
+                foreach (var prod in products)
+                {
+                    foreach (var prodImg in prod.Images)
+                    {
+                        prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
+                    }
+                }
+               
                 return Ok(products);
             }
         }
@@ -108,10 +137,6 @@ namespace SimpleShop.API.Controllers
             var product = await _productService.PostProduct(request);
             if (product != null)
             {
-                foreach (var prodImg in product.Images)
-                {
-                    prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
-                }
                 return CreatedAtAction(nameof(GetProduct), new { id = product.productId }, product);
             }
             else
@@ -129,6 +154,10 @@ namespace SimpleShop.API.Controllers
             if (product is null)
             {
                 return BadRequest();
+            }
+            foreach (var prodImg in product.Images)
+            {
+                prodImg.imageUrl = _fileService.GetFileUrl(prodImg.imageUrl);
             }
             return Ok(product);
         }

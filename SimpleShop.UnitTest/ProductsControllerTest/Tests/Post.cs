@@ -26,7 +26,7 @@ namespace SimpleShop.UnitTest.ProductsControllerTest.Tests
             var productToPost = NewDatas.NewProductPostRequest();
 
             var productsService = new ProductService(dbContext, fileService, mapper);
-            var productsController = new ProductsController(productsService);
+            var productsController = new ProductsController(productsService,fileService);
             // Act
             var result = await productsController.PostProduct(productToPost);
             // Assert

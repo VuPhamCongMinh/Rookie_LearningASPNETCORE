@@ -18,7 +18,7 @@ namespace SimpleShop.UnitTest.ProductsControllerTest.Tests
         }
 
         [Fact]
-        public void GetAll_Success ()
+        public async Task GetAll_Success ()
         {
             // Arrange
             var dbContext = _fixture.Context;
@@ -30,9 +30,9 @@ namespace SimpleShop.UnitTest.ProductsControllerTest.Tests
             dbContext.SaveChanges();
 
             var productsService = new ProductService(dbContext, fileService, mapper);
-            var productsController = new ProductsController(productsService);
+            var productsController = new ProductsController(productsService, fileService);
             // Act
-            var result = productsController.GetProducts();
+            var result = await productsController.GetProducts();
             // Assert
             Assert.IsType<OkObjectResult>(result.Result);
 
@@ -53,7 +53,7 @@ namespace SimpleShop.UnitTest.ProductsControllerTest.Tests
             dbContext.SaveChanges();
 
             var productsService = new ProductService(dbContext, fileService, mapper);
-            var productsController = new ProductsController(productsService);
+            var productsController = new ProductsController(productsService,fileService);
             // Act
             var result = await productsController.GetProduct(id);
             // Assert
